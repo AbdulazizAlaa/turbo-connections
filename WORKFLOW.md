@@ -29,12 +29,14 @@ First thing you need to do is fork the main repo on github, which means create a
 2. Go to this url https://github.com/AbdulazizAlaa/turbo-connections
 3. Click on fork up on the right
 
-   [[https://github.com/MoatazFarid/turbo-connections/WorkFlow/1.png]]
+   ![guide]
+(https://raw.githubusercontent.com/AbdulazizAlaa/turbo-connections/master/WorkFlow/1.png)
 
 4. Open git shell/bash/terminal.
 5. Go to the directory where the local copy of your forked repo will exist in, this is where all your work will be in.
 6. Type in terminal `git clone url` replace url with the one from the forked repo as shown below, this will create a local copy in the current directory
-   [[https://github.com/MoatazFarid/turbo-connections/WorkFlow/2.png]]
+![guide]
+(https://raw.githubusercontent.com/AbdulazizAlaa/turbo-connections/master/WorkFlow/2.png)
 7. Now we need to make this local/master branch pull from main/master and push to forked/master, type the follwoing replacing url in the second command with the url you used in `git clone`.  
 
     ```
@@ -55,19 +57,25 @@ you can download it from here : https://desktop.github.com/
 follow images :
 
 1. we create new branch
-[[https://github.com/MoatazFarid/turbo-connections/WorkFlow/3.png]]
+![guide]
+(https://raw.githubusercontent.com/AbdulazizAlaa/turbo-connections/master/WorkFlow/3.png)
 
 2. after working on code and do whatever changes , make new commit
-[[https://github.com/MoatazFarid/turbo-connections/WorkFlow/4.png]]
+![guide]
+(https://raw.githubusercontent.com/AbdulazizAlaa/turbo-connections/master/WorkFlow/4.png)
 
 3. Now we want we can publish to our Online forked repo
-[[https://github.com/MoatazFarid/turbo-connections/WorkFlow/5.png]]
+![guide]
+(https://raw.githubusercontent.com/AbdulazizAlaa/turbo-connections/master/WorkFlow/5.png)
 
 4. when we want to make a pull request to the Original Repo just click here
-[[https://github.com/MoatazFarid/turbo-connections/WorkFlow/6.png]]
+![guide]
+(https://raw.githubusercontent.com/AbdulazizAlaa/turbo-connections/master/WorkFlow/6.png)
 **Note if this didn't work you can go to the website and make it manual like that**
-[[https://github.com/MoatazFarid/turbo-connections/WorkFlow/7.png]]
-[[https://github.com/MoatazFarid/turbo-connections/WorkFlow/8.png]]
+![guide]
+(https://raw.githubusercontent.com/AbdulazizAlaa/turbo-connections/master/WorkFlow/7.png)
+![guide]
+(https://raw.githubusercontent.com/AbdulazizAlaa/turbo-connections/master/WorkFlow/8.png)
 Repeat those steps every time you want to create a new brance  OR step 2-4 if you will continue working on current branch
 **Note NEVER Work on mater branch**
 [return to TOC](#table-of-contents)

@@ -16,8 +16,10 @@ using namespace std;
 
 void splits(string line, vector<string> & elems, char del);
 
+// array of pointers to vector Person
 vector<Person *> person;
 
+// main method
 int main(int argc, char** argv){
 
 	int personCount;
