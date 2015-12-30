@@ -19,10 +19,12 @@ Person* find(vector<Person *> & p, string name);
 void printNetwork(vector<Person *> & p);
 void readFile(string filename);
 
+// array of pointers to vector Person
 vector<Person *> person;
 int personCount;
 
 
+// main method
 int main(int argc, char** argv){
 
 	//read file
