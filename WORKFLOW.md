@@ -4,6 +4,7 @@
 2. [Requirements](#requirements)
 3. [Forking the repo](#forking-the-repo)
 4. [Make new branch](#make-branch)
+5. [Sync form Original Repo](#pull-original)
 
 
 ##Prerequisites
@@ -71,11 +72,34 @@ follow images :
 4. when we want to make a pull request to the Original Repo just click here
 ![guide]
 (https://raw.githubusercontent.com/AbdulazizAlaa/turbo-connections/master/WorkFlow/6.png)
+
 **Note if this didn't work you can go to the website and make it manual like that**
+
 ![guide]
 (https://raw.githubusercontent.com/AbdulazizAlaa/turbo-connections/master/WorkFlow/7.png)
 ![guide]
 (https://raw.githubusercontent.com/AbdulazizAlaa/turbo-connections/master/WorkFlow/8.png)
 Repeat those steps every time you want to create a new brance  OR step 2-4 if you will continue working on current branch
+
 **Note NEVER Work on mater branch**
+
+[return to TOC](#table-of-contents)
+
+##Sync form Original Repo
+
+Now what if we want to sync from the Original ripo and transfer the changes from other members to/from out local ?
+
+We can press on Publish then Sync on the GitDesktop , if it didn't work
+
+Apply the following
+open git shell
+```
+checkout master
+git pull --rebase https://github.com/AbdulazizAlaa/turbo-connections.git
+
+```
+open git Desktop
+choose your branch
+press compare and choose to compare your branch with the master in order to apply the changes -if exists - on your branch .
+
 [return to TOC](#table-of-contents)
