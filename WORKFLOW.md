@@ -87,7 +87,10 @@ Repeat those steps every time you want to create a new brance  OR step 2-4 if yo
 
 ##Sync form Original Repo
 
-Now what if we want to sync from the Original ripo and transfer the changes from other members to out local ?
+Now what if we want to sync from the Original ripo and transfer the changes from other members to/from out local ?
+
+We can press on Publish then Sync on the GitDesktop , if it didn't work
+
 Apply the following
 open git shell
 ```
