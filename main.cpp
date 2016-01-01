@@ -8,7 +8,8 @@
 
 #include "Person.h"
 
-void splitNames(string line, vector<string> & elems, string del);
+
+void splitNames(string line, vector<string> & elems, char del);
 void splits(string line, vector<string> & elems, char del);
 /*
  * search for a name in the vector of persons
@@ -297,7 +298,7 @@ void printNetwork(vector<Person *> & p){
 	//ouputing every person and its connections
 	for(int i=0; i<p.size() ; i++){
 		cout << p.at(i)->name<<" : " << p.at(i)->title<<" : " << p.at(i)->company<<" : " << p.at(i)->address<< endl;
-		for(int j=1 ; j<p.at(i)->connection.size() ; j++){
+		for(int j=0 ; j<p.at(i)->connection.size() ; j++){
 			cout <<"connection " << j << " : " << p.at(i)->connection.at(j)->name <<endl;
 		}
 	}
