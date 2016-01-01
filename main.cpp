@@ -19,6 +19,7 @@ Person* find(vector<Person *> & p, string name);
 void printNetwork(vector<Person *> & p);
 void readFile(string filename);
 void numMutual(vector<Person *> & p,string first,string second);
+void interface();
 
 // array of pointers to vector Person
 vector<Person *> person;
@@ -28,17 +29,42 @@ string first, second; /////names to get number of mutual friends between them
 // main method
 int main(int argc, char** argv){
 
-	cout <<"hii"<<endl;
+	
+	interface();
+system("pause");
+return 0;
+}
+
+/*
+*
+*Suggested INTERFACE
+*
+*/
+
+void interface(){
+	int press;
 	//read file
 	readFile( "data.txt");
 
 	//print the network
 	printNetwork(person);
-
-	numMutual(person,first,second);
-system("pause");
-return 0;
+	cout<< endl;
+	cout << "Press 1: \" Search for a certain person using their name\" " <<endl;
+	cout << "Press 2: \" Show number of mutual friends between any 2 people\" "<<endl;
+	cin >> press;
+	cin.ignore (std::numeric_limits<std::streamsize>::max(), '\n');
+	switch (press)
+	{
+	case 1:
+		break;
+	case 2:
+		numMutual(person,first,second);
+		break;
+	default:
+		break;
+	}
 }
+
 
 /*
 * splits string on a delimiter
@@ -173,7 +199,8 @@ std::pair<int, int> check(vector<Person *> & p,string name){
  *number of mutual friends
 *
 */
-void numMutual(vector<Person *> & p,string first,string  second){
+void numMutual(vector<Person *> & p,string first,string  second)//first: first name, second: second name
+{
 	int found=0;///number of mutual friends found
 	cout << endl<<"enter first full name"<<endl;
 	getline(cin,first);
@@ -185,36 +212,39 @@ void numMutual(vector<Person *> & p,string first,string  second){
 	std::pair<int, int> secondPerson = check(p,second);
 	if(firstPerson.first ==1 && secondPerson.first ==1 )////both names exist
 	{
-		cout <<"continue"<<endl;
-		///cout << p.at(firstPerson.second)->connection.size() << " " << p.at(secondPerson.second)->connection.size()<<endl;
-		for(int i =0;i<p.at(firstPerson.second)->connection.size();i++){
-			for(int j =0;j<p.at(secondPerson.second)->connection.size();j++){
-				if(p.at(firstPerson.second)->connection.at(i)->name == p.at(secondPerson.second)->connection.at(j)->name){
+		cout << "Mutual friend(s) are "<<endl;
+		for(int i =0;i<p.at(firstPerson.second)->connection.size();i++)///loop through connections of first person
+		{
+			for(int j =0;j<p.at(secondPerson.second)->connection.size();j++)///loop through connections of second person
+			{
+				if(p.at(firstPerson.second)->connection.at(i)->name == p.at(secondPerson.second)->connection.at(j)->name)///check if connection->name i equal to connection->name j
+				{
+					//k++;
 					found++;
-					//cout << p.at(firstPerson.second)->connection.at(i)->name << " " << p.at(secondPerson.second)->connection.at(j)->name;
+					cout <<p.at(firstPerson.second)->connection.at(i)->name<<endl;
+					//mutuals[k]=p.at(firstPerson.second)->connection.at(i)->name;
 					break;
 				}
 				else {/**do nothing**/} 
 			}
 		}
 	}
-	else if(firstPerson.first ==0 && secondPerson.first ==1)
+	else if(firstPerson.first ==0 && secondPerson.first ==1)////first name is not valid
 	{
-		cout << "First name is not found on the network";
+		cout << "First name is not found on the network"<<endl;
 		return;
 	}
-	else if(firstPerson.first ==1 && secondPerson.first ==0)
+	else if(firstPerson.first ==1 && secondPerson.first ==0)/////sec name is not valid
 	{
-		cout << "Second name is not found on the network";
+		cout << "Second name is not found on the network"<<endl;
 		return;
 	}
-	else if(firstPerson.first ==0 && secondPerson.first ==0)
+	else if(firstPerson.first ==0 && secondPerson.first ==0)///both names are unvalid
 	{
-		cout << "Both names are not found on the network";
+		cout << "Both names are not found on the network"<<endl;
 		return;
 	}
-	cout << "number of mutual friends between "<<first << " and "<<second << " = "<< found<<endl;
-	/*Person *p1;
-	find(p,first);*/
+	///print number of mutual friends
+	cout << "Number of mutual friends between "<<first << " and "<<second << " = "<< found<<endl;
 }
 
