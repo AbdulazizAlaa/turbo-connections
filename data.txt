@@ -1,9 +1,17 @@
-3
+7
 
 Mohamed Abdulaziz, Embedded Software Engineer, Avelabs, Nasr City
 Mohamed Shoukry, Electronics Engineer, Consultix, Nasr City
 Ahmed Hemaly, Embedded Software Engineer, Mentor Graphics, Al Zaitoun
+Nada Dia, Student, Ain shams university, Nozaha
+Moataz Farid, Network Security Engineer, Cisco Solutions, Housten TX
+Ahmed Mohamed, Accountant, Fedex, Shoubra
+Mostafa Fahmy, Journalist, Guardian, England
 
 Mohamed Shoukry, Ahmed Hemaly
 Mohamed Abdulaziz
 Mohamed Abdulaziz
+Mohamed Shoukry
+Nada Dia, Ahmed Mohamed, Mostafa Fahmy, Mohamed Abdulaziz
+Moataz Farid
+Ahmed Hemaly, Moataz Farid, Nada Dia, Mohamed Abdulaziz
