@@ -10,7 +10,7 @@
 #include <string>
 #include <stdlib.h>
 #include "Person.h"
-#include <utility>
+
 
 using namespace std;
 
@@ -18,26 +18,22 @@ void splits(string line, vector<string> & elems, char del);
 Person* find(vector<Person *> & p, string name);
 void printNetwork(vector<Person *> & p);
 void readFile(string filename);
-void numMutual(vector<Person *> & p,string first,string second);
 
 // array of pointers to vector Person
 vector<Person *> person;
 int personCount;
-string first, second; /////names to get number of mutual friends between them
+
 
 // main method
 int main(int argc, char** argv){
 
-	cout <<"hii"<<endl;
 	//read file
 	readFile( "data.txt");
 
 	//print the network
 	printNetwork(person);
 
-	numMutual(person,first,second);
-system("pause");
-return 0;
+	return 0;
 }
 
 /*
@@ -59,16 +55,13 @@ void splits(string line, vector<string> & elems, char del){
 }
 
 /*
-*
  * search for a name in the vector of persons
-*
  */
 Person* find(vector<Person *> & p, string name){
 	for (int i=0 ; i<p.size() ; i++){
 	   if(p.at(i)->name == name){
 	      return p.at(i);
 	   }
-	  
 	}
 }
 
@@ -81,7 +74,6 @@ void printNetwork(vector<Person *> & p){
 		for(int j=0 ; j<p.at(i)->connection.size() ; j++){
 			cout <<"connection " << j << " : " << p.at(i)->connection.at(j)->name <<endl;
 		}
-		cout << endl;
 	}
 }
 
@@ -143,78 +135,13 @@ void readFile(string filename){
 			}
 		}
 
+
+
 		file.close();
 	}else{
 		cout << "Unable to open file" << endl;
 	}
 }
-/*
-*
-*check name is found; return confirmation whether it exists or not(ok) and its index in vector(i)
-*
-*/
-std::pair<int, int> check(vector<Person *> & p,string name){
-	int ok ;
-	int i=0;
-	for ( i=0 ; i<p.size() ; i++){
-	   if(p.at(i)->name == name){
-	      ok = 1;
-		  break;
-	   }
-	   else {
-		   ok = 0;
-	   }
-	}
-	return std::make_pair(ok,i);
-}
 
-/*
-*
- *number of mutual friends
-*
-*/
-void numMutual(vector<Person *> & p,string first,string  second){
-	int found=0;///number of mutual friends found
-	cout << endl<<"enter first full name"<<endl;
-	getline(cin,first);
 
-	cout << endl<<"enter second full name"<<endl;
-	getline(cin,second);
-
-	std::pair<int, int> firstPerson = check(p,first);
-	std::pair<int, int> secondPerson = check(p,second);
-	if(firstPerson.first ==1 && secondPerson.first ==1 )////both names exist
-	{
-		cout <<"continue"<<endl;
-		///cout << p.at(firstPerson.second)->connection.size() << " " << p.at(secondPerson.second)->connection.size()<<endl;
-		for(int i =0;i<p.at(firstPerson.second)->connection.size();i++){
-			for(int j =0;j<p.at(secondPerson.second)->connection.size();j++){
-				if(p.at(firstPerson.second)->connection.at(i)->name == p.at(secondPerson.second)->connection.at(j)->name){
-					found++;
-					//cout << p.at(firstPerson.second)->connection.at(i)->name << " " << p.at(secondPerson.second)->connection.at(j)->name;
-					break;
-				}
-				else {/**do nothing**/} 
-			}
-		}
-	}
-	else if(firstPerson.first ==0 && secondPerson.first ==1)
-	{
-		cout << "First name is not found on the network";
-		return;
-	}
-	else if(firstPerson.first ==1 && secondPerson.first ==0)
-	{
-		cout << "Second name is not found on the network";
-		return;
-	}
-	else if(firstPerson.first ==0 && secondPerson.first ==0)
-	{
-		cout << "Both names are not found on the network";
-		return;
-	}
-	cout << "number of mutual friends between "<<first << " and "<<second << " = "<< found<<endl;
-	/*Person *p1;
-	find(p,first);*/
-}
 
