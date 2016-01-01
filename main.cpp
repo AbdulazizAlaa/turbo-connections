@@ -8,7 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <stdlib.h>
+#include <stdlib.h> //atoi() , 
 #include "Person.h"
 
 
@@ -21,6 +21,7 @@ void readFile(string filename);
 
 // array of pointers to vector Person
 vector<Person *> person;
+// no of Persons
 int personCount;
 
 
@@ -142,6 +143,9 @@ void readFile(string filename){
 		cout << "Unable to open file" << endl;
 	}
 }
+
+
+
 
 
 
