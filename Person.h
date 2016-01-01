@@ -12,6 +12,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <stdlib.h> //atoi() , 
+#include <fstream>
 
 using namespace std;
 
