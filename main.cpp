@@ -18,9 +18,8 @@ void splits(string line, vector<string> & elems, char del);
 Person* find(vector<Person *> & p, string name);
 void printNetwork(vector<Person *> & p);
 void readFile(string filename);
-int numMutual(vector<Person *> & p);
+void numMutual(vector<Person *> & p,string first,string second);
 void interface();
-void testMutuals();
 
 // array of pointers to vector Person
 vector<Person *> person;
@@ -29,6 +28,7 @@ string first, second; /////names to get number of mutual friends between them
 
 // main method
 int main(int argc, char** argv){
+
 	
 	interface();
 system("pause");
@@ -45,8 +45,7 @@ void interface(){
 	int press;
 	//read file
 	readFile( "data.txt");
-		
-	int n =0;
+
 	//print the network
 	printNetwork(person);
 	cout<< endl;
@@ -57,11 +56,9 @@ void interface(){
 	switch (press)
 	{
 	case 1:
-		 testMutuals();
 		break;
 	case 2:
-		 numMutual(person);
-		
+		numMutual(person,first,second);
 		break;
 	default:
 		break;
@@ -202,7 +199,7 @@ std::pair<int, int> check(vector<Person *> & p,string name){
  *number of mutual friends
 *
 */
-int numMutual(vector<Person *> & p)//first: first name, second: second name
+void numMutual(vector<Person *> & p,string first,string  second)//first: first name, second: second name
 {
 	int found=0;///number of mutual friends found
 	cout << endl<<"enter first full name"<<endl;
@@ -235,122 +232,19 @@ int numMutual(vector<Person *> & p)//first: first name, second: second name
 	else if(firstPerson.first ==0 && secondPerson.first ==1)////first name is not valid
 	{
 		cout << "First name is not found on the network"<<endl;
-		return found;
+		return;
 	}
 	else if(firstPerson.first ==1 && secondPerson.first ==0)/////sec name is not valid
 	{
 		cout << "Second name is not found on the network"<<endl;
-		return found;
+		return;
 	}
 	else if(firstPerson.first ==0 && secondPerson.first ==0)///both names are unvalid
 	{
 		cout << "Both names are not found on the network"<<endl;
-		return found;
+		return;
 	}
 	///print number of mutual friends
 	cout << "Number of mutual friends between "<<first << " and "<<second << " = "<< found<<endl;
-	return found;
 }
 
-void testMutuals(){
-	int nFalse = 0;
-	int nTrue = 0;
-
-	string n1 = "Mohamed Shoukry";		string n11 = "Ahmed Hemaly";
-	string n3 = "Mohamed Abdulaziz ";	string n33 = "Ahmed Hemaly";
-	string n4 = "Yomna Gad";			string n44 = "Ahmed Mohamed";
-	string n5 = "Mostafa Fahmy";		string n55 = "Yomna Gad";
-	string n6 = "Yomna Gad";			string n66 = "Ahmed Dia";
-	string n7 = "Nada Dia";				string n77 = "Moataz Farid";
-	string n8 = "Moataz Farid";			string n88 = "Mostafa Fahmy";
-	cout<<"\n\n\n/////////////////////// UNIT TESTING //////////////////////////////"<<endl;
-	cout<<"//////////////////////////// numMutual() ///////////////////////"<<endl;
-	
-	///////test case 1
-	cout <<"Test case 1:: "<< "input: " << n1 << " & " << n11 <<endl;
-	cout <<"EXPECTED||" << "Number of mutual friends between "<<n1 << " and "<<n11 << " = "<< "1"<<endl;
-	first = n1; second = n11;
-	int out=numMutual(person) ;
-	cout <<"Actual output = " << out <<endl;
-	if (out == 1){
-		nTrue++;
-	}
-	else nFalse++;
-
-	///////test case 2
-	cout <<"Test case 2:: "<< "input: " << n11 << " & " << n1 <<endl;
-	cout <<"EXPECTED||" << "Number of mutual friends between "<<n11 << " and "<<n1 << " = "<< "1"<<endl;
-	out = numMutual(person);
-	cout <<"Actual output = " << out <<endl;
-	if (out == 1){
-		nTrue++;
-	}
-	else nFalse++;
-
-	///////test case 3
-	////Mohamed Abdulaziz has space at the end..
-	cout <<"Test case 3 " << "input: " << n3 << " & " << n33 <<endl;
-	cout <<"EXPECTED||" << "Number of mutual friends between "<<n3 << " and "<<n33 << " = "<< "0"<<endl;
-	out = numMutual(person);
-	cout <<"Actual output = " << out <<endl;
-	if (out ==0){
-		nTrue++;
-	}
-	else nFalse++;
-
-	///////test case 4
-	////first name is not in the network
-	cout <<"Test case 4 "<< "input: " << n4 << " & " << n44 <<endl;
-	cout <<"EXPECTED||" << "Number of mutual friends between "<<n4 << " and "<<n44 << " = "<< "0"<<endl;
-	out = numMutual(person);
-	cout <<"Actual output = " << out <<endl;
-	if (out ==0){
-		nTrue++;
-	}
-	else nFalse++;
-
-	///////test case 5
-	////2nd name is not in the network
-	cout <<"Test case 5 "<< "input: " << n5 << " & " << n55 <<endl;
-	cout <<"EXPECTED||" << "Number of mutual friends between "<<n5 << " and "<<n55 << " = "<< "0"<<endl;
-	out = numMutual(person);
-	cout <<"Actual output = " << out <<endl;
-	if (out ==0){
-		nTrue++;
-	}
-	else nFalse++;
-
-	///////test case 6
-	////both names are not on the network
-	cout <<"Test case 6 "<< "input: " << n6 << " & " << n66 <<endl;
-	cout <<"EXPECTED||" << "Number of mutual friends between "<<n6 << " and "<<n66 << " = "<< "0"<<endl;
-	out = numMutual(person);
-	cout <<"Actual output = " << out <<endl;
-	if (out ==0){
-		nTrue++;
-	}
-	else nFalse++;
-
-	///////test case 7
-	////no mutual friends between them
-	cout <<"Test case 7 "<< "input: " << n7 << " & " << n77 <<endl;
-	cout <<"EXPECTED||" << "Number of mutual friends between "<<n7 << " and "<<n77 << " = "<< "0"<<endl;
-	out = numMutual(person);
-	cout <<"Actual output = " << out <<endl;
-	if (out ==0){
-		nTrue++;
-	}
-	else nFalse++;
-
-	///////test case 8
-	cout <<"Test case 8 "<< "input: " << n8 << " & " << n88 <<endl;
-	cout <<"EXPECTED||" << "Number of mutual friends between "<<n8 << " and "<<n88 << " = "<< "2"<<endl;
-	out = numMutual(person);
-	cout <<"Actual output = " << out <<endl;
-	if (out ==2){
-		nTrue++;
-	}
-	else nFalse++;
-
-	cout << "True cases = " << nTrue << " of total = "<< nTrue+nFalse<<endl;
-}
