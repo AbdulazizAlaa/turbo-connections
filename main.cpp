@@ -16,6 +16,8 @@ void readFile(string filename);
 void numMutual(vector<Person *> & p);
 void showMenu();
 bool nameMatch(string src , string dst);
+void printPersonDetails(Person * p);
+void searchPerson(vector<Person *> & p);
 
 
 //variables
@@ -59,7 +61,7 @@ void showMenu(){
 		cin >> press;
 
 		if(press == 1){
-
+			searchPerson(person);
 		}else if(press == 2){
 			numMutual(person);
 		}
@@ -75,10 +77,11 @@ void showMenu(){
 }
 
 /*
-*
- * search for a name in the vector of persons
-*
- */
+* search for a name in the vector of persons
+* @param string name person name to search for
+* @param bool exactMatch true to search for the name as a block
+* @param vector<Person *> & p reference to the global vector of persons
+*/
 Person* find(vector<Person *> & p, string name , bool exactMatch){
 	// if we want to find a person with name exactly as written
 	if(exactMatch){
@@ -133,15 +136,37 @@ bool nameMatch(string src , string dst){
 void printNetwork(vector<Person *> & p){
 
 	for(int i=0; i<p.size() ; i++){
-		cout << p.at(i)->name<<" : " << p.at(i)->title<<" : " << p.at(i)->company<<" : " << p.at(i)->address<< endl;
-		for(int j=0 ; j<p.at(i)->connection.size() ; j++){
-			cout <<"connection " << j << " : " << p.at(i)->connection.at(j)->name <<endl;
-		}
-		cout << endl;
+		cout << "person " << i << endl;
+		printPersonDetails(p.at(i));
 	}
 }
 
+void printPersonDetails(Person * p){
+	cout << "--Details" << endl;
+	cout << "Name : "<< p->name << endl;
+	cout << "Title : " << p->title << endl;
+	cout << "Company : " << p->company << endl;
+	cout << "Address : " << p->address << endl;
+	cout << "--Connections" << endl;
+	for(int j=0 ; j<p->connection.size() ; j++){
+		cout <<"Connection " << j << " : " << p->connection.at(j)->name <<endl;
+	}
+	cout << endl;
+}
 
+void searchPerson(vector<Person *> & p){
+	cout << "Enter name to search for:" << endl;
+	string name = "";
+	cin.ignore();
+	getline(cin, name);
+	Person * temp = find(p, name, false);
+	if(temp == NULL){
+		cout << "Person Not Found. Check you typed correctly." << endl;
+	}else{
+		cout << "Person:" << endl;
+		printPersonDetails(temp);
+	}
+}
 
 /*
 *
