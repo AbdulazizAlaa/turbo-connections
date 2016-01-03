@@ -4,27 +4,21 @@
  *  Created on: Dec 24, 2015
  *      Author: abdulaziz & Moataz & nada
  */
-//
 
 #include "Person.h"
 
 void splitNames(string line, vector<string> & elems, char del);
 void splits(string line, vector<string> & elems, char del);
-/*
- * search for a name in the vector of persons
- */
 Person* find(vector<Person *> & p, string name , bool exactMatch);
 void test_nameMatch();
 void printNetwork(vector<Person *> & p);
 void readFile(string filename);
-/*
-*	Check if a match is found between 2 strings (used in search )
-*	@param String src (have many sub strings )
-*	@param String dst (may many sub strings)
-*	@return Boolean True if similarity found and false if not
-*/
+void numMutual(vector<Person *> & p);
+void showMenu();
 bool nameMatch(string src , string dst);
 
+
+//variables
 // array of pointers to vector Person
 vector<Person *> person;
 // no of Persons
@@ -34,18 +28,58 @@ int personCount;
 // main method
 int main(int argc, char** argv){
 
+
 	//read file
 	readFile( "data.txt");
 
 	//print the network
 	printNetwork(person);
+	
+	showMenu();
+
+	// testing
+	//test_nameMatch();
+	return 0;
+}
+
+/*
+*
+*Suggested INTERFACE
+*
+*/
+
+void showMenu(){
+
+	char q = '';
+
+	while(true){
+		int press;
+
+		cout<< endl;
+		cout << "Press 1: \" Search for a certain person using their name\" " <<endl;
+		cout << "Press 2: \" Show number of mutual friends between any 2 people\" "<<endl;
+		cin >> press;
+
+		if(press == 1){
+
+		}else if(press == 2){
+			numMutual(person);
+		}
+
+		cout << "Do you want to continue? (Y/N)" << endl;
+		cin >> q;
+
+		if(q == 'y' || q == 'Y'){
+			cout << "Return Soon :D" << endl;
+			break;
+		}
+	}
 
 	cout<<find(person, "mohamed abdulaziz", false);
 
-	// testing
-	test_nameMatch();
-	return 0;
+
 }
+
 
 /*
 * splits string on a delimiter
@@ -85,7 +119,9 @@ void splitNames(string line, vector<string> & elems, char del){
 }
 
 /*
+*
  * search for a name in the vector of persons
+*
  */
 Person* find(vector<Person *> & p, string name , bool exactMatch){
 	// if we want to find a person with name exactly as written
@@ -131,6 +167,179 @@ bool nameMatch(string src , string dst){
 	}
 
 	return false;
+}
+
+/*
+ * prints the graph
+ * every person details and his/her connections
+ * @param vector<Person *> & p reference to the global vector of persons
+ */
+void printNetwork(vector<Person *> & p){
+
+	for(int i=0; i<p.size() ; i++){
+		cout << p.at(i)->name<<" : " << p.at(i)->title<<" : " << p.at(i)->company<<" : " << p.at(i)->address<< endl;
+		for(int j=0 ; j<p.at(i)->connection.size() ; j++){
+			cout <<"connection " << j << " : " << p.at(i)->connection.at(j)->name <<endl;
+		}
+		cout << endl;
+	}
+}
+
+/*
+ * Reads data file and creates person vector
+ * also builds the graph
+ * @param string filename data file to read
+ */
+void readFile(string filename){
+	string line;
+	ifstream file;
+	file.open(filename.c_str());
+
+	//checking the file exists
+	if(file.is_open()){
+		//getting first line in the file which is a number.
+		//stands for number of persons in the file
+		//so we need to convert it from string to integer
+		if(getline(file, line))
+			personCount = atoi(line.c_str());
+		//reading an empty line and escaping it
+		getline(file, line);
+		//looping to read the names of persons in the network
+		//creating objects to save each person with his/her details
+		for(int i=0; i<personCount ; i++){
+			if(getline(file, line)){
+				//checking the line is not empty and escaping it if empty
+				if(line == ""){
+					i--;
+					continue;
+				}
+				//split the line into words on a delimiter ","
+				vector<string> elems;
+				splits(line, elems, ',');
+				if(elems.size()>0)
+				{
+					//creating the object and pushing it to the vector
+					Person *p = new Person(elems.at(0), elems.at(1), elems.at(2), elems.at(3));
+					person.push_back(p);
+				}
+			}
+		}
+
+		//reading an empty line and escaping it
+		getline(file, line);
+		//looping to read the connections in the network
+		//pushing each connection with its respected connection
+		for(int i=0; i<personCount ; i++){
+			if(getline(file, line)){
+				if(line != ""){
+					//split the line into words
+					vector<string> elems;
+					splits(line, elems, ',');
+					if(elems.size()>0)
+					{
+						for(int j=0; j<elems.size() ; j++){
+							//search for the name in the vector and get its pointer
+							//and then push to the connection vector
+							//person.at(i)->connection.push_back()
+							person.at(i)->connection.push_back(find(person, elems.at(j),true));
+						}
+					}
+				}
+			}
+		}
+
+
+
+		file.close();
+	}else{
+		cout << "Unable to open file" << endl;
+	}
+}
+/*
+*
+* check name is found; return confirmation whether it exists or not(ok) and its index in vector(i)
+* @param vector<Person *> & p reference to the global vector of persons
+* @param string name name to check if it exists in the vector
+*/
+std::pair<int, int> check(vector<Person *> & p,string name){
+	int ok ;
+	int i=0;
+
+	Person * temp = find(p, name, false);
+	if(temp == NULL){
+
+	}
+
+	for ( i=0 ; i<p.size() ; i++){
+	   if(p.at(i)->name == name){
+	      ok = 1;
+		  break;
+	   }
+	   else {
+		   ok = 0;
+	   }
+	}
+	return std::make_pair(ok,i);
+}
+
+/*
+*
+* number of mutual friends
+* @param vector<Person *> & p reference to the global vector of persons
+*/
+void numMutual(vector<Person *> & p)
+{
+	string first,second;//first: first name, second: second name
+
+	int found=0;///number of mutual friends found
+	cout <<"Enter first full name"<<endl;
+	cin.ignore();
+	getline(cin,first);
+
+	cout <<"Enter second full name"<<endl;
+	getline(cin,second);
+
+	std::pair<int, int> firstPerson = check(p,first);
+	std::pair<int, int> secondPerson = check(p,second);
+
+	if(firstPerson.first ==0 && secondPerson.first ==1)////first name is not valid
+	{
+		cout << "Error: " << "First name is not found on the network"<<endl;
+		return;
+	}
+	if(firstPerson.first ==1 && secondPerson.first ==0)/////sec name is not valid
+	{
+		cout << "Error: " << "Second name is not found on the network"<<endl;
+		return;
+	}
+	if(firstPerson.first ==0 && secondPerson.first ==0)///both names are unvalid
+	{
+		cout << "Error: " << "Both names are not found on the network"<<endl;
+		return;
+	}
+	if(firstPerson.second == secondPerson.second){
+		cout << "Error: " << "Same Person" << endl;
+	}
+
+	if(firstPerson.first ==1 && secondPerson.first ==1 )////both names exist
+	{
+		cout << "Mutual friend(s) are "<<endl;
+		for(int i =0;i<p.at(firstPerson.second)->connection.size();i++)///loop through connections of first person
+		{
+			for(int j =0;j<p.at(secondPerson.second)->connection.size();j++)///loop through connections of second person
+			{
+				if(p.at(firstPerson.second)->connection.at(i)->name == p.at(secondPerson.second)->connection.at(j)->name)///check if connection->name i equal to connection->name j
+				{
+					found++;
+					cout <<p.at(firstPerson.second)->connection.at(i)->name<<endl;
+					break;
+				}
+			}
+		}
+	}
+
+	///print number of mutual friends
+	cout << "Number of mutual friends between "<<p.at(firstPerson.second)->name << " and "<<p.at(secondPerson.second)->name << " = "<< found<<endl;
 }
 
 
@@ -294,81 +503,3 @@ void test_nameMatch(){
 
 }
 
-
-void printNetwork(vector<Person *> & p){
-
-	//testing the network
-	//ouputing every person and its connections
-	for(int i=0; i<p.size() ; i++){
-		cout << p.at(i)->name<<" : " << p.at(i)->title<<" : " << p.at(i)->company<<" : " << p.at(i)->address<< endl;
-		for(int j=0 ; j<p.at(i)->connection.size() ; j++){
-			cout <<"connection " << j << " : " << p.at(i)->connection.at(j)->name <<endl;
-		}
-	}
-}
-
-void readFile(string filename){
-	string line;
-	ifstream file;
-	file.open(filename.c_str());
-
-	//checking the file exists
-	if(file.is_open()){
-		//getting first line in the file which is a number.
-		//stands for number of persons in the file
-		//so we need to convert it from string to integer
-		if(getline(file, line))
-			personCount = atoi(line.c_str());
-		//reading an empty line and escaping it
-		getline(file, line);
-		//looping to read the names of persons in the network
-		//creating objects to save each person with his/her details
-		for(int i=0; i<personCount ; i++){
-			if(getline(file, line)){
-				//checking the line is not empty and escaping it if empty
-				if(line == ""){
-					i--;
-					continue;
-				}
-				//split the line into words on a delimiter ","
-				vector<string> elems;
-				splits(line, elems, ',');
-				if(elems.size()>0)
-				{
-					//creating the object and pushing it to the vector
-					Person *p = new Person(elems.at(0), elems.at(1), elems.at(2), elems.at(3));
-					person.push_back(p);
-				}
-			}
-		}
-
-		//reading an empty line and escaping it
-		getline(file, line);
-		//looping to read the connections in the network
-		//pushing each connection with its respected connection
-		for(int i=0; i<personCount ; i++){
-			if(getline(file, line)){
-				if(line != ""){
-					//split the line into words
-					vector<string> elems;
-					splits(line, elems, ',');
-					if(elems.size()>0)
-					{
-						for(int j=0; j<elems.size() ; j++){
-							//search for the name in the vector and get its pointer
-							//and then push to the connection vector
-							//person.at(i)->connection.push_back()
-							person.at(i)->connection.push_back(find(person, elems.at(j),true));
-						}
-					}
-				}
-			}
-		}
-
-
-
-		file.close();
-	}else{
-		cout << "Unable to open file" << endl;
-	}
-}
