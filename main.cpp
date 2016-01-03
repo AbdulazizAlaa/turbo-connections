@@ -184,24 +184,18 @@ void searchPerson(vector<Person *> & p){
 * @param string name name to check if it exists in the vector
 */
 std::pair<int, int> check(vector<Person *> & p,string name){
-	int ok ;
-	int i=0;
-
-	Person * temp = find(p, name, false);
-	if(temp == NULL){
-		ok = 0;
-	}else{
-		ok = 1;
-		for ( i=0 ; i<p.size() ; i++){
-			if(p.at(i)->name == temp->name){
-				ok = 1;
-				break;
-			}
-		}
-	}
-
-	return std::make_pair(ok,i);
-}
+ 	int ok ;		 	
+ 	int i=0;		 	
+ 	for ( i=0 ; i<p.size() ; i++){		 	
+ 	   if(p.at(i)->name == name){		 	   
+ 	      ok = 1;		 	      
+ 		  break;		 		  
+ 	   }		 	   
+ 		   ok = 0;		 		  
+ 	   }		 	   
+ 			 	
+ 	return std::make_pair(ok,i);		 	
+ }		 
 
 /*
 *
@@ -249,12 +243,15 @@ int numMutual(vector<Person *> & p)
 		{
 			for(int j =0;j<p.at(secondPerson.second)->connection.size();j++)///loop through connections of second person
 			{
+
 				if(p.at(firstPerson.second)->connection.at(i)->name == p.at(secondPerson.second)->connection.at(j)->name)///check if connection->name i equal to connection->name j
 				{
 					found++;
 					cout <<p.at(firstPerson.second)->connection.at(i)->name<<endl;
 					break;
 				}
+				else
+				cout << p.at(firstPerson.second)->connection.at(i)->name <<" " << p.at(secondPerson.second)->connection.at(j)->name<<endl;
 			}
 		}
 	}
@@ -546,6 +543,7 @@ void test_numMutual(){
 	string n6 = "Yomna Gad";			string n66 = "Ahmed Dia";
 	string n7 = "Nada Dia";				string n77 = "Moataz Farid";
 	string n8 = "Moataz Farid";			string n88 = "Mostafa Fahmy";
+	string n9 = "Mohamed Abdulaziz";	string n99 = "Mohamed Abdulaziz";
 	cout<<"\n\n\n/////////////////////// UNIT TESTING //////////////////////////////"<<endl;
 	cout<<"//////////////////////////// numMutual() ///////////////////////"<<endl;
 	
@@ -630,6 +628,16 @@ void test_numMutual(){
 	out = numMutual(person);
 	cout <<"Actual output = " << out <<"\n"<<endl;
 	if (out ==2){
+		nTrue++;
+	}
+	else nFalse++;
+
+	///////test case 9
+	cout <<"Test case 9 "<< "input: " << n9 << " & " << n99 <<endl;
+	cout <<"EXPECTED||" << "Number of mutual friends between "<<n9 << " and "<<n99 << " = "<< "0"<<endl;
+	out = numMutual(person);
+	cout <<"Actual output = " << out <<"\n"<<endl;
+	if (out ==0){
 		nTrue++;
 	}
 	else nFalse++;
