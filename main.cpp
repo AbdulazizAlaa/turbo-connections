@@ -45,39 +45,42 @@ int main(int argc, char** argv){
 }
 
 /*
-*
-*Suggested INTERFACE
-*
+* shows a menu to make use of one of the availble algorithms implemented
 */
-
 void showMenu(){
 
-	char q = ' ';
+	string q = " ";
 
 	while(true){
-		int press;
+		string choice;
 
 		cout<< endl;
 		cout << "Press 1: \" Search for a certain person using their name\" " <<endl;
 		cout << "Press 2: \" Show number of mutual friends between any 2 people\" "<<endl;
 		cout << "Press 3: \" Testing\" "<<endl;
 
-		cin >> press;
+		getline(cin, choice);
 
-		if(press == 1){
+		if(choice == "1"){
+			//search for a person
 			searchPerson(person);
-		}else if(press == 2){
+		}else if(choice == "2"){
+			//get number of mutual friends between two persons
 			numMutual(person);
 		}
-		else if(press == 3){
+		else if(choice == "3"){
+			//testing
 			test_nameMatch();
 			test_numMutual();
+		}else{
+			//error
+			cout << "Error: Enter a valid choice." << endl;
 		}
 
 		cout << "Do you want to quit? (Y/N)" << endl;
-		cin >> q;
+		getline(cin, q);
 
-		if(q == 'y' || q == 'Y'){
+		if(q == "y" || q == "Y"){
 			cout << "Return Soon :D" << endl;
 			break;
 		}
@@ -90,6 +93,19 @@ void showMenu(){
 * @param bool exactMatch true to search for the name as a block
 * @param vector<Person *> & p reference to the global vector of persons
 */
+/*
+ * TO-DO
+ * it is not working right. here is a sample of test cases that go wrong
+ * - Mohamed Shoukry ==gives==> Mohamed Abdulaziz. althogh thier exists Mohamed Shoukry
+ * - Farid Moataz ==gives==> Moataz Farid. this i don't know if should be true or false
+ * - when the function finds more than one target should prompt the user which one he really needs
+ * and then prints its details.
+ * 		= so you have three situations:
+ * 			1 - it is an exact match 100% equal to the stored name so return that person.
+ * 			2 - it is not an exact match but it is the closet match found and there is only one so return that person.
+ * 			3 - it is not an exact match but there are more than one with some similarities
+ * 			so prompt user to chose which one he wants in numbered list fashion and he should choose a number.
+ */
 Person* find(vector<Person *> & p, string name , bool exactMatch){
 	// if we want to find a person with name exactly as written
 	if(exactMatch){
@@ -121,7 +137,7 @@ bool nameMatch(string src , string dst){
 	vector<string> SrcElems;
 	vector<string> DstElems;
 
-	// spletting the strings with " " space
+	// splitting the strings with " " space
 	splitNames(src,SrcElems,' ');
 	splitNames(dst,DstElems,' ');
 
@@ -259,8 +275,6 @@ int getMutual(vector<Person *> & p, string first, string second){
 					cout <<p.at(firstPerson.second)->connection.at(i)->name<<endl;
 					break;
 				}
-				else//TO-DO Remove
-				cout << p.at(firstPerson.second)->connection.at(i)->name <<" " << p.at(secondPerson.second)->connection.at(j)->name<<endl;
 			}
 		}
 	}
