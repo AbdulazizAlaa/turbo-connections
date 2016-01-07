@@ -20,6 +20,7 @@ bool nameMatch(string src , string dst);
 void printPersonDetails(Person * p);
 void searchPerson(vector<Person *> & p);
 int getMutual(vector<Person *> & p, string first, string second);
+vector<string> QueryNameNotExactMatch(vector<Person *> & p, string name);
 
 //variables
 vector<Person *> person; // array of pointers to vector Person
@@ -114,16 +115,38 @@ Person* find(vector<Person *> & p, string name , bool exactMatch){
 			  return p.at(i);
 		   }
 		}
-	}else{
-		// if we want to find a person with name near to what we written
+	}else{// if we want to find a person with name near to what we written
+		// it wil return first somehow exact name
 		for (int i=0 ; i<p.size() ; i++){
 		   if(nameMatch(p.at(i)->name,name)){
+
 			  return p.at(i);
 		   }
 		}
 	}
 
 	return NULL;
+}
+/**
+* search for a name in the vector of persons and store that match in a vector of strings 
+* @param string name person name to search for
+* @param bool exactMatch true to search for the name as a block
+* @param vector<Person *> & p reference to the global vector of persons
+* @return vector of Strings have the full names of peop
+*/
+
+vector<string> QueryNameNotExactMatch(vector<Person *> & p, string name){
+	// if we want to find a person with name near to what we written
+	// it wil return a vector of persons somehow exact name
+
+	vector<string> vNameMatch ; // the vector where found names is stored
+
+	for (int i=0 ; i<p.size() ; i++){
+		if(nameMatch(p.at(i)->name,name)){
+			vNameMatch.push_back(p.at(i)->name);		
+		}
+	}
+	return vNameMatch;
 }
 
 /*
@@ -189,15 +212,21 @@ void printPersonDetails(Person * p){
  */
 void searchPerson(vector<Person *> & p){
 	cout << "Enter name to search for:" << endl;
-	string name = "";
-	cin.ignore();
-	getline(cin, name);
-	Person * temp = find(p, name, false);
-	if(temp == NULL){
+	string name ;
+	cin>>name;
+	vector<string> temp = QueryNameNotExactMatch(p, name);
+	if(temp.size() < 0 ){
 		cout << "Person Not Found. Check you typed correctly." << endl;
 	}else{
-		cout << "Person:" << endl;
-		printPersonDetails(temp);
+		// printing results
+		cout<< "Choose the no. that indicate your friend you search for : "<<endl;
+		for(int i=0; i <temp.size() ; i++){
+			cout << i+1 <<".\t"<<temp.at(i)<<endl;
+		}
+		//
+		int n;
+		cin>> n ;
+		printPersonDetails(find(p,temp.at(n-1),true));
 	}
 }
 
@@ -415,6 +444,7 @@ void readFile(string filename){
 	}
 }
 
+// testing name match function 
 void test_nameMatch(){
 	int noOfTrue = 0;
 	int noOfFalse = 0;
@@ -688,3 +718,4 @@ void test_numMutual(){
 
 	cout << "True cases = " << nTrue << " of total = "<< nTrue+nFalse<<endl;
 }
+
