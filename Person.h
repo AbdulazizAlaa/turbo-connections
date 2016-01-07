@@ -14,8 +14,9 @@
 #include <vector>
 #include <stdlib.h> //atoi() , 
 #include <fstream>
-#include <utility>
-#include <limits>
+#include <utility> // what does that do ?? plz write the function uses that one
+#include <limits> // what does that do ?? plz write the function uses that one
+#include <algorithm> // find()
 
 using namespace std;
 

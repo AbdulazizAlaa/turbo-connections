@@ -21,6 +21,7 @@ void printPersonDetails(Person * p);
 void searchPerson(vector<Person *> & p);
 int getMutual(vector<Person *> & p, string first, string second);
 vector<string> QueryNameNotExactMatch(vector<Person *> & p, string name);
+void test_QueryNameNotExactMatch();
 
 //variables
 vector<Person *> person; // array of pointers to vector Person
@@ -73,6 +74,7 @@ void showMenu(){
 			//testing
 			test_nameMatch();
 			test_numMutual();
+			test_QueryNameNotExactMatch();
 		}else{
 			//error
 			cout << "Error: Enter a valid choice." << endl;
@@ -719,3 +721,57 @@ void test_numMutual(){
 	cout << "True cases = " << nTrue << " of total = "<< nTrue+nFalse<<endl;
 }
 
+// testing of QueryNameNotExactMatch
+void test_QueryNameNotExactMatch(){
+	vector<Person *> &p = person;
+	string i;
+	string expected;
+	vector<string> vec ;
+	bool found;
+	int count=0;
+	
+	//testcase 1
+
+	i = "Moataz";
+	expected = "Moataz Farid";
+	vec = QueryNameNotExactMatch(p,i);
+	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false; 
+	found==true?count++:found=false;
+
+	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:1"<<"\tOutput:"<<found<<endl;
+	//////////////////////////////////////////
+
+	// testcase 2 
+	
+	i = "Mohamed";
+	expected = "Mohamed Abdulaziz";
+	vec = QueryNameNotExactMatch(p,i);
+	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false; 
+	found==true?count++:found=false;
+
+	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:1"<<"\tOutput:"<<found<<endl;
+	//////////////////////////////////////////
+	
+	// testcase 3
+	
+	i = "oataz";
+	expected = "Moataz Farid";
+	vec = QueryNameNotExactMatch(p,i);
+	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false; 
+	found==false?count++:found=true;
+
+	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:0"<<"\tOutput:"<<found<<endl;
+	//////////////////////////////////////////
+	// testcase 4 
+	
+	i = "Mohamed Abdulazi";
+	expected = "Mohamed Abdulaziz";
+	vec = QueryNameNotExactMatch(p,i);
+	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false; 
+	found==true?count++:found=false;
+
+	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:1"<<"\tOutput:"<<found<<endl;
+	//////////////////////////////////////////
+	cout<<"### FinalResults ####"<<endl;
+	cout<<"Passed test "<<count<<"/4"<<endl;
+}
