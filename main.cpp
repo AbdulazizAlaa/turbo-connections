@@ -217,7 +217,7 @@ void searchPerson(vector<Person *> & p){
 	string name ;
 	cin>>name;
 	vector<string> temp = QueryNameNotExactMatch(p, name);
-	if(temp.size() < 0 ){
+	if(temp.size() <= 0 ){
 		cout << "Person Not Found. Check you typed correctly." << endl;
 	}else{
 		// printing results
