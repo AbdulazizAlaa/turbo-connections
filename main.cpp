@@ -723,13 +723,14 @@ void test_numMutual(){
 
 // testing of QueryNameNotExactMatch
 void test_QueryNameNotExactMatch(){
+	cout<<"//////////////////////////// Start Testing ///////////////////////////////"<<endl;
+	cout<<"//////////////////////////// test_QueryNameNotExactMatch /////////////////"<<endl;
 	vector<Person *> &p = person;
 	string i;
 	string expected;
 	vector<string> vec ;
 	bool found;
 	int count=0;
-	
 	//testcase 1
 
 	i = "Moataz";
@@ -772,6 +773,16 @@ void test_QueryNameNotExactMatch(){
 
 	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:1"<<"\tOutput:"<<found<<endl;
 	//////////////////////////////////////////
+	// testcase 5
+	
+	i = "ccc";
+	expected = "";
+	vec = QueryNameNotExactMatch(p,i);
+	vec.size()>0?(found=true):found=false; 
+	found==false?count++:found=true;
+
+	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:0"<<"\tOutput:"<<found<<endl;
+	//////////////////////////////////////////
 	cout<<"### FinalResults ####"<<endl;
-	cout<<"Passed test "<<count<<"/4"<<endl;
+	cout<<"Passed test "<<count<<"/5"<<endl;
 }
