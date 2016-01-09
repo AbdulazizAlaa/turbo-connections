@@ -35,20 +35,20 @@ Network::~Network() {
  * 			3 - it is not an exact match but there are more than one with some similarities
  * 			so prompt user to chose which one he wants in numbered list fashion and he should choose a number.
  */
-Person* Network::find(vector<Person *> & p, string name , bool exactMatch){
+Person* Network::find(string name , bool exactMatch){
 	// if we want to find a person with name exactly as written
 	if(exactMatch){
-		for (int i=0 ; i<p.size() ; i++){
-		   if(p.at(i)->name == name){
-			  return p.at(i);
+		for (int i=0 ; i<person.size() ; i++){
+		   if(person.at(i)->name == name){
+			  return person.at(i);
 		   }
 		}
 	}else{// if we want to find a person with name near to what we written
 		// it wil return first somehow exact name
-		for (int i=0 ; i<p.size() ; i++){
-		   if(nameMatch(p.at(i)->name,name)){
+		for (int i=0 ; i<person.size() ; i++){
+		   if(nameMatch(person.at(i)->name,name)){
 
-			  return p.at(i);
+			  return person.at(i);
 		   }
 		}
 	}
@@ -63,15 +63,15 @@ Person* Network::find(vector<Person *> & p, string name , bool exactMatch){
 * @return vector of Strings have the full names of peop
 */
 
-vector<pair<string, int> > Network::QueryNameNotExactMatch(vector<Person *> & p, string name){
+vector<pair<string, int> > Network::QueryNameNotExactMatch(string name){
 	// if we want to find a person with name near to what we written
 	// it wil return a vector of persons somehow exact name
 
 	vector<pair<string, int> > vNameMatch ; // the vector where found names are stored
 
-	for (int i=0 ; i<p.size() ; i++){
-		if(nameMatch(p.at(i)->name,name)){
-			vNameMatch.push_back(make_pair(p.at(i)->name, i));
+	for (int i=0 ; i<person.size() ; i++){
+		if(nameMatch(person.at(i)->name,name)){
+			vNameMatch.push_back(make_pair(person.at(i)->name, i));
 		}
 	}
 	return vNameMatch;
@@ -108,29 +108,11 @@ bool Network::nameMatch(string src , string dst){
  * every person details and his/her connections
  * @param vector<Person *> & p reference to the global vector of persons
  */
-void Network::printNetwork(vector<Person *> & p){
-
-	for(int i=0; i<p.size() ; i++){
+void Network::printNetwork(){
+	for(int i=0; i<person.size() ; i++){
 		cout << "person " << i << endl;
-		printPersonDetails(p.at(i));
+		person.at(i)->printDetails();
 	}
-}
-
-/*
- * printing a person details along with his connections
- * @param Person * p reference to a person
- */
-void Network::printPersonDetails(Person * p){
-	cout << "--Details" << endl;
-	cout << "Name : "<< p->name << endl;
-	cout << "Title : " << p->title << endl;
-	cout << "Company : " << p->company << endl;
-	cout << "Address : " << p->address << endl;
-	cout << "--Connections" << endl;
-	for(int j=0 ; j<p->connection.size() ; j++){
-		cout <<"Connection " << j << " : " << p->connection.at(j)->name <<endl;
-	}
-	cout << endl;
 }
 
 /*
@@ -138,11 +120,11 @@ void Network::printPersonDetails(Person * p){
  * of the person he/she wants to search for
  * @param vector<Person *> & p reference to the vector of person
  */
-void Network::searchPerson(vector<Person *> & p){
+void Network::searchPerson(){
 	cout << "Enter name to search for:" << endl;
 	string name ;
 	getline(cin, name);
-	vector<pair<string, int> > temp = QueryNameNotExactMatch(p, name);
+	vector<pair<string, int> > temp = QueryNameNotExactMatch(name);
 	if(temp.size() == 0 ){
 		cout << "Person Not Found. Check you typed correctly." << endl;
 	}else{
@@ -154,8 +136,7 @@ void Network::searchPerson(vector<Person *> & p){
 		int n;
 		cin >> n ;
 		n = (n<=0)?1:n;
-		//printPersonDetails(find(p,temp.at(n-1).first,true));
-		printPersonDetails(p.at(temp.at(n-1).second));
+		person.at(temp.at(n-1).second)->printDetails();
 	}
 }
 
@@ -165,17 +146,17 @@ void Network::searchPerson(vector<Person *> & p){
 * @param vector<Person *> & p reference to the global vector of persons
 * @param string name name to check if it exists in the vector
 */
-std::pair<int, int> Network::check(vector<Person *> & p,string name){
+std::pair<int, int> Network::check(string name){
 	int ok ;
 	int i=0;
 
-	Person * temp = find(p, name, false);
+	Person * temp = find(name, false);
 	if(temp == NULL){
 		ok = 0;
 	}else{
 		ok = 1;
-		for ( i=0 ; i<p.size() ; i++){
-			if(p.at(i)->name == temp->name){
+		for ( i=0 ; i<person.size() ; i++){
+			if(person.at(i)->name == temp->name){
 				ok = 1;
 				break;
 			}
@@ -192,12 +173,12 @@ std::pair<int, int> Network::check(vector<Person *> & p,string name){
 * @param string second name of second person
 * @return int number of mutual friends between two persons
 */
-int Network::getMutual(vector<Person *> & p, string first, string second){
+int Network::getMutual(string first, string second){
 
 	int found=0;///number of mutual friends found
 
-	std::pair<int, int> firstPerson = check(p,first);
-	std::pair<int, int> secondPerson = check(p,second);
+	std::pair<int, int> firstPerson = check(first);
+	std::pair<int, int> secondPerson = check(second);
 
 	if(firstPerson.first ==0 && secondPerson.first ==1)////first name is not valid
 	{
@@ -222,15 +203,15 @@ int Network::getMutual(vector<Person *> & p, string first, string second){
 	if(firstPerson.first ==1 && secondPerson.first ==1 )////both names exist
 	{
 		cout << "Mutual friend(s) are "<<endl;
-		for(int i =0;i<p.at(firstPerson.second)->connection.size();i++)///loop through connections of first person
+		for(int i =0;i<person.at(firstPerson.second)->connection.size();i++)///loop through connections of first person
 		{
-			for(int j =0;j<p.at(secondPerson.second)->connection.size();j++)///loop through connections of second person
+			for(int j =0;j<person.at(secondPerson.second)->connection.size();j++)///loop through connections of second person
 			{
 
-				if(p.at(firstPerson.second)->connection.at(i)->name == p.at(secondPerson.second)->connection.at(j)->name)///check if connection->name i equal to connection->name j
+				if(person.at(firstPerson.second)->connection.at(i)->name == person.at(secondPerson.second)->connection.at(j)->name)///check if connection->name i equal to connection->name j
 				{
 					found++;
-					cout <<p.at(firstPerson.second)->connection.at(i)->name<<endl;
+					cout <<person.at(firstPerson.second)->connection.at(i)->name<<endl;
 					break;
 				}
 			}
@@ -238,7 +219,7 @@ int Network::getMutual(vector<Person *> & p, string first, string second){
 	}
 
 	///print number of mutual friends
-	cout << "Number of mutual friends between "<<p.at(firstPerson.second)->name << " and "<<p.at(secondPerson.second)->name << " = "<< found<<endl;
+	cout << "Number of mutual friends between "<<person.at(firstPerson.second)->name << " and "<<person.at(secondPerson.second)->name << " = "<< found<<endl;
 	return found;
 }
 
@@ -248,7 +229,7 @@ int Network::getMutual(vector<Person *> & p, string first, string second){
 * @param vector<Person *> & p reference to the global vector of persons
 * @return int number of mutual friends between two persons
 */
-int Network::numMutual(vector<Person *> & p)
+int Network::numMutual()
 {
 	string first,second;//first: first name, second: second name
 
@@ -259,7 +240,7 @@ int Network::numMutual(vector<Person *> & p)
 	cout <<"Enter second full name"<<endl;
 	getline(cin,second);
 
-	return getMutual(p, first, second);
+	return getMutual(first, second);
 
 }
 
@@ -361,7 +342,7 @@ void Network::readFile(string filename){
 							//search for the name in the vector and get its pointer
 							//and then push to the connection vector
 							//person.at(i)->connection.push_back()
-							person.at(i)->connection.push_back(find(person, elems.at(j),true));
+							person.at(i)->connection.push_back(find(elems.at(j),true));
 						}
 					}
 				}

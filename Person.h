@@ -29,6 +29,8 @@ public:
 	/** distructor **/
 	virtual ~Person(); 
 
+	void printDetails();
+
 	////////////  Defining Variables //////////////
 
 	/** Person name **/

@@ -21,3 +21,20 @@ Person::~Person() {
 	// TODO Auto-generated destructor stub
 }
 
+/*
+ * printing a person details along with his connections
+ * @param Person * p reference to a person
+ */
+void Person::printDetails(){
+	cout << "--Details" << endl;
+	cout << "Name : "<< name << endl;
+	cout << "Title : " << title << endl;
+	cout << "Company : " << company << endl;
+	cout << "Address : " << address << endl;
+	cout << "--Connections" << endl;
+	for(int j=0 ; j<connection.size() ; j++){
+		cout <<"Connection " << j << " : " << connection.at(j)->name <<endl;
+	}
+	cout << endl;
+}
+

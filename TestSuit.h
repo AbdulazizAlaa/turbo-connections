@@ -8,12 +8,8 @@
 #ifndef TESTSUIT_H_
 #define TESTSUIT_H_
 
-
-#include <iostream>
-#include <string>
 #include "Network.h"
-
-using namespace std;
+#include "Person.h"
 
 class TestSuit {
 public:
@@ -21,7 +17,9 @@ public:
 	virtual ~TestSuit();
 
 	static void test_nameMatch(Network & n);
-	static void test_numMutual();
+	static void test_numMutual(Network & n);
+	static void test_QueryNameNotExactMatch(Network & n);
+
 };
 
 #endif /* TESTSUIT_H_ */
