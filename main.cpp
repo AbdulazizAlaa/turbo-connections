@@ -10,7 +10,7 @@
 void splitNames(string line, vector<string> & elems, char del);
 void splits(string line, vector<string> & elems, char del);
 Person* find(vector<Person *> & p, string name , bool exactMatch);
-void test_nameMatch();
+//void test_nameMatch();
 void test_numMutual();
 void printNetwork(vector<Person *> & p);
 void readFile(string filename);
@@ -20,8 +20,8 @@ bool nameMatch(string src , string dst);
 void printPersonDetails(Person * p);
 void searchPerson(vector<Person *> & p);
 int getMutual(vector<Person *> & p, string first, string second);
-vector<string> QueryNameNotExactMatch(vector<Person *> & p, string name);
-void test_QueryNameNotExactMatch();
+vector<pair<string, int> > QueryNameNotExactMatch(vector<Person *> & p, string name);
+//void test_QueryNameNotExactMatch();
 
 //variables
 vector<Person *> person; // array of pointers to vector Person
@@ -39,10 +39,6 @@ int main(int argc, char** argv){
 	printNetwork(person);
 	
 	showMenu();
-
-	// testing
-	//test_nameMatch();
-	//test_numMutual();
 	return 0;
 }
 
@@ -74,7 +70,7 @@ void showMenu(){
 			//testing
 			test_nameMatch();
 			test_numMutual();
-			test_QueryNameNotExactMatch();
+			//test_QueryNameNotExactMatch();
 		}else{
 			//error
 			cout << "Error: Enter a valid choice." << endl;
@@ -138,15 +134,15 @@ Person* find(vector<Person *> & p, string name , bool exactMatch){
 * @return vector of Strings have the full names of peop
 */
 
-vector<string> QueryNameNotExactMatch(vector<Person *> & p, string name){
+vector<pair<string, int> > QueryNameNotExactMatch(vector<Person *> & p, string name){
 	// if we want to find a person with name near to what we written
 	// it wil return a vector of persons somehow exact name
 
-	vector<string> vNameMatch ; // the vector where found names are stored
+	vector<pair<string, int> > vNameMatch ; // the vector where found names are stored
 
 	for (int i=0 ; i<p.size() ; i++){
 		if(nameMatch(p.at(i)->name,name)){
-			vNameMatch.push_back(p.at(i)->name);		
+			vNameMatch.push_back(make_pair(p.at(i)->name, i));
 		}
 	}
 	return vNameMatch;
@@ -217,19 +213,20 @@ void searchPerson(vector<Person *> & p){
 	cout << "Enter name to search for:" << endl;
 	string name ;
 	getline(cin, name);
-	vector<string> temp = QueryNameNotExactMatch(p, name);
+	vector<pair<string, int> > temp = QueryNameNotExactMatch(p, name);
 	if(temp.size() == 0 ){
 		cout << "Person Not Found. Check you typed correctly." << endl;
 	}else{
 		// printing results
 		cout<< "Choose the no. that indicate your friend you search for : "<<endl;
 		for(int i=0; i <temp.size() ; i++){
-			cout << i+1 <<".\t"<<temp.at(i)<<endl;
+			cout << i+1 <<".\t"<<temp.at(i).first<<endl;
 		}
 		int n;
 		cin >> n ;
 		n = (n<=0)?1:n;
-		printPersonDetails(find(p,temp.at(n-1),true));
+		//printPersonDetails(find(p,temp.at(n-1).first,true));
+		printPersonDetails(p.at(temp.at(n-1).second));
 	}
 }
 
@@ -447,166 +444,166 @@ void readFile(string filename){
 	}
 }
 
-// testing name match function 
-void test_nameMatch(){
-	int noOfTrue = 0;
-	int noOfFalse = 0;
-	string n1 = "ahmed mohamed hessuin";
-	string n2 = "moataz mahmoud";
-	string n3 = "abdulaziz mohamed alaa";
-	string n4 = "nada diaa";
-	cout<<"\n\n\n/////////////////////// UNIT TESTING //////////////////////////////"<<endl;
-	cout<<"//////////////////////////// nameMatch() ///////////////////////"<<endl;
-
-	// testcase 1
-	cout<<"input ->> "<<n1<<" |||| ";
-	string searchfor1 = "mohamed";
-	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
-	cout<<"1 |||| output :";
-	bool out = nameMatch(n1,searchfor1);
-	if(out == true)
-		noOfTrue++;
-	else
-		noOfFalse++;
-	cout <<out<<endl; // print output
-
-
-	// testcase 2
-	cout<<"input ->> "<<n2<<" |||| ";
-	searchfor1 = "Moataz mahmoud";
-	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
-	cout<<"1 |||| output :";
-	out = nameMatch(n2,searchfor1);
-	if(out == true)
-		noOfTrue++;
-	else
-		noOfFalse++;
-	cout <<out<<endl; // print output
-
-	// testcase 3
-	cout<<"input ->> "<<n3<<" |||| ";
-	searchfor1 = "alaa";
-	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
-	cout<<"1 |||| output :";
-	out = nameMatch(n3,searchfor1);
-	if(out == true )
-		noOfTrue++;
-	else
-		noOfFalse++;
-	cout <<out<<endl; // print output
-
-	// testcase 4
-	cout<<"input ->> "<<n3<<" |||| ";
-	searchfor1 = "Moataz Farid";
-	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
-	cout<<"0 |||| output :";
-	out = nameMatch(n3,searchfor1);
-	if(out ==  false)
-		noOfTrue++;
-	else
-		noOfFalse++;
-	cout <<out<<endl; // print output
-
-	// testcase 4
-	cout<<"input ->> "<<n2<<" |||| ";
-	searchfor1 = "moataz farid";
-	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
-	cout<<"1 |||| output :";
-	out = nameMatch(n2,searchfor1);
-	if(out == true)
-		noOfTrue++;
-	else
-		noOfFalse++;
-	cout <<out<<endl; // print output
-
-	// testcase 5
-	cout<<"input ->> "<<n2<<" |||| ";
-	searchfor1 = "Farid";
-	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
-	cout<<"0 |||| output :";
-	out = nameMatch(n2,searchfor1);
-	if(out == false)
-		noOfTrue++;
-	else
-		noOfFalse++;
-	cout <<out<<endl; // print output
-
-	// testcase 6
-	cout<<"input ->> "<<n2<<" |||| ";
-	searchfor1 = "Farid moataz";
-	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
-	cout<<"1 |||| output :";
-	out = nameMatch(n2,searchfor1);
-	if(out == true)
-		noOfTrue++;
-	else
-		noOfFalse++;
-	cout <<out<<endl; // print output
-
-	// testcase 7
-	cout<<"input ->> "<<n4<<" |||| ";
-	searchfor1 = "nada";
-	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
-	cout<<"1 |||| output :";
-	out = nameMatch(n4,searchfor1);
-	if(out == true )
-		noOfTrue++;
-	else
-		noOfFalse++;
-	cout <<out<<endl; // print output
-
-	// testcase 8
-	cout<<"input ->> "<<n4<<" |||| ";
-	searchfor1 = "nada diAa";
-	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
-	cout<<"1 |||| output :"; // because it pass nada
-	out = nameMatch(n4,searchfor1);
-	if(out == true )
-		noOfTrue++;
-	else
-		noOfFalse++;
-	cout <<out<<endl; // print output
-
-	// testcase 9
-	cout<<"input ->> "<<n4<<" |||| ";
-	searchfor1 = "dia";
-	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
-	cout<<"0 |||| output :";
-	out = nameMatch(n4,searchfor1);
-	if(out == false)
-		noOfTrue++;
-	else
-		noOfFalse++;
-	cout <<out<<endl; // print output
-
-	// testcase 10
-	cout<<"input ->> "<<n4<<" |||| ";
-	searchfor1 = "z";
-	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
-	cout<<"0 |||| output :";
-	out = nameMatch(n4,searchfor1);
-	if(out == false)
-		noOfTrue++;
-	else
-		noOfFalse++;
-	cout <<out<<endl; // print output
-
-	// testcase 11
-	cout<<"input ->> "<<n3<<" |||| ";
-	searchfor1 = "mohamed";
-	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
-	cout<<"1 |||| output :";
-	out = nameMatch(n3,searchfor1);
-	if(out == true)
-		noOfTrue++;
-	else
-		noOfFalse++;
-	cout <<out<<endl; // print output
-
-
-	cout<<"\n\n=====\nTest Result: "<<noOfTrue<<"/"<<noOfFalse+noOfTrue<<" passed \n======\n\n"<<endl;
-
-}
+//// testing name match function
+//void test_nameMatch(){
+//	int noOfTrue = 0;
+//	int noOfFalse = 0;
+//	string n1 = "ahmed mohamed hessuin";
+//	string n2 = "moataz mahmoud";
+//	string n3 = "abdulaziz mohamed alaa";
+//	string n4 = "nada diaa";
+//	cout<<"\n\n\n/////////////////////// UNIT TESTING //////////////////////////////"<<endl;
+//	cout<<"//////////////////////////// nameMatch() ///////////////////////"<<endl;
+//
+//	// testcase 1
+//	cout<<"input ->> "<<n1<<" |||| ";
+//	string searchfor1 = "mohamed";
+//	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
+//	cout<<"1 |||| output :";
+//	bool out = nameMatch(n1,searchfor1);
+//	if(out == true)
+//		noOfTrue++;
+//	else
+//		noOfFalse++;
+//	cout <<out<<endl; // print output
+//
+//
+//	// testcase 2
+//	cout<<"input ->> "<<n2<<" |||| ";
+//	searchfor1 = "Moataz mahmoud";
+//	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
+//	cout<<"1 |||| output :";
+//	out = nameMatch(n2,searchfor1);
+//	if(out == true)
+//		noOfTrue++;
+//	else
+//		noOfFalse++;
+//	cout <<out<<endl; // print output
+//
+//	// testcase 3
+//	cout<<"input ->> "<<n3<<" |||| ";
+//	searchfor1 = "alaa";
+//	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
+//	cout<<"1 |||| output :";
+//	out = nameMatch(n3,searchfor1);
+//	if(out == true )
+//		noOfTrue++;
+//	else
+//		noOfFalse++;
+//	cout <<out<<endl; // print output
+//
+//	// testcase 4
+//	cout<<"input ->> "<<n3<<" |||| ";
+//	searchfor1 = "Moataz Farid";
+//	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
+//	cout<<"0 |||| output :";
+//	out = nameMatch(n3,searchfor1);
+//	if(out ==  false)
+//		noOfTrue++;
+//	else
+//		noOfFalse++;
+//	cout <<out<<endl; // print output
+//
+//	// testcase 4
+//	cout<<"input ->> "<<n2<<" |||| ";
+//	searchfor1 = "moataz farid";
+//	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
+//	cout<<"1 |||| output :";
+//	out = nameMatch(n2,searchfor1);
+//	if(out == true)
+//		noOfTrue++;
+//	else
+//		noOfFalse++;
+//	cout <<out<<endl; // print output
+//
+//	// testcase 5
+//	cout<<"input ->> "<<n2<<" |||| ";
+//	searchfor1 = "Farid";
+//	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
+//	cout<<"0 |||| output :";
+//	out = nameMatch(n2,searchfor1);
+//	if(out == false)
+//		noOfTrue++;
+//	else
+//		noOfFalse++;
+//	cout <<out<<endl; // print output
+//
+//	// testcase 6
+//	cout<<"input ->> "<<n2<<" |||| ";
+//	searchfor1 = "Farid moataz";
+//	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
+//	cout<<"1 |||| output :";
+//	out = nameMatch(n2,searchfor1);
+//	if(out == true)
+//		noOfTrue++;
+//	else
+//		noOfFalse++;
+//	cout <<out<<endl; // print output
+//
+//	// testcase 7
+//	cout<<"input ->> "<<n4<<" |||| ";
+//	searchfor1 = "nada";
+//	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
+//	cout<<"1 |||| output :";
+//	out = nameMatch(n4,searchfor1);
+//	if(out == true )
+//		noOfTrue++;
+//	else
+//		noOfFalse++;
+//	cout <<out<<endl; // print output
+//
+//	// testcase 8
+//	cout<<"input ->> "<<n4<<" |||| ";
+//	searchfor1 = "nada diAa";
+//	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
+//	cout<<"1 |||| output :"; // because it pass nada
+//	out = nameMatch(n4,searchfor1);
+//	if(out == true )
+//		noOfTrue++;
+//	else
+//		noOfFalse++;
+//	cout <<out<<endl; // print output
+//
+//	// testcase 9
+//	cout<<"input ->> "<<n4<<" |||| ";
+//	searchfor1 = "dia";
+//	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
+//	cout<<"0 |||| output :";
+//	out = nameMatch(n4,searchfor1);
+//	if(out == false)
+//		noOfTrue++;
+//	else
+//		noOfFalse++;
+//	cout <<out<<endl; // print output
+//
+//	// testcase 10
+//	cout<<"input ->> "<<n4<<" |||| ";
+//	searchfor1 = "z";
+//	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
+//	cout<<"0 |||| output :";
+//	out = nameMatch(n4,searchfor1);
+//	if(out == false)
+//		noOfTrue++;
+//	else
+//		noOfFalse++;
+//	cout <<out<<endl; // print output
+//
+//	// testcase 11
+//	cout<<"input ->> "<<n3<<" |||| ";
+//	searchfor1 = "mohamed";
+//	cout<<"search for -> "<<searchfor1<<" |||| expected :"; // print testcase
+//	cout<<"1 |||| output :";
+//	out = nameMatch(n3,searchfor1);
+//	if(out == true)
+//		noOfTrue++;
+//	else
+//		noOfFalse++;
+//	cout <<out<<endl; // print output
+//
+//
+//	cout<<"\n\n=====\nTest Result: "<<noOfTrue<<"/"<<noOfFalse+noOfTrue<<" passed \n======\n\n"<<endl;
+//
+//}
 
 ////testing of mutual friends
 void test_numMutual(){
@@ -723,68 +720,68 @@ void test_numMutual(){
 }
 
 // testing of QueryNameNotExactMatch
-void test_QueryNameNotExactMatch(){
-	cout<<"//////////////////////////// Start Testing ///////////////////////////////"<<endl;
-	cout<<"//////////////////////////// test_QueryNameNotExactMatch /////////////////"<<endl;
-	vector<Person *> &p = person;
-	string i;
-	string expected;
-	vector<string> vec ;
-	bool found;
-	int count=0;
-	
-	//testcase 1
-
-	i = "Moataz";
-	expected = "Moataz Farid";
-	vec = QueryNameNotExactMatch(p,i);
-	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false; 
-	found==true?count++:found=false;
-
-	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:1"<<"\tOutput:"<<found<<endl;
-	//////////////////////////////////////////
-
-	// testcase 2 
-	
-	i = "Mohamed";
-	expected = "Mohamed Abdulaziz";
-	vec = QueryNameNotExactMatch(p,i);
-	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false; 
-	found==true?count++:found=false;
-
-	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:1"<<"\tOutput:"<<found<<endl;
-	//////////////////////////////////////////
-	
-	// testcase 3
-	
-	i = "oataz";
-	expected = "Moataz Farid";
-	vec = QueryNameNotExactMatch(p,i);
-	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false; 
-	found==false?count++:found=true;
-
-	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:0"<<"\tOutput:"<<found<<endl;
-	//////////////////////////////////////////
-	// testcase 4 
-	
-	i = "Mohamed Abdulazi";
-	expected = "Mohamed Abdulaziz";
-	vec = QueryNameNotExactMatch(p,i);
-	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false; 
-	found==true?count++:found=false;
-
-	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:1"<<"\tOutput:"<<found<<endl;
-	//////////////////////////////////////////
-	// testcase 5
-	
-	i = "ccc";
-	expected = "";
-	vec = QueryNameNotExactMatch(p,i);
-	vec.size()>0?(found=true):found=false; 
-	found==false?count++:found=true;
-
-	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:0"<<"\tOutput:"<<found<<endl;
-	//////////////////////////////////////////
-	cout<<"### FinalResults ####"<<endl;
-	cout<<"Passed test "<<count<<"/5"<<endl;
-}
+//void test_QueryNameNotExactMatch(){
+//	cout<<"//////////////////////////// Start Testing ///////////////////////////////"<<endl;
+//	cout<<"//////////////////////////// test_QueryNameNotExactMatch /////////////////"<<endl;
+//	vector<Person *> &p = person;
+//	string i;
+//	string expected;
+//	vector<pair<string, int> > vec ;
+//	bool found;
+//	int count=0;
+//
+//	//testcase 1
+//
+//	i = "Moataz";
+//	expected = "Moataz Farid";
+//	vec = QueryNameNotExactMatch(p,i);
+//	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false;
+//	found==true?count++:found=false;
+//
+//	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:1"<<"\tOutput:"<<found<<endl;
+//	//////////////////////////////////////////
+//
+//	// testcase 2
+//
+//	i = "Mohamed";
+//	expected = "Mohamed Abdulaziz";
+//	vec = QueryNameNotExactMatch(p,i);
+//	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false;
+//	found==true?count++:found=false;
+//
+//	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:1"<<"\tOutput:"<<found<<endl;
+//	//////////////////////////////////////////
+//
+//	// testcase 3
+//
+//	i = "oataz";
+//	expected = "Moataz Farid";
+//	vec = QueryNameNotExactMatch(p,i);
+//	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false;
+//	found==false?count++:found=true;
+//
+//	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:0"<<"\tOutput:"<<found<<endl;
+//	//////////////////////////////////////////
+//	// testcase 4
+//
+//	i = "Mohamed Abdulazi";
+//	expected = "Mohamed Abdulaziz";
+//	vec = QueryNameNotExactMatch(p,i);
+//	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false;
+//	found==true?count++:found=false;
+//
+//	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:1"<<"\tOutput:"<<found<<endl;
+//	//////////////////////////////////////////
+//	// testcase 5
+//
+//	i = "ccc";
+//	expected = "";
+//	vec = QueryNameNotExactMatch(p,i);
+//	vec.size()>0?(found=true):found=false;
+//	found==false?count++:found=true;
+//
+//	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:0"<<"\tOutput:"<<found<<endl;
+//	//////////////////////////////////////////
+//	cout<<"### FinalResults ####"<<endl;
+//	cout<<"Passed test "<<count<<"/5"<<endl;
+//}
