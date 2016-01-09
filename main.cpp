@@ -6,6 +6,7 @@
  */
 
 #include "Person.h"
+#include "TestSuit.h"
 
 void splitNames(string line, vector<string> & elems, char del);
 void splits(string line, vector<string> & elems, char del);
@@ -68,8 +69,10 @@ void showMenu(){
 		}
 		else if(choice == "3"){
 			//testing
-			test_nameMatch();
-			test_numMutual();
+			TestSuit t;
+			t.test_nameMatch();
+			//test_nameMatch();
+			//test_numMutual();
 			//test_QueryNameNotExactMatch();
 		}else{
 			//error
