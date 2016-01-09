@@ -81,6 +81,7 @@ void showMenu(){
 		}
 
 		cout << "Do you want to quit? (Y/N)" << endl;
+		cin.ignore();
 		getline(cin, q);
 
 		if(q == "y" || q == "Y"){
