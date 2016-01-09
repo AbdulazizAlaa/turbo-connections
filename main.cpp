@@ -142,7 +142,7 @@ vector<string> QueryNameNotExactMatch(vector<Person *> & p, string name){
 	// if we want to find a person with name near to what we written
 	// it wil return a vector of persons somehow exact name
 
-	vector<string> vNameMatch ; // the vector where found names is stored
+	vector<string> vNameMatch ; // the vector where found names are stored
 
 	for (int i=0 ; i<p.size() ; i++){
 		if(nameMatch(p.at(i)->name,name)){
@@ -216,9 +216,9 @@ void printPersonDetails(Person * p){
 void searchPerson(vector<Person *> & p){
 	cout << "Enter name to search for:" << endl;
 	string name ;
-	cin>>name;
+	getline(cin, name);
 	vector<string> temp = QueryNameNotExactMatch(p, name);
-	if(temp.size() <= 0 ){
+	if(temp.size() == 0 ){
 		cout << "Person Not Found. Check you typed correctly." << endl;
 	}else{
 		// printing results
@@ -226,9 +226,9 @@ void searchPerson(vector<Person *> & p){
 		for(int i=0; i <temp.size() ; i++){
 			cout << i+1 <<".\t"<<temp.at(i)<<endl;
 		}
-		//
 		int n;
-		cin>> n ;
+		cin >> n ;
+		n = (n<=0)?1:n;
 		printPersonDetails(find(p,temp.at(n-1),true));
 	}
 }
