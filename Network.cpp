@@ -66,14 +66,20 @@ Person* Network::find(string name , bool exactMatch){
 * int being the position of this name in the person vector
 */
 
-vector<pair<string, int> > Network::QueryNameNotExactMatch(string name){
+vector<pair<string, int>> Network::QueryNameNotExactMatch(string name){
 	// if we want to find a person with name near to what we written
 	// it wil return a vector of persons somehow exact name
 
 	vector<pair<string, int> > vNameMatch ; // the vector where found names are stored
 
 	for (int i=0 ; i<person.size() ; i++){
-		if(nameMatch(person.at(i)->name,name)){
+		string n1 =person.at(i)->name; 
+		string n2 = name;
+
+		std::transform(n1.begin(), n1.end(), n1.begin(), ::tolower);		// convert to small letters
+		std::transform(n2.begin(), n2.end(), n2.begin(), ::tolower);		// convert to small letters
+
+		if(nameMatch(n1,n2)){
 			vNameMatch.push_back(make_pair(person.at(i)->name, i));
 		}
 	}
@@ -105,6 +111,37 @@ bool Network::nameMatch(string src , string dst){
 
 	return false;
 }
+
+
+/*//////////////// NOT CURRENTLY USED
+*	search for a PART of a name in vector of persons
+*	rank indicate the no of strings match
+*	@param String src (have many sub strings )
+*	@param String dst (may many sub strings)
+*	@return int return the rank of the match and zero if not match 
+*/
+int Network::nameMatchRank(string src , string dst ){
+	// array of strings contains each string components
+	vector<string> SrcElems;
+	vector<string> DstElems;
+	int rank= 0;
+
+	// splitting the strings with " " space
+	splitNames(src,SrcElems,' ');
+	splitNames(dst,DstElems,' ');
+
+	for(int i =0 ; i<SrcElems.size();i++){
+		for(int j=0 ; j<DstElems.size(); j++){
+			if(SrcElems.at(i)== DstElems.at(j)){
+				rank++;
+				break;
+			}
+		}
+	}
+
+	return rank;
+}
+
 
 /*
  * prints the graph
