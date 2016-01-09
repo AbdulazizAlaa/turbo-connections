@@ -19,9 +19,6 @@ int main(int argc, char** argv){
 	//Building the network and reading the file
 	Network n(filename);
 
-	//print the network
-	n.printNetwork();
-	
 	showMenu(n);
 	return 0;
 }
@@ -37,9 +34,12 @@ void showMenu(Network & n){
 		string choice;
 
 		cout<< endl;
+		cout <<"###########################################################"<<endl;
 		cout << "Press 1: \" Search for a certain person using their name\" " <<endl;
 		cout << "Press 2: \" Show number of mutual friends between any 2 people\" "<<endl;
 		cout << "Press 3: \" Testing\" "<<endl;
+		cout << "Press 4: \" Print Social Network\" "<<endl;
+		cout <<"###########################################################"<<endl;
 
 		getline(cin, choice);
 
@@ -56,6 +56,11 @@ void showMenu(Network & n){
 			t.test_nameMatch(n);
 			t.test_numMutual(n);
 			//t.test_QueryNameNotExactMatch(n);
+		}
+		else if(choice == "4"){
+			//print the network
+			n.printNetwork();
+	
 		}else{
 			//error
 			cout << "Error: Enter a valid choice." << endl;
