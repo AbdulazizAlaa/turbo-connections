@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <string>
+#include "Network.h"
 
 using namespace std;
 
@@ -19,7 +20,7 @@ public:
 	TestSuit();
 	virtual ~TestSuit();
 
-	static void test_nameMatch();
+	static void test_nameMatch(Network & n);
 	static void test_numMutual();
 };
 
