@@ -37,7 +37,7 @@ int main(int argc, char** argv){
 
 	//print the network
 	printNetwork(person);
-
+	
 	showMenu();
 
 	// testing
@@ -131,7 +131,7 @@ Person* find(vector<Person *> & p, string name , bool exactMatch){
 	return NULL;
 }
 /**
-* search for a name in the vector of persons and store that match in a vector of strings
+* search for a name in the vector of persons and store that match in a vector of strings 
 * @param string name person name to search for
 * @param bool exactMatch true to search for the name as a block
 * @param vector<Person *> & p reference to the global vector of persons
@@ -145,14 +145,8 @@ vector<string> QueryNameNotExactMatch(vector<Person *> & p, string name){
 	vector<string> vNameMatch ; // the vector where found names is stored
 
 	for (int i=0 ; i<p.size() ; i++){
-		string n1 =p.at(i)->name;
-		string n2 = name;
-
-		std::transform(n1.begin(), n1.end(), n1.begin(), ::tolower);		// convert to small letters
-		std::transform(n2.begin(), n2.end(), n2.begin(), ::tolower);		// convert to small letters
-
-		if(nameMatch(n1,n2)){
-			vNameMatch.push_back(p.at(i)->name);
+		if(nameMatch(p.at(i)->name,name)){
+			vNameMatch.push_back(p.at(i)->name);		
 		}
 	}
 	return vNameMatch;
@@ -453,7 +447,7 @@ void readFile(string filename){
 	}
 }
 
-// testing name match function
+// testing name match function 
 void test_nameMatch(){
 	int noOfTrue = 0;
 	int noOfFalse = 0;
@@ -629,7 +623,7 @@ void test_numMutual(){
 	string n9 = "Mohamed Abdulaziz";	string n99 = "Mohamed Abdulaziz";
 	cout<<"\n\n\n/////////////////////// UNIT TESTING //////////////////////////////"<<endl;
 	cout<<"//////////////////////////// numMutual() ///////////////////////"<<endl;
-
+	
 	///////test case 1
 	cout <<"Test case 1:: "<< "input: " << n1 << " & " << n11 <<endl;
 	cout <<"EXPECTED||" << "Number of mutual friends between "<<n1 << " and "<<n11 << " = "<< "1"<<endl;
@@ -738,55 +732,55 @@ void test_QueryNameNotExactMatch(){
 	vector<string> vec ;
 	bool found;
 	int count=0;
-
+	
 	//testcase 1
 
 	i = "Moataz";
 	expected = "Moataz Farid";
 	vec = QueryNameNotExactMatch(p,i);
-	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false;
+	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false; 
 	found==true?count++:found=false;
 
 	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:1"<<"\tOutput:"<<found<<endl;
 	//////////////////////////////////////////
 
-	// testcase 2
-
+	// testcase 2 
+	
 	i = "Mohamed";
 	expected = "Mohamed Abdulaziz";
 	vec = QueryNameNotExactMatch(p,i);
-	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false;
+	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false; 
 	found==true?count++:found=false;
 
 	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:1"<<"\tOutput:"<<found<<endl;
 	//////////////////////////////////////////
-
+	
 	// testcase 3
-
+	
 	i = "oataz";
 	expected = "Moataz Farid";
 	vec = QueryNameNotExactMatch(p,i);
-	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false;
+	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false; 
 	found==false?count++:found=true;
 
 	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:0"<<"\tOutput:"<<found<<endl;
 	//////////////////////////////////////////
-	// testcase 4
-
+	// testcase 4 
+	
 	i = "Mohamed Abdulazi";
 	expected = "Mohamed Abdulaziz";
 	vec = QueryNameNotExactMatch(p,i);
-	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false;
+	find(vec.begin(), vec.end(), expected)!= vec.end()?(found=true):found=false; 
 	found==true?count++:found=false;
 
 	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:1"<<"\tOutput:"<<found<<endl;
 	//////////////////////////////////////////
 	// testcase 5
-
+	
 	i = "ccc";
 	expected = "";
 	vec = QueryNameNotExactMatch(p,i);
-	vec.size()>0?(found=true):found=false;
+	vec.size()>0?(found=true):found=false; 
 	found==false?count++:found=true;
 
 	cout<<"search:"<<i<<"\t expectedSearch:"<<expected<<"\tExpectedOutput:0"<<"\tOutput:"<<found<<endl;
