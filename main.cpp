@@ -81,6 +81,7 @@ void showMenu(){
 		}
 
 		cout << "Do you want to quit? (Y/N)" << endl;
+		cin.ignore();
 		getline(cin, q);
 
 		if(q == "y" || q == "Y"){
@@ -731,6 +732,7 @@ void test_QueryNameNotExactMatch(){
 	vector<string> vec ;
 	bool found;
 	int count=0;
+	
 	//testcase 1
 
 	i = "Moataz";
