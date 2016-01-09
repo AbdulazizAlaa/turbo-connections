@@ -55,7 +55,7 @@ void showMenu(Network & n){
 			TestSuit t;
 			t.test_nameMatch(n);
 			t.test_numMutual(n);
-			t.test_QueryNameNotExactMatch(n);
+			//t.test_QueryNameNotExactMatch(n);
 		}else{
 			//error
 			cout << "Error: Enter a valid choice." << endl;

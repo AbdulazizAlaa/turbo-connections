@@ -20,8 +20,8 @@ public:
 	void printNetwork();
 	void readFile(string filename);
 
-	static void splitNames(string line, vector<string> & elems, char del);
-	static void splits(string line, vector<string> & elems, char del);
+	void splitNames(string line, vector<string> & elems, char del);
+	void splits(string line, vector<string> & elems, char del);
 
 	Person* find(string name , bool exactMatch);
 	bool nameMatch(string src , string dst);

@@ -7,6 +7,11 @@
 
 #include "Network.h"
 
+/*
+ * constructor
+ * takes filename and calls readFile funtion to read the file and build network
+ * @param string filename to read network from
+ */
 Network::Network(string filename) {
 	// TODO Auto-generated constructor stub
 	readFile(filename);
@@ -20,7 +25,6 @@ Network::~Network() {
 * search for a name in the vector of persons
 * @param string name person name to search for
 * @param bool exactMatch true to search for the name as a block
-* @param vector<Person *> & p reference to the global vector of persons
 */
 /*
  * TO-DO
@@ -58,9 +62,8 @@ Person* Network::find(string name , bool exactMatch){
 /**
 * search for a name in the vector of persons and store that match in a vector of strings
 * @param string name person name to search for
-* @param bool exactMatch true to search for the name as a block
-* @param vector<Person *> & p reference to the global vector of persons
-* @return vector of Strings have the full names of peop
+* @return vector of pair<string, int> have the full names of persons who are close to the query name.
+* int being the position of this name in the person vector
 */
 
 vector<pair<string, int> > Network::QueryNameNotExactMatch(string name){
@@ -106,7 +109,6 @@ bool Network::nameMatch(string src , string dst){
 /*
  * prints the graph
  * every person details and his/her connections
- * @param vector<Person *> & p reference to the global vector of persons
  */
 void Network::printNetwork(){
 	for(int i=0; i<person.size() ; i++){
@@ -118,7 +120,6 @@ void Network::printNetwork(){
 /*
  * prompts the user to get the name
  * of the person he/she wants to search for
- * @param vector<Person *> & p reference to the vector of person
  */
 void Network::searchPerson(){
 	cout << "Enter name to search for:" << endl;
@@ -143,8 +144,7 @@ void Network::searchPerson(){
 /*
 *
 * check name is found; return confirmation whether it exists or not(ok) and its index in vector(i)
-* @param vector<Person *> & p reference to the global vector of persons
-* @param string name name to check if it exists in the vector
+* @param string name to check if it exists in the vector
 */
 std::pair<int, int> Network::check(string name){
 	int ok ;
@@ -168,7 +168,6 @@ std::pair<int, int> Network::check(string name){
 
 /*
 * returns the number of mutual friends between two persons
-* @param vector<Person *> & p reference to the global vector of persons
 * @param string first name of first person
 * @param string second name of second person
 * @return int number of mutual friends between two persons
@@ -226,7 +225,6 @@ int Network::getMutual(string first, string second){
 /*
 * prompts the user to get the names of the two persons
 * he/she wants to know number of mutual friends between
-* @param vector<Person *> & p reference to the global vector of persons
 * @return int number of mutual friends between two persons
 */
 int Network::numMutual()

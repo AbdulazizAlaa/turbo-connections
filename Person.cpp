@@ -23,7 +23,6 @@ Person::~Person() {
 
 /*
  * printing a person details along with his connections
- * @param Person * p reference to a person
  */
 void Person::printDetails(){
 	cout << "--Details" << endl;
