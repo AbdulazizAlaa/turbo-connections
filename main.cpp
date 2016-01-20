@@ -39,7 +39,8 @@ void showMenu(Network & n){
 		cout<< endl;
 		cout << "Press 1: \" Search for a certain person using their name\" " <<endl;
 		cout << "Press 2: \" Show number of mutual friends between any 2 people\" "<<endl;
-		cout << "Press 3: \" Testing\" "<<endl;
+		cout << "Press 3: \" Show suggested friends between two users\" " << endl;
+		cout << "Press 4: \" Testing\" "<<endl;
 
 		getline(cin, choice);
 
@@ -49,8 +50,10 @@ void showMenu(Network & n){
 		}else if(choice == "2"){
 			//get number of mutual friends between two persons
 			n.numMutual();
-		}
-		else if(choice == "3"){
+		}else if(choice == "4"){
+			//get suggested friends list
+
+		}else if(choice == "3"){
 			//testing
 			TestSuit t;
 			t.test_nameMatch(n);
