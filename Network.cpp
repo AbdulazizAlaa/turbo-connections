@@ -44,7 +44,13 @@ vector<pair<string, int> > Network::QueryNameNotExactMatch(string name){
 	vector<pair<string, int> > vNameMatch ; // the vector where found names are stored
 
 	for (int i=0 ; i<person.size() ; i++){
-		if(nameMatch(person.at(i)->name,name)){
+		string n1 =person.at(i)->name; 
+		string n2 = name;
+
+		std::transform(n1.begin(), n1.end(), n1.begin(), ::tolower);		// convert to small letters
+		std::transform(n2.begin(), n2.end(), n2.begin(), ::tolower);		// convert to small letters
+
+		if(nameMatch(n1,n2)){
 			vNameMatch.push_back(make_pair(person.at(i)->name, i));
 		}
 	}
@@ -71,6 +77,33 @@ bool Network::nameMatch(string src , string dst){
 	return false;
 }
 
+int Network::nameMatchRank(string src , string dst ){
+	// array of strings contains each string components
+	vector<string> SrcElems;
+	vector<string> DstElems;
+	int rank= 0;
+
+	// splitting the strings with " " space
+	splitNames(src,SrcElems,' ');
+	splitNames(dst,DstElems,' ');
+
+	for(int i =0 ; i<SrcElems.size();i++){
+		for(int j=0 ; j<DstElems.size(); j++){
+			if(SrcElems.at(i)== DstElems.at(j)){
+				rank++;
+				break;
+			}
+		}
+	}
+
+	return rank;
+}
+
+
+/*
+ * prints the graph
+ * every person details and his/her connections
+ */
 void Network::printNetwork(){
 	for(int i=0; i<person.size() ; i++){
 		cout << "person " << i << endl;
@@ -82,7 +115,20 @@ void Network::searchPerson(){
 	cout << "Enter name to search for:" << endl;
 	string name ;
 	getline(cin, name);
-	person.at(getExactName(name))->printDetails();
+	vector<pair<string, int> > temp = QueryNameNotExactMatch(name);
+	if(temp.size() == 0 ){
+		cout << "Person Not Found. Check you typed correctly." << endl;
+	}else{
+		// printing results
+		cout<< "Choose the no. that indicate your friend you search for : "<<endl;
+		for(int i=0; i <temp.size() ; i++){
+			cout << i+1 <<".\t"<<temp.at(i).first<<endl;
+		}
+		int n;
+		cin >> n ;
+		n = (n<=0)?1:n;
+		person.at(temp.at(n-1).second)->printDetails();
+	}
 }
 
 std::pair<int, int> Network::check(string name){

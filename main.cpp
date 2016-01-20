@@ -19,9 +19,8 @@ int main(int argc, char** argv){
 	//Building the network and reading the file
 	Network n(filename);
 
-	//print the network
 	n.printNetwork();
-	
+
 	showMenu(n);
 	return 0;
 }
@@ -37,6 +36,7 @@ void showMenu(Network & n){
 		string choice;
 
 		cout<< endl;
+		cout <<"###########################################################"<<endl;
 		cout << "Press 1: \" Search for a certain person using their name\" " <<endl;
 		cout << "Press 2: \" Show number of mutual friends between any 2 people\" "<<endl;
 		cout << "Press 3: \" Show suggested friends between two users\" " << endl;

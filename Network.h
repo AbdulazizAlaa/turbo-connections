@@ -75,6 +75,14 @@ public:
 	*	@return Boolean True if similarity found and false if not
 	*/
 	bool nameMatch(string src , string dst);
+	/*//////////////// NOT CURRENTLY USED
+	*	search for a PART of a name in vector of persons
+	*	rank indicate the no of strings match
+	*	@param String src (have many sub strings )
+	*	@param String dst (may many sub strings)
+	*	@return int return the rank of the match and zero if not match
+	*/
+	int nameMatchRank(string src , string dst );
 	/*
 	 * prompts the user to get the name
 	 * of the person he/she wants to search for
