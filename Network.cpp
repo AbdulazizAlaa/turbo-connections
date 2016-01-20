@@ -149,13 +149,13 @@ std::pair<int, int> Network::check(string name){
 	int ok ;
 	int i=0;
 
-	Person * temp = find(name, false);
-	if(temp == NULL){
+	vector< pair<string, int> > temp = QueryNameNotExactMatch(name);
+	if(temp.size() == 0){
 		ok = 0;
 	}else{
 		ok = 1;
 		for ( i=0 ; i<person.size() ; i++){
-			if(person.at(i)->name == temp->name){
+			if(person.at(i)->name == temp.at(0).first){
 				ok = 1;
 				break;
 			}
@@ -395,6 +395,50 @@ void Network::readFile(string filename){
 */
 void Network::KargerMinCut(){
 	vector< vector<Person* > > p1; // vector of vectors of persons 
+
+
+}
+
+int Network::getNumberOfFriends(string n){
+	int count =0;
+		std::pair<int, int> number = check(n);
+		for(int i=0;i< person.at(number.second)->connection.size();i++){
+			count++;
+		}
+		return count;
+
+}
+/*
+*
+*Shortest link when searching
+*
+*
+*/
+
+void Network::getShortestLink(string src, string dst, int d){
+	initializeMarks();
+	string hah,inter;
+	queue <string> q;
+	std::pair<int, int> connSRC = check(src);
+	std::pair<int, int> conndst = check(dst);
+	q.push(src);
+	while(!q.empty()){
+		inter = q.front();
+		std::pair<int, int> yay = check(inter);
+
+		q.pop();
+		person.at(yay.second)->isMarked=true;
+		for(int i=0;i<person.at(yay.second)->connection.size();i++){
+			string ok = person.at(yay.second)->connection.at(i)->name;
+			if(person.at(yay.second)->connection.at(i)->isMarked==false){
+				if(person.at(yay.second)->connection.at(i)->name == dst){
+					cout <<"DONEE"<<endl;
+					return;
+				}
+				q.push(person.at(yay.second)->connection.at(i)->name);
+			}
+		}
+	}
 
 
 }
