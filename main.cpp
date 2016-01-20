@@ -56,7 +56,8 @@ void showMenu(Network & n){
 			//get suggested friends list
 			n.suggestedFriends();
 		}else if(choice == "4"){
-			n.getShortestLink("Mohamed Abdulaziz","Nada Dia",0);
+			
+			n.getShortestLink();
 		}else if(choice == "5"){
 			n.KargerMinCut();
 		}else if(choice == "6"){

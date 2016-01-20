@@ -165,11 +165,13 @@ std::pair<int, int> Network::check(string name){
 	vector< pair<string, int> > temp = QueryNameNotExactMatch(name);
 	if(temp.size() == 0){
 		ok = 0;
-	}else{
+	}
+	else{
 		ok = 1;
 		for ( i=0 ; i<person.size() ; i++){
 			if(person.at(i)->name == temp.at(0).first){
 				ok = 1;
+				
 				break;
 			}
 		}
@@ -235,7 +237,6 @@ int Network::numMutual()
 	cout <<"Enter first full name"<<endl;
 	cin.ignore();
 	getline(cin,first);
-
 	cout <<"Enter second full name"<<endl;
 	getline(cin,second);
 
@@ -540,7 +541,19 @@ int Network::getNumberOfFriends(string n){
 *
 *
 */
+<<<<<<< HEAD
 void Network::getShortestLink(string src, string dst, int d){
+=======
+
+void Network::getShortestLink(){
+	string src, dst;
+	cout << "Please enter first name:"<<endl;
+	cin.ignore();
+	getline(cin,src);
+	cout << "Please enter second name:"<<endl;
+	getline(cin,dst);
+	int min=0;
+>>>>>>> 7723cb32abc08816511ee090edb4cb44469f0594
 	initializeMarks();
 	string hah,inter;
 	queue <string> q;
@@ -557,12 +570,12 @@ void Network::getShortestLink(string src, string dst, int d){
 			string ok = person.at(yay.second)->connection.at(i)->name;
 			if(person.at(yay.second)->connection.at(i)->isMarked==false){
 				if(person.at(yay.second)->connection.at(i)->name == dst){
-					cout <<"DONEE"<<endl;
+					cout <<"DONEE "<<min<<endl;
 					return;
 				}
 				q.push(person.at(yay.second)->connection.at(i)->name);
 			}
-		}
+		}min++;
 	}
 
 

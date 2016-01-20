@@ -180,7 +180,7 @@ public:
 	vector<Person *> person; // array of pointers to vector Person
 	int personCount; // no of Persons
 
-	void getShortestLink(string src, string dst,int d);
+	void getShortestLink();
 	int getNumberOfFriends(string n);
 };
 
