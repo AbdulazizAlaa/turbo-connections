@@ -154,12 +154,19 @@ public:
 	 * reinitialize traversing marks to false
 	 */
 	void initializeMarks();
+
+	/*
+	* Ge shortest link between two nodes
+	*/
+	void getShortestLink();
+
+
+	void backtrack(std::map<string, string> temp_map,string dst,string src);
 	//variables
 	vector<Person *> person; // array of pointers to vector Person
 	int personCount; // no of Persons
 
-	void getShortestLink();
-	int getNumberOfFriends(string n);
+
 };
 
 #endif /* NETWORK_H_ */
