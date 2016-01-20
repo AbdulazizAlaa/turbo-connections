@@ -413,7 +413,6 @@ void Network::getShortestLink(){
 	vector <string> path;
 
 	cout << "Please enter first name:"<<endl;
-	//cin.ignore();
 	getline(cin,src);
 	cout << "Please enter second name:"<<endl;
 	getline(cin,dst);
@@ -447,7 +446,7 @@ void Network::getShortestLink(){
 				{
 					cout <<"Length of shoretst link "<<min<<endl;
 					cout <<"Nodes between "<<src<<" & "<<dst<<endl;
-					backtrack(track,dst,src);
+					backtrack(track,dst,src); ///call backtrack function once you found the right destination
 
 					return; ////exit
 				}
@@ -463,16 +462,16 @@ void Network::getShortestLink(){
 *backtrackingggggggggggggggg
 */
 void Network::backtrack(std::map<string, string> temp_map,string dst,string src){
-	string parent ;
+	string parent;
 	vector <string> path;
-	parent = temp_map.find(dst)->second;
+	parent = temp_map.find(dst)->second;///get parent of the dst
 	if(src==parent)	return;
 	else{
-		path.push_back(parent);
+		path.push_back(parent); ///add the node to the path
 		for(int i =0;i<path.size();i++){
 			cout <<path.at(i)<<endl;
 		}
 	
-		backtrack(temp_map,parent,src); ///recurse
+		backtrack(temp_map,parent,src); ///recurse with parent as the new destination (going back)
 	}
 }
