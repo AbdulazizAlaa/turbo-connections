@@ -14,16 +14,16 @@ Abdulaziz Alaa, Android Dev, ASU, AlRehab
 Yomna Gad, Designer, ASU, Qobba
 Bo2la, Designeeer, ASUe, Qobbeee
 
-Mohamed Shoukry, Ahmed Hemaly, Moataz Farid, Mostafa Fahmy
+Mohamed Shoukry, Ahmed Hemaly, Moataz Farid, Mostafa Fahmy, Abdulaziz Alaa
 Mohamed Abdulaziz, Nada Dia
 Mohamed Abdulaziz, Mostafa Fahmy
 Mohamed Shoukry, Moataz Farid, Mostafa Fahmy, Ali Salem, Momen Almalky
 Nada Dia, Ahmed Mohamed, Mostafa Fahmy, Mohamed Abdulaziz
-Moataz Farid
+Moataz Farid, Yomna Gad
 Ahmed Hemaly, Moataz Farid, Nada Dia, Mohamed Abdulaziz
 Momen Almalky, Abdulaziz Alaa, Omar Essam, Nada Dia
-Ali Salem, Nada Dia
-Ali Salem
-Ali Salem, Yomna Gad, Bo2la
-Bo2la, Abdulaziz Alaa
-Abdulaziz Alaa, Yomna Gad
+Ali Salem, Nada Dia, Bo2la
+Ali Salem, Bo2la, Abdulaziz Alaa
+Ali Salem, Mohamed Abdulaziz, Bo2la, Omar Essam
+Ahmed Mohamed
+Momen Almalky, Abdulaziz Alaa, Omar Essam

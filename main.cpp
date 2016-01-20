@@ -19,7 +19,7 @@ int main(int argc, char** argv){
 	//Building the network and reading the file
 	Network n(filename);
 
-	n.printNetwork();
+	//n.printNetwork();
 
 	showMenu(n);
 	return 0;
@@ -40,7 +40,8 @@ void showMenu(Network & n){
 		cout << "Press 1: \" Search for a certain person using their name\" " <<endl;
 		cout << "Press 2: \" Show number of mutual friends between any 2 people\" "<<endl;
 		cout << "Press 3: \" Show suggested friends between two users\" " << endl;
-		cout << "Press 4: \" Testing\" "<<endl;
+		cout << "Press 4: \" Apply MinCut\" "<<endl;
+		cout << "Press 5: \" Testing\" "<<endl;
 
 		getline(cin, choice);
 
@@ -53,12 +54,14 @@ void showMenu(Network & n){
 		}else if(choice == "3"){
 			//get suggested friends list
 			n.suggestedFriends();
-		}else if(choice == "4"){
+		}else if(choice == "5"){
 			//testing
 			TestSuit t;
 			t.test_nameMatch(n);
 			t.test_numMutual(n);
 			//t.test_QueryNameNotExactMatch(n);
+		}else if(choice == "4"){
+			n.KargerMinCut();
 		}else{
 			//error
 			cout << "Error: Enter a valid choice." << endl;
