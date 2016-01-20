@@ -1,17 +1,27 @@
-7
+12
 
 Mohamed Abdulaziz, Embedded Software Engineer, Avelabs, Nasr City
 Mohamed Shoukry, Electronics Engineer, Consultix, Nasr City
 Ahmed Hemaly, Embedded Software Engineer, Mentor Graphics, Al Zaitoun
-Nada Dia, Student, Ain shams university, Nozaha
+Nada Dia, Student, ASU, Nozaha
 Moataz Farid, Network Security Engineer, Cisco Solutions, Housten TX
 Ahmed Mohamed, Accountant, Fedex, Shoubra
 Mostafa Fahmy, Journalist, Guardian, England
+Ali Salem, Game Dev, Alkottab, Masr El Gdida
+Momen Almalky, Programmer, ASU, Nasr city
+Omar Essam, Web Dev, ASU, Maadi
+Abdulaziz Alaa, Android Dev, ASU, AlRehab
+Yomna Gad, Designer, ASU, Qobba
 
-Mohamed Shoukry, Ahmed Hemaly
-Mohamed Abdulaziz
-Mohamed Abdulaziz
-Mohamed Shoukry
+Mohamed Shoukry, Ahmed Hemaly, Moataz Farid, Mostafa Fahmy, Abdulaziz Alaa
+Mohamed Abdulaziz, Nada Dia
+Mohamed Abdulaziz, Mostafa Fahmy
+Mohamed Shoukry, Moataz Farid, Mostafa Fahmy, Ali Salem, Momen Almalky
 Nada Dia, Ahmed Mohamed, Mostafa Fahmy, Mohamed Abdulaziz
-Moataz Farid
+Moataz Farid, Yomna Gad
 Ahmed Hemaly, Moataz Farid, Nada Dia, Mohamed Abdulaziz
+Momen Almalky, Abdulaziz Alaa, Omar Essam, Nada Dia
+Ali Salem, Nada Dia
+Ali Salem
+Ali Salem, Mohamed Abdulaziz
+Ahmed Mohamed

@@ -14,6 +14,12 @@ Person::Person(string name, string title, string company, string address) {
 	this->title = title;
 	this->company = company;
 	this->address = address;
+	this->isMarked = false;
+}
+
+Person::Person()
+{
+
 }
 
 /** Destructor **/
