@@ -541,10 +541,6 @@ int Network::getNumberOfFriends(string n){
 *
 *
 */
-<<<<<<< HEAD
-void Network::getShortestLink(string src, string dst, int d){
-=======
-
 void Network::getShortestLink(){
 	string src, dst;
 	cout << "Please enter first name:"<<endl;
@@ -553,7 +549,6 @@ void Network::getShortestLink(){
 	cout << "Please enter second name:"<<endl;
 	getline(cin,dst);
 	int min=0;
->>>>>>> 7723cb32abc08816511ee090edb4cb44469f0594
 	initializeMarks();
 	string hah,inter;
 	queue <string> q;
