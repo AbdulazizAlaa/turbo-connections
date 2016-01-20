@@ -172,9 +172,9 @@ public:
 	* @param vector< vector<Person* > >groups
 	* @return a vector of pairs
 	*/
-	vector<pair<int,int>> getEdgesForGroups(vector< vector<Person* > >groups);
+	vector< pair<int,int> > getEdgesForGroups(vector< vector<Person* > > groups);
 
-	int getNoMinCut(vector< vector<Person *>> &g);
+	int getNoMinCut(vector< vector<Person *> > &g);
 
 	//variables
 	vector<Person *> person; // array of pointers to vector Person

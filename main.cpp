@@ -54,14 +54,14 @@ void showMenu(Network & n){
 		}else if(choice == "3"){
 			//get suggested friends list
 			n.suggestedFriends();
+		}else if(choice == "4"){
+			n.KargerMinCut();
 		}else if(choice == "5"){
 			//testing
 			TestSuit t;
 			t.test_nameMatch(n);
 			t.test_numMutual(n);
 			//t.test_QueryNameNotExactMatch(n);
-		}else if(choice == "4"){
-			n.KargerMinCut();
 		}else{
 			//error
 			cout << "Error: Enter a valid choice." << endl;

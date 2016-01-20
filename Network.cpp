@@ -49,7 +49,7 @@ bool Network::find(vector<Person *> & person, string name){
 
 vector<pair<string, int> > Network::QueryNameNotExactMatch(string name){
 	// if we want to find a person with name near to what we written
-	// it wil return a vector of persons somehow exact name
+	// it will return a vector of persons somehow exact name
 
 	vector<pair<string, int> > vNameMatch ; // the vector where found names are stored
 	vector<pair<string, int> > NamewithRanks; // this vector holds the names of highest ranks
@@ -344,75 +344,6 @@ int Network::getExactName(string name)
 	}
 }
 
-void Network::initializeMarks()
-{
-	for(int i=0 ; i<person.size() ; i++){
-		person.at(i)->isMarked = false;
-	}
-}
-
-void Network::readFile(string filename){
-	string line;
-	ifstream file;
-	file.open(filename.c_str());
-
-	//checking the file exists
-	if(file.is_open()){
-		//getting first line in the file which is a number.
-		//stands for number of persons in the file
-		//so we need to convert it from string to integer
-		if(getline(file, line))
-			personCount = atoi(line.c_str());
-		//reading an empty line and escaping it
-		getline(file, line);
-		//looping to read the names of persons in the network
-		//creating objects to save each person with his/her details
-		for(int i=0; i<personCount ; i++){
-			if(getline(file, line)){
-				//checking the line is not empty and escaping it if empty
-				if(line == ""){
-					i--;
-					continue;
-				}
-				//split the line into words on a delimiter ","
-				vector<string> elems;
-				splits(line, elems, ',');
-				if(elems.size()>0)
-				{
-					//creating the object and pushing it to the vector
-					Person *p = new Person(elems.at(0), elems.at(1), elems.at(2), elems.at(3));
-					person.push_back(p);
-				}
-			}
-		}
-
-		//reading an empty line and escaping it
-		getline(file, line);
-		//looping to read the connections in the network
-		//pushing each connection with its respected connection
-		for(int i=0; i<personCount ; i++){
-			if(getline(file, line)){
-				if(line != ""){
-					//split the line into words
-					vector<string> elems;
-					splits(line, elems, ',');
-					if(elems.size()>0)
-					{
-						for(int j=0; j<elems.size() ; j++){
-							//search for the name in the vector and get its pointer
-							//and then push to the connection vector
-							//person.at(i)->connection.push_back()
-							person.at(i)->connection.push_back(find(elems.at(j),true));
-						}
-					}
-				}
-			}
-		}
-		file.close();
-	}else{
-		cout << "Unable to open file" << endl;
-	}
-}
 
 void Network::KargerMinCut(){
 	// initialization 
@@ -498,27 +429,6 @@ void Network::KargerMinCut(){
 		
 
 }
-//
-//vector< pair<int,int> > Network::getEdgesForGroups(vector< vector<Person* > >groups){
-//	
-//	int nrOfGroups = groups.size();//nr Of Groups
-//
-//	for(int i =0 ; i <nrOfGroups ; i++){
-//		
-//		int src,dst; // source node and distination node  
-//		int noOfPersons = groups.at(i).size();
-//		vector<Person *> personVec = groups.at(i);
-//		for(int j =0 ; j<noOfPersons ; j++){
-//			Person * p = personVec.at(j);
-//			for(int k=0 ; k<p->connection.size() ; k++){
-//				
-//			}
-//			pair<int,int> temp = make_pair(i, 1);
-//		}
-//		//groups.at(i).at(j).name;
-//
-//	}
-//}
 
 int Network::searchGroups(vector< vector<Person *> > & groups, string name)
 {
@@ -532,7 +442,7 @@ int Network::searchGroups(vector< vector<Person *> > & groups, string name)
 	return -1;
 }
 
-int Network::getNoMinCut(vector< vector<Person *>> &g){
+int Network::getNoMinCut(vector< vector<Person *> > & g){
 	int count = 0 ;
 	// get to each member of group 0 
 	for(int i =0 ; i < g.at(0).size() ;i++){
@@ -549,4 +459,74 @@ int Network::getNoMinCut(vector< vector<Person *>> &g){
 		}
 	}
 	return count;
+}
+
+void Network::initializeMarks()
+{
+	for(int i=0 ; i<person.size() ; i++){
+		person.at(i)->isMarked = false;
+	}
+}
+
+void Network::readFile(string filename){
+	string line;
+	ifstream file;
+	file.open(filename.c_str());
+
+	//checking the file exists
+	if(file.is_open()){
+		//getting first line in the file which is a number.
+		//stands for number of persons in the file
+		//so we need to convert it from string to integer
+		if(getline(file, line))
+			personCount = atoi(line.c_str());
+		//reading an empty line and escaping it
+		getline(file, line);
+		//looping to read the names of persons in the network
+		//creating objects to save each person with his/her details
+		for(int i=0; i<personCount ; i++){
+			if(getline(file, line)){
+				//checking the line is not empty and escaping it if empty
+				if(line == ""){
+					i--;
+					continue;
+				}
+				//split the line into words on a delimiter ","
+				vector<string> elems;
+				splits(line, elems, ',');
+				if(elems.size()>0)
+				{
+					//creating the object and pushing it to the vector
+					Person *p = new Person(elems.at(0), elems.at(1), elems.at(2), elems.at(3));
+					person.push_back(p);
+				}
+			}
+		}
+
+		//reading an empty line and escaping it
+		getline(file, line);
+		//looping to read the connections in the network
+		//pushing each connection with its respected connection
+		for(int i=0; i<personCount ; i++){
+			if(getline(file, line)){
+				if(line != ""){
+					//split the line into words
+					vector<string> elems;
+					splits(line, elems, ',');
+					if(elems.size()>0)
+					{
+						for(int j=0; j<elems.size() ; j++){
+							//search for the name in the vector and get its pointer
+							//and then push to the connection vector
+							//person.at(i)->connection.push_back()
+							person.at(i)->connection.push_back(find(elems.at(j),true));
+						}
+					}
+				}
+			}
+		}
+		file.close();
+	}else{
+		cout << "Unable to open file" << endl;
+	}
 }
