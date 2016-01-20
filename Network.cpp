@@ -269,7 +269,10 @@ int Network::suggestedFriends()
 
 int Network::getSuggestedFriends(string name)
 {
-	Person * p = person.at(getExactName(name));
+	int index = getExactName(name);
+	if(index == -1)
+		return -1;
+	Person * p = person.at(index);
 	vector<Person *> suggests;
 	recurseFriends(suggests, p, p->name, p->company, 0, 5);
 
@@ -285,7 +288,7 @@ int Network::getSuggestedFriends(string name)
 
 void Network::recurseFriends(vector<Person *> & suggests, Person * p, string preConn, string company, int count, int limit)
 {
-	if(count > limit || p->isMarked)
+	if(count > limit || p->isMarked || p == NULL)
 		return;
 	p->isMarked = true;
 	if(p->company == company && p->name != preConn)
@@ -390,9 +393,7 @@ void Network::readFile(string filename){
 		cout << "Unable to open file" << endl;
 	}
 }
-/**
-*	this algo is used in Min cut into 2 groups 
-*/
+
 void Network::KargerMinCut(){
 	vector< vector<Person* > > p1; // vector of vectors of persons 
 
