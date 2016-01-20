@@ -33,18 +33,13 @@ public:
 
 	void printDetails();
 
-	////////////  Defining Variables //////////////
-
-	/** Person name **/
-	string name;
-	/**person job title **/
-	string title; 
-	/** company he works in **/
-	string company; 
-	/** person address **/
-	string address; 
+	string name; //Person's name
+	string title; //Person's job title
+	string company; //company name
+	string address; //Person's address
 	/** Connections that person have , it is a vector of pointers to persons **/
 	vector<Person *> connection; 
+	bool isMarked; //is traversed or not yet
 
 };
 

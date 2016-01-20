@@ -149,6 +149,10 @@ public:
 	 */
 	void recurseFriends(vector<Person *> & suggests, Person * p, string preConn, string company, int count, int limit);
 
+	/*
+	 * reinitialize traversing marks to false
+	 */
+	void initializeMarks();
 	//variables
 	vector<Person *> person; // array of pointers to vector Person
 	int personCount; // no of Persons

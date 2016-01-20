@@ -258,20 +258,23 @@ int Network::getSuggestedFriends(string name)
 	Person * p = person.at(getExactName(name));
 	vector<Person *> suggests;
 	recurseFriends(suggests, p, p->name, p->company, 0, 5);
+
 	cout << "number of suggests: " << suggests.size() << endl;
 	cout << suggests.at(0)->name;
 	for(int i=1 ; i<suggests.size() ; i++){
 		cout << ", " << suggests.at(i)->name;
 	}
 	cout << endl;
+
 	return suggests.size();
 }
 
 void Network::recurseFriends(vector<Person *> & suggests, Person * p, string preConn, string company, int count, int limit)
 {
-	if(count > limit)
+	if(count > limit || p->isMarked)
 		return;
-	if(p->company == company)
+	p->isMarked = true;
+	if(p->company == company && p->name != preConn)
 		suggests.push_back(p);
 	//p->printDetails();
 	for(int i=0 ; i<p->connection.size() ; i++){
@@ -301,6 +304,13 @@ int Network::getExactName(string name)
 		n = (n<=0)?1:n;
 		//person.at(temp.at(n-1).second)->printDetails();
 		return temp.at(n-1).second;
+	}
+}
+
+void Network::initializeMarks()
+{
+	for(int i=0 ; i<person.size() ; i++){
+		person.at(i)->isMarked = false;
 	}
 }
 
