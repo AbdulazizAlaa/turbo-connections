@@ -115,6 +115,7 @@ public:
 	* int being the position of this name in the person vector
 	*/
 	vector<pair<string, int> > QueryNameNotExactMatch(string name);
+	void KargerMinCut();// karger algo. for min cut 
 
 	/*
 	 * get a list of suggested friends using the critria
