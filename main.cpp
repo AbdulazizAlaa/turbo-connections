@@ -55,12 +55,8 @@ void showMenu(Network & n){
 			//get suggested friends list
 			n.suggestedFriends();
 		}else if(choice == "4"){
-			/*string src, dst;
-			cout << "first name:"<<endl;
-			cin>>src;
-			cout << "second name:"<<endl;
-			cin>>dst;*/
-			n.getShortestLink("Mohamed Abdulaziz","Nada Dia",0);
+			
+			n.getShortestLink();
 		}
 		else if(choice == "5"){
 			//testing
