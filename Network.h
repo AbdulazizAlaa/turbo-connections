@@ -165,23 +165,20 @@ public:
 	 * reinitialize traversing marks to false
 	 */
 	void initializeMarks();
-	
-	/*
-	* this function create a vector of src and dist 
-	* as if being edges
-	* @param vector< vector<Person* > >groups
-	* @return a vector of pairs
-	*/
-	vector< pair<int,int> > getEdgesForGroups(vector< vector<Person* > > groups);
 
 	int getNoMinCut(vector< vector<Person *> > &g);
+	/*
+	* Ge shortest link between two nodes
+	*/
+	void getShortestLink();
+
+	void backtrack(std::map<string, string> temp_map,string dst,string src);
+	int getNumberOfFriends(string n);
 
 	//variables
 	vector<Person *> person; // array of pointers to vector Person
 	int personCount; // no of Persons
 
-	void getShortestLink();
-	int getNumberOfFriends(string n);
 };
 
 #endif /* NETWORK_H_ */

@@ -542,36 +542,69 @@ int Network::getNumberOfFriends(string n){
 *
 */
 void Network::getShortestLink(){
-	string src, dst;
+	string src, dst;///source and destination names
+	vector <string> path;
+
 	cout << "Please enter first name:"<<endl;
-	cin.ignore();
 	getline(cin,src);
 	cout << "Please enter second name:"<<endl;
 	getline(cin,dst);
-	int min=0;
-	initializeMarks();
-	string hah,inter;
-	queue <string> q;
-	std::pair<int, int> connSRC = check(src);
-	std::pair<int, int> conndst = check(dst);
-	q.push(src);
-	while(!q.empty()){
-		inter = q.front();
-		std::pair<int, int> yay = check(inter);
 
-		q.pop();
-		person.at(yay.second)->isMarked=true;
-		for(int i=0;i<person.at(yay.second)->connection.size();i++){
-			string ok = person.at(yay.second)->connection.at(i)->name;
-			if(person.at(yay.second)->connection.at(i)->isMarked==false){
-				if(person.at(yay.second)->connection.at(i)->name == dst){
-					cout <<"DONEE "<<min<<endl;
-					return;
+	int min=0; ///min link counter
+	initializeMarks();
+
+	string inter;
+	queue <string> q;
+	map <string,string> track; //first element is person, the second is the parent
+
+	std::pair<int, int> connSRC = check(src); ///check that the name is valid, also get its index in the network
+	std::pair<int, int> conndst = check(dst);///check that the name is valid
+	q.push(src); ///put first name into queue
+	track.insert(pair<string,string>(src,""));
+
+	////BREADTH FIRST SEARCH
+	while(!q.empty()){
+		inter = q.front();/////return the froont of the queue without removing it
+		std::pair<int, int> temp = check(inter); //get its location in the network aand put it into the temp variable
+		q.pop(); ///remove the front of the queue
+		person.at(temp.second)->isMarked=true; ///Mark as visited so that we don't visit it again
+
+		for(int i=0;i<person.at(temp.second)->connection.size();i++) ///loop through connections of the front of queue
+		{
+			string ok = person.at(temp.second)->connection.at(i)->name; /////leave it for debugging purposes
+			track.insert(pair<string,string>(ok,inter));
+			if(person.at(temp.second)->connection.at(i)->isMarked==false)///check that this person is not visted before
+			{
+				if(person.at(temp.second)->connection.at(i)->name == dst) ////we found the destination name
+				{
+					cout <<"Length of shoretst link "<<min<<endl;
+					cout <<"Nodes between "<<src<<" & "<<dst<<endl;
+					backtrack(track,dst,src); ///call backtrack function once you found the right destination
+
+					return; ////exit
 				}
-				q.push(person.at(yay.second)->connection.at(i)->name);
+				q.push(person.at(temp.second)->connection.at(i)->name); //// else we didn't found the name put it into the queue
 			}
-		}min++;
+		}
+		min++; ////increment the level of the graph
 	}
 
-
+	
+}
+/*
+*backtrackingggggggggggggggg
+*/
+void Network::backtrack(std::map<string, string> temp_map,string dst,string src){
+	string parent;
+	vector <string> path;
+	parent = temp_map.find(dst)->second;///get parent of the dst
+	if(src==parent)	return;
+	else{
+		path.push_back(parent); ///add the node to the path
+		for(int i =0;i<path.size();i++){
+			cout <<path.at(i)<<endl;
+		}
+	
+		backtrack(temp_map,parent,src); ///recurse with parent as the new destination (going back)
+	}
 }
