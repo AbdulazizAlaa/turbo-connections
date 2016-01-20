@@ -37,6 +37,16 @@ Person* Network::find(string name , bool exactMatch){
 	return NULL;
 }
 
+bool Network::find(vector<Person *> & person, string name){
+	// if we want to find a person with name exactly as written
+	for (int i=0 ; i<person.size() ; i++){
+		if(person.at(i)->name == name){
+			return true;
+		}
+	}
+	return false;
+}
+
 vector<pair<string, int> > Network::QueryNameNotExactMatch(string name){
 	// if we want to find a person with name near to what we written
 	// it wil return a vector of persons somehow exact name
@@ -119,6 +129,16 @@ int Network::nameMatchRank(string src , string dst ){
  * every person details and his/her connections
  */
 void Network::printNetwork(){
+	for(int i=0; i<person.size() ; i++){
+		cout << "person " << i << endl;
+		person.at(i)->printDetails();
+	}
+}
+/*
+ * prints the graph
+ * every person details and his/her connections
+ */
+void Network::printNetwork(vector<Person* > &person){
 	for(int i=0; i<person.size() ; i++){
 		cout << "person " << i << endl;
 		person.at(i)->printDetails();
@@ -394,7 +414,138 @@ void Network::readFile(string filename){
 *	this algo is used in Min cut into 2 groups 
 */
 void Network::KargerMinCut(){
-	vector< vector<Person* > > p1; // vector of vectors of persons 
+	// initialization 
+	vector< vector<Person* > > groups; // vector of vectors of persons 
+	
+	// nr of persons in my network 
+	int nrOfPersons = person.size();
 
+	//filling the vector of vectors
+	// such that the first element in the group hold a person
+	for(int i = 0 ; i<nrOfPersons ; i++){
+		// insert the element in person to index 0 at the group
+		vector<Person* >  n; 
+		n.push_back(person.at(i));
+		groups.push_back(n);
+	}
 
+	vector< vector<Person* > > Mingroups; // vector of vectors of persons in MinGroup
+	int MinCut = groups.size();// min cut
+
+	//Repeat Algo To get Best Results 
+	int nrOfRepeats = 30 ;
+	while(nrOfRepeats!=0){
+		// while decreminator
+		nrOfRepeats--;
+
+		//while the no of groups > 2 we need to union the persons in a groups 
+		while(groups.size()>2){// if we are here then the no of groups are < 2 
+		
+			int noOfPersons = person.size(); // getting the nr of Groups 
+			int randPerson = rand() % noOfPersons;// get random group no. to enter 
+			Person * src = person.at(randPerson);
+			int noOfConns = src->connection.size();
+			int randConn = rand() % noOfConns;
+			Person * dst = src->connection.at(randConn);
+
+			int srcGroup = searchGroups(groups, src->name);
+			int dstGroup = searchGroups(groups, dst->name);
+		
+			if(srcGroup == dstGroup)
+				continue;
+			else{
+				//copy vector of persons fron dst to the group of src 
+				int noOfPersonsInDst = groups.at(dstGroup).size(); // no of persons in dst group
+
+				for(int i = 0 ; i<noOfPersonsInDst; i++){
+					groups.at(srcGroup).push_back(groups.at(dstGroup).at(i));
+				}
+				// delete the group of dst 
+				groups.erase(groups.begin()+(dstGroup));
+
+			}
+
+		}
+
+		//insert the 1st Output as minGroup/MinCut
+		if(MinCut == groups.size()){
+			MinCut=getNoMinCut(groups);
+			Mingroups = groups;
+		
+		}else{// finally found new min
+
+			int i =getNoMinCut(groups);
+			if(i < MinCut){
+				MinCut=i;
+				Mingroups = groups;
+			}
+		}
+		
+		/*for(int i = 0 ; i<groups.size();i++){
+			cout<<"g"<<i<<endl;
+			printNetwork(groups.at(i));
+		}*/
+		/*if(groups.at(0).size()<groups.at(1).size()){
+			cout<<"g0"<<endl;
+			printNetwork(groups.at(0));
+		}else{
+			cout<<"g1"<<endl;
+			printNetwork(groups.at(1));
+		}*/
+	}
+	cout<<"MinCut = "<<MinCut<<endl;
+		
+
+}
+//
+//vector< pair<int,int> > Network::getEdgesForGroups(vector< vector<Person* > >groups){
+//	
+//	int nrOfGroups = groups.size();//nr Of Groups
+//
+//	for(int i =0 ; i <nrOfGroups ; i++){
+//		
+//		int src,dst; // source node and distination node  
+//		int noOfPersons = groups.at(i).size();
+//		vector<Person *> personVec = groups.at(i);
+//		for(int j =0 ; j<noOfPersons ; j++){
+//			Person * p = personVec.at(j);
+//			for(int k=0 ; k<p->connection.size() ; k++){
+//				
+//			}
+//			pair<int,int> temp = make_pair(i, 1);
+//		}
+//		//groups.at(i).at(j).name;
+//
+//	}
+//}
+
+int Network::searchGroups(vector< vector<Person *> > & groups, string name)
+{
+	for(int i=0 ; i<groups.size() ; i++){
+		vector< Person *> personVec = groups.at(i);
+		if(find(personVec, name)){
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+int Network::getNoMinCut(vector< vector<Person *>> &g){
+	int count = 0 ;
+	// get to each member of group 0 
+	for(int i =0 ; i < g.at(0).size() ;i++){
+		// get to person i connection
+		int nrOfConns = g.at(0).at(i)->connection.size();
+
+		for(int j =0 ; j<nrOfConns ; j++){
+		// if that person doesn't belongs to group 0 
+			string conName = g.at(0).at(i)->connection.at(j)->name;
+			if(searchGroups(g,conName) !=0 ){
+				count++;
+			};
+		// count ++ then
+		}
+	}
+	return count;
 }
