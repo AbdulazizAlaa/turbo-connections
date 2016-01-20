@@ -25,12 +25,14 @@ public:
 
 	Person* find(string name , bool exactMatch);
 	bool nameMatch(string src , string dst);
+	int nameMatchRank(string src , string dst );
 	void searchPerson();
 
 	std::pair<int, int> check(string name);
 	int numMutual();
 	int getMutual(string first, string second);
 	vector<pair<string, int> > QueryNameNotExactMatch(string name);
+	void KargerMinCut();// karger algo. for min cut 
 
 	//variables
 	vector<Person *> person; // array of pointers to vector Person

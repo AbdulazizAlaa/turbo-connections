@@ -71,6 +71,8 @@ vector<pair<string, int>> Network::QueryNameNotExactMatch(string name){
 	// it wil return a vector of persons somehow exact name
 
 	vector<pair<string, int> > vNameMatch ; // the vector where found names are stored
+	vector<pair<string, int> > NamewithRanks; // this vector holds the names of highest ranks
+	int maxRankTemp = 0 ;//that var hold the current max rank 
 
 	for (int i=0 ; i<person.size() ; i++){
 		string n1 =person.at(i)->name; 
@@ -78,10 +80,23 @@ vector<pair<string, int>> Network::QueryNameNotExactMatch(string name){
 
 		std::transform(n1.begin(), n1.end(), n1.begin(), ::tolower);		// convert to small letters
 		std::transform(n2.begin(), n2.end(), n2.begin(), ::tolower);		// convert to small letters
-
-		if(nameMatch(n1,n2)){
-			vNameMatch.push_back(make_pair(person.at(i)->name, i));
+		
+		int check = nameMatchRank(n1,n2);
+		if(check){// this mean there is a match 
+			if(check >= maxRankTemp){// now we need to save that person
+				
+				if(check == maxRankTemp){// now we have to push that new person , 
+					// this mean we have many person with same rank ex(ahmed hessen and ahmed alaa , and we are searching for ahmed)
+					vNameMatch.push_back(make_pair(person.at(i)->name, i));
+				}else{
+					// if we entered that block then we have a new One with a hightest rank EVER !!
+					vNameMatch.clear();// empty the vector
+					vNameMatch.push_back(make_pair(person.at(i)->name, i));
+				}
+				maxRankTemp++;
+			}
 		}
+		//int rank = nameMatchRank(n1,n2);
 	}
 	return vNameMatch;
 }
@@ -113,8 +128,8 @@ bool Network::nameMatch(string src , string dst){
 }
 
 
-/*//////////////// NOT CURRENTLY USED
-*	search for a PART of a name in vector of persons
+/*
+*	detect the no of of matches in 2 strings 
 *	rank indicate the no of strings match
 *	@param String src (have many sub strings )
 *	@param String dst (may many sub strings)
@@ -131,14 +146,13 @@ int Network::nameMatchRank(string src , string dst ){
 	splitNames(dst,DstElems,' ');
 
 	for(int i =0 ; i<SrcElems.size();i++){
-		for(int j=0 ; j<DstElems.size(); j++){
+		for(int j=i ; j<DstElems.size(); j++){
 			if(SrcElems.at(i)== DstElems.at(j)){
 				rank++;
 				break;
 			}
 		}
 	}
-
 	return rank;
 }
 
@@ -388,4 +402,11 @@ void Network::readFile(string filename){
 		cout << "Unable to open file" << endl;
 	}
 }
+/**
+*	this algo is used in Min cut into 2 groups 
+*/
+void Network::KargerMinCut(){
+	vector< vector<Person* > > p1; // vector of vectors of persons 
 
+
+}
