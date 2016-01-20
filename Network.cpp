@@ -37,9 +37,19 @@ Person* Network::find(string name , bool exactMatch){
 	return NULL;
 }
 
+bool Network::find(vector<Person *> & person, string name){
+	// if we want to find a person with name exactly as written
+	for (int i=0 ; i<person.size() ; i++){
+		if(person.at(i)->name == name){
+			return true;
+		}
+	}
+	return false;
+}
+
 vector<pair<string, int> > Network::QueryNameNotExactMatch(string name){
 	// if we want to find a person with name near to what we written
-	// it wil return a vector of persons somehow exact name
+	// it will return a vector of persons somehow exact name
 
 	vector<pair<string, int> > vNameMatch ; // the vector where found names are stored
 	vector<pair<string, int> > NamewithRanks; // this vector holds the names of highest ranks
@@ -113,12 +123,15 @@ int Network::nameMatchRank(string src , string dst ){
 	return rank;
 }
 
-
-/*
- * prints the graph
- * every person details and his/her connections
- */
 void Network::printNetwork(){
+	for(int i=0; i<person.size() ; i++){
+		cout << "person " << i << endl;
+		person.at(i)->printDetails();
+	}
+}
+
+
+void Network::printNetwork(vector<Person* > &person){
 	for(int i=0; i<person.size() ; i++){
 		cout << "person " << i << endl;
 		person.at(i)->printDetails();
@@ -270,7 +283,10 @@ int Network::suggestedFriends()
 
 int Network::getSuggestedFriends(string name)
 {
-	Person * p = person.at(getExactName(name));
+	int index = getExactName(name);
+	if(index == -1)
+		return -1;
+	Person * p = person.at(index);
 	vector<Person *> suggests;
 	recurseFriends(suggests, p, p->name, p->company, 0, 5);
 
@@ -286,7 +302,7 @@ int Network::getSuggestedFriends(string name)
 
 void Network::recurseFriends(vector<Person *> & suggests, Person * p, string preConn, string company, int count, int limit)
 {
-	if(count > limit || p->isMarked)
+	if(count > limit || p->isMarked || p == NULL)
 		return;
 	p->isMarked = true;
 	if(p->company == company && p->name != preConn)
@@ -320,6 +336,123 @@ int Network::getExactName(string name)
 		//person.at(temp.at(n-1).second)->printDetails();
 		return temp.at(n-1).second;
 	}
+}
+
+
+void Network::KargerMinCut(){
+	// initialization 
+	vector< vector<Person* > > groups; // vector of vectors of persons 
+	
+	// nr of persons in my network 
+	int nrOfPersons = person.size();
+
+	//filling the vector of vectors
+	// such that the first element in the group hold a person
+	for(int i = 0 ; i<nrOfPersons ; i++){
+		// insert the element in person to index 0 at the group
+		vector<Person* >  n; 
+		n.push_back(person.at(i));
+		groups.push_back(n);
+	}
+
+	vector< vector<Person* > > Mingroups; // vector of vectors of persons in MinGroup
+	int MinCut = groups.size();// min cut
+
+	//Repeat Algo To get Best Results 
+	int nrOfRepeats = 30 ;
+	while(nrOfRepeats!=0){
+		// while decreminator
+		nrOfRepeats--;
+
+		//while the no of groups > 2 we need to union the persons in a groups 
+		while(groups.size()>2){// if we are here then the no of groups are < 2 
+		
+			int noOfPersons = person.size(); // getting the nr of Groups 
+			int randPerson = rand() % noOfPersons;// get random group no. to enter 
+			Person * src = person.at(randPerson);
+			int noOfConns = src->connection.size();
+			int randConn = rand() % noOfConns;
+			Person * dst = src->connection.at(randConn);
+
+			int srcGroup = searchGroups(groups, src->name);
+			int dstGroup = searchGroups(groups, dst->name);
+		
+			if(srcGroup == dstGroup)
+				continue;
+			else{
+				//copy vector of persons fron dst to the group of src 
+				int noOfPersonsInDst = groups.at(dstGroup).size(); // no of persons in dst group
+
+				for(int i = 0 ; i<noOfPersonsInDst; i++){
+					groups.at(srcGroup).push_back(groups.at(dstGroup).at(i));
+				}
+				// delete the group of dst 
+				groups.erase(groups.begin()+(dstGroup));
+
+			}
+
+		}
+
+		//insert the 1st Output as minGroup/MinCut
+		if(MinCut == groups.size()){
+			MinCut=getNoMinCut(groups);
+			Mingroups = groups;
+		
+		}else{// finally found new min
+
+			int i =getNoMinCut(groups);
+			if(i < MinCut){
+				MinCut=i;
+				Mingroups = groups;
+			}
+		}
+		
+		/*for(int i = 0 ; i<groups.size();i++){
+			cout<<"g"<<i<<endl;
+			printNetwork(groups.at(i));
+		}*/
+		/*if(groups.at(0).size()<groups.at(1).size()){
+			cout<<"g0"<<endl;
+			printNetwork(groups.at(0));
+		}else{
+			cout<<"g1"<<endl;
+			printNetwork(groups.at(1));
+		}*/
+	}
+	cout<<"MinCut = "<<MinCut<<endl;
+		
+
+}
+
+int Network::searchGroups(vector< vector<Person *> > & groups, string name)
+{
+	for(int i=0 ; i<groups.size() ; i++){
+		vector< Person *> personVec = groups.at(i);
+		if(find(personVec, name)){
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+int Network::getNoMinCut(vector< vector<Person *> > & g){
+	int count = 0 ;
+	// get to each member of group 0 
+	for(int i =0 ; i < g.at(0).size() ;i++){
+		// get to person i connection
+		int nrOfConns = g.at(0).at(i)->connection.size();
+
+		for(int j =0 ; j<nrOfConns ; j++){
+		// if that person doesn't belongs to group 0 
+			string conName = g.at(0).at(i)->connection.at(j)->name;
+			if(searchGroups(g,conName) !=0 ){
+				count++;
+			};
+		// count ++ then
+		}
+	}
+	return count;
 }
 
 void Network::initializeMarks()
@@ -391,15 +524,16 @@ void Network::readFile(string filename){
 		cout << "Unable to open file" << endl;
 	}
 }
-/**
-*	this algo is used in Min cut into 2 groups 
-*/
-void Network::KargerMinCut(){
-	vector< vector<Person* > > p1; // vector of vectors of persons 
 
+int Network::getNumberOfFriends(string n){
+	int count =0;
+		std::pair<int, int> number = check(n);
+		for(int i=0;i< person.at(number.second)->connection.size();i++){
+			count++;
+		}
+		return count;
 
 }
-
 
 /*
 *
@@ -407,7 +541,6 @@ void Network::KargerMinCut(){
 *
 *
 */
-
 void Network::getShortestLink(){
 	string src, dst;///source and destination names
 	vector <string> path;

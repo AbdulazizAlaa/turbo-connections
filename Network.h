@@ -27,6 +27,7 @@ public:
 	 * every person details and his/her connections
 	 */
 	void printNetwork();
+	void printNetwork(vector< Person * > &person);
 	/*
 	 * Reads data file and creates person vector
 	 * also builds the graph
@@ -68,6 +69,13 @@ public:
 	 * 			so prompt user to chose which one he wants in numbered list fashion and he should choose a number.
 	 */
 	Person* find(string name , bool exactMatch);
+	bool find(vector<Person *> & person, string name);
+
+	/*
+	*
+	*/
+	int searchGroups(vector< vector<Person *> > & groups, string name);
+
 	/*
 	*	search for a PART of a name in vector of persons
 	*	@param String src (have many sub strings )
@@ -115,7 +123,10 @@ public:
 	* int being the position of this name in the person vector
 	*/
 	vector<pair<string, int> > QueryNameNotExactMatch(string name);
-	void KargerMinCut();// karger algo. for min cut 
+	/**
+	*	this algo is used in Min cut into 2 groups
+	*/
+	void KargerMinCut();
 
 	/*
 	 * get a list of suggested friends using the critria
@@ -155,17 +166,18 @@ public:
 	 */
 	void initializeMarks();
 
+	int getNoMinCut(vector< vector<Person *> > &g);
 	/*
 	* Ge shortest link between two nodes
 	*/
 	void getShortestLink();
 
-
 	void backtrack(std::map<string, string> temp_map,string dst,string src);
+	int getNumberOfFriends(string n);
+
 	//variables
 	vector<Person *> person; // array of pointers to vector Person
 	int personCount; // no of Persons
-
 
 };
 

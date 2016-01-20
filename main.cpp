@@ -19,6 +19,8 @@ int main(int argc, char** argv){
 	//Building the network and reading the file
 	Network n(filename);
 
+	//n.printNetwork();
+
 	showMenu(n);
 	return 0;
 }
@@ -38,9 +40,10 @@ void showMenu(Network & n){
 		cout << "Press 0: \" Print the whole network\" " <<endl;
 		cout << "Press 1: \" Search for a certain person using their name\" " <<endl;
 		cout << "Press 2: \" Show number of mutual friends between any 2 people\" "<<endl;
-		cout << "Press 3: \" Show suggested friends between two users\" " << endl;
-		cout << "Press 4: \" Show min link betwen two persons\" " << endl;
-		cout << "Press 5: \" Testing\" "<<endl;
+		cout << "Press 3: \" Show suggested friends for a user\" " << endl;
+		cout << "Press 4: \" Show shortest link betwen two persons\" " << endl;
+		cout << "Press 5: \" Apply MinCut\" "<<endl;
+		cout << "Press 6: \" Testing\" "<<endl;
 
 		getline(cin, choice);
 		if(choice == "0"){
@@ -59,8 +62,9 @@ void showMenu(Network & n){
 		}else if(choice == "4"){
 			
 			n.getShortestLink();
-		}
-		else if(choice == "5"){
+		}else if(choice == "5"){
+			n.KargerMinCut();
+		}else if(choice == "6"){
 			//testing
 			TestSuit t;
 			t.test_nameMatch(n);
