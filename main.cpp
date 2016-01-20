@@ -40,8 +40,7 @@ void showMenu(Network & n){
 		cout << "Press 1: \" Search for a certain person using their name\" " <<endl;
 		cout << "Press 2: \" Show number of mutual friends between any 2 people\" "<<endl;
 		cout << "Press 3: \" Show suggested friends between two users\" " << endl;
-		cout << "Press 4: \" Show min link betwen two persons\" " << endl;
-		cout << "Press 5: \" Testing\" "<<endl;
+		cout << "Press 4: \" Testing\" "<<endl;
 
 		getline(cin, choice);
 
@@ -55,14 +54,6 @@ void showMenu(Network & n){
 			//get suggested friends list
 			n.suggestedFriends();
 		}else if(choice == "4"){
-			/*string src, dst;
-			cout << "first name:"<<endl;
-			cin>>src;
-			cout << "second name:"<<endl;
-			cin>>dst;*/
-			n.getShortestLink("Mohamed Abdulaziz","Nada Dia",0);
-		}
-		else if(choice == "5"){
 			//testing
 			TestSuit t;
 			t.test_nameMatch(n);
