@@ -16,6 +16,11 @@ Person::Person(string name, string title, string company, string address) {
 	this->address = address;
 }
 
+Person::Person()
+{
+
+}
+
 /** Destructor **/
 Person::~Person() {
 	// TODO Auto-generated destructor stub

@@ -7,11 +7,6 @@
 
 #include "Network.h"
 
-/*
- * constructor
- * takes filename and calls readFile funtion to read the file and build network
- * @param string filename to read network from
- */
 Network::Network(string filename) {
 	// TODO Auto-generated constructor stub
 	readFile(filename);
@@ -21,24 +16,6 @@ Network::~Network() {
 	// TODO Auto-generated destructor stub
 }
 
-/*
-* search for a name in the vector of persons
-* @param string name person name to search for
-* @param bool exactMatch true to search for the name as a block
-*/
-/*
- * TO-DO
- * it is not working right. here is a sample of test cases that go wrong
- * - Mohamed Shoukry ==gives==> Mohamed Abdulaziz. althogh thier exists Mohamed Shoukry
- * - Farid Moataz ==gives==> Moataz Farid. this i don't know if should be true or false
- * - when the function finds more than one target should prompt the user which one he really needs
- * and then prints its details.
- * 		= so you have three situations:
- * 			1 - it is an exact match 100% equal to the stored name so return that person.
- * 			2 - it is not an exact match but it is the closet match found and there is only one so return that person.
- * 			3 - it is not an exact match but there are more than one with some similarities
- * 			so prompt user to chose which one he wants in numbered list fashion and he should choose a number.
- */
 Person* Network::find(string name , bool exactMatch){
 	// if we want to find a person with name exactly as written
 	if(exactMatch){
@@ -59,12 +36,6 @@ Person* Network::find(string name , bool exactMatch){
 
 	return NULL;
 }
-/**
-* search for a name in the vector of persons and store that match in a vector of strings
-* @param string name person name to search for
-* @return vector of pair<string, int> have the full names of persons who are close to the query name.
-* int being the position of this name in the person vector
-*/
 
 vector<pair<string, int> > Network::QueryNameNotExactMatch(string name){
 	// if we want to find a person with name near to what we written
@@ -80,12 +51,6 @@ vector<pair<string, int> > Network::QueryNameNotExactMatch(string name){
 	return vNameMatch;
 }
 
-/*
-*	search for a PART of a name in vector of persons
-*	@param String src (have many sub strings )
-*	@param String dst (may many sub strings)
-*	@return Boolean True if similarity found and false if not
-*/
 bool Network::nameMatch(string src , string dst){
 	// array of strings contains each string components
 	vector<string> SrcElems;
@@ -106,10 +71,6 @@ bool Network::nameMatch(string src , string dst){
 	return false;
 }
 
-/*
- * prints the graph
- * every person details and his/her connections
- */
 void Network::printNetwork(){
 	for(int i=0; i<person.size() ; i++){
 		cout << "person " << i << endl;
@@ -117,35 +78,13 @@ void Network::printNetwork(){
 	}
 }
 
-/*
- * prompts the user to get the name
- * of the person he/she wants to search for
- */
 void Network::searchPerson(){
 	cout << "Enter name to search for:" << endl;
 	string name ;
 	getline(cin, name);
-	vector<pair<string, int> > temp = QueryNameNotExactMatch(name);
-	if(temp.size() == 0 ){
-		cout << "Person Not Found. Check you typed correctly." << endl;
-	}else{
-		// printing results
-		cout<< "Choose the no. that indicate your friend you search for : "<<endl;
-		for(int i=0; i <temp.size() ; i++){
-			cout << i+1 <<".\t"<<temp.at(i).first<<endl;
-		}
-		int n;
-		cin >> n ;
-		n = (n<=0)?1:n;
-		person.at(temp.at(n-1).second)->printDetails();
-	}
+	person.at(getExactName(name))->printDetails();
 }
 
-/*
-*
-* check name is found; return confirmation whether it exists or not(ok) and its index in vector(i)
-* @param string name to check if it exists in the vector
-*/
 std::pair<int, int> Network::check(string name){
 	int ok ;
 	int i=0;
@@ -166,12 +105,6 @@ std::pair<int, int> Network::check(string name){
 	return std::make_pair(ok,i);
 }
 
-/*
-* returns the number of mutual friends between two persons
-* @param string first name of first person
-* @param string second name of second person
-* @return int number of mutual friends between two persons
-*/
 int Network::getMutual(string first, string second){
 
 	int found=0;///number of mutual friends found
@@ -222,11 +155,6 @@ int Network::getMutual(string first, string second){
 	return found;
 }
 
-/*
-* prompts the user to get the names of the two persons
-* he/she wants to know number of mutual friends between
-* @return int number of mutual friends between two persons
-*/
 int Network::numMutual()
 {
 	string first,second;//first: first name, second: second name
@@ -242,13 +170,6 @@ int Network::numMutual()
 
 }
 
-
-/*
-* splits string on a delimiter
-* @param string line string to split into words
-* @param vector<string> & elems to keep the splited words
-* @param char del delimiter to split on
-* */
 void Network::splits(string line, vector<string> & elems, char del){
 	int start=0;
 	int end=0;
@@ -263,13 +184,6 @@ void Network::splits(string line, vector<string> & elems, char del){
 
 }
 
-
-/*
-* splits name to search
-* @param string line string to split into words
-* @param vector<string> & elems to keep the splited words
-* @param char del delimiter to split on
-* */
 void Network::splitNames(string line, vector<string> & elems, char del){
 	int start=0;
 	int end=0;
@@ -284,11 +198,66 @@ void Network::splitNames(string line, vector<string> & elems, char del){
 
 }
 
-/*
- * Reads data file and creates person vector
- * also builds the graph
- * @param string filename data file to read
- */
+int Network::suggestedFriends()
+{
+	cout << "Enter name of user to get suggested friends for: " << endl;
+	string name;
+	getline(cin, name);
+	int num = getSuggestedFriends(name);
+	return num;
+}
+
+int Network::getSuggestedFriends(string name)
+{
+	Person * p = person.at(getExactName(name));
+	vector<Person *> suggests;
+	recurseFriends(suggests, p, p->name, p->company, 0, 5);
+	cout << "number of suggests: " << suggests.size() << endl;
+	cout << suggests.at(0)->name;
+	for(int i=1 ; i<suggests.size() ; i++){
+		cout << ", " << suggests.at(i)->name;
+	}
+	cout << endl;
+	return suggests.size();
+}
+
+void Network::recurseFriends(vector<Person *> & suggests, Person * p, string preConn, string company, int count, int limit)
+{
+	if(count > limit)
+		return;
+	if(p->company == company)
+		suggests.push_back(p);
+	//p->printDetails();
+	for(int i=0 ; i<p->connection.size() ; i++){
+		Person * temp = p->connection.at(i);
+		if(temp->name != preConn)
+			recurseFriends(suggests, temp, p->name, company, count+1, limit);
+	}
+}
+
+int Network::getExactName(string name)
+{
+	vector<pair<string, int> > temp = QueryNameNotExactMatch(name);
+	if(temp.size() == 0 ){
+		cout << "Person Not Found. Check you typed correctly." << endl;
+		return -1;
+	}else if(temp.size() == 1){
+		//person.at(temp.at(0).second)->printDetails();
+		return temp.at(0).second;
+	}else{
+		// printing results
+		cout<< "Choose the no. that indicate your friend you search for : "<<endl;
+		for(int i=0; i <temp.size() ; i++){
+			cout << i+1 <<".\t"<<temp.at(i).first<<endl;
+		}
+		int n;
+		cin >> n ;
+		n = (n<=0)?1:n;
+		//person.at(temp.at(n-1).second)->printDetails();
+		return temp.at(n-1).second;
+	}
+}
+
 void Network::readFile(string filename){
 	string line;
 	ifstream file;

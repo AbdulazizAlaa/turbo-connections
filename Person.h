@@ -26,6 +26,8 @@ public:
 	///////////////////// Constructor and distructor //////////////
 	Person(string name, string title, string company, string address); // our constuctor
 	
+	Person();
+
 	/** distructor **/
 	virtual ~Person(); 
 

@@ -50,10 +50,10 @@ void showMenu(Network & n){
 		}else if(choice == "2"){
 			//get number of mutual friends between two persons
 			n.numMutual();
-		}else if(choice == "4"){
-			//get suggested friends list
-
 		}else if(choice == "3"){
+			//get suggested friends list
+			n.suggestedFriends();
+		}else if(choice == "4"){
 			//testing
 			TestSuit t;
 			t.test_nameMatch(n);
