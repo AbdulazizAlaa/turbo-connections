@@ -424,7 +424,29 @@ void Network::KargerMinCut(){
 			printNetwork(groups.at(1));
 		}*/
 	}
-	cout<<"MinCut = "<<MinCut<<endl;
+	
+	cout<<"Do you Wanna view each Group too ?! (Y/N)"<<endl;
+	string in ;
+	getline(cin, in);
+	if(in == "Y" || in == "y"){ // print groups with the Min Cut
+		cout<<"MinCut = "<<MinCut<<endl;	// min cut 
+
+		cout<<"#@#@#@# Group 1 #@#@#@#\n"; // print g1
+		printNetwork(Mingroups.at(0));
+		cout<<"#@#@#@# Group 2 #@#@#@#\n"; // print g2
+		printNetwork(Mingroups.at(1));
+
+	}else if(in == "N" || in == "n"){// print min cut only 
+		cout<<"MinCut = "<<MinCut<<endl;
+
+	}else{
+		cout<<"Do you Think we are Playing !!\nWrong Choice honie!!\n";
+
+	}
+
+
+	
+
 		
 
 }
