@@ -74,7 +74,7 @@ vector<pair<string, int> > Network::QueryNameNotExactMatch(string name){
 					vNameMatch.clear();// empty the vector
 					vNameMatch.push_back(make_pair(person.at(i)->name, i));
 				}
-				maxRankTemp++;
+				maxRankTemp=check;
 			}
 		}
 		//int rank = nameMatchRank(n1,n2);
@@ -411,18 +411,6 @@ void Network::KargerMinCut(){
 				Mingroups = groups;
 			}
 		}
-		
-		/*for(int i = 0 ; i<groups.size();i++){
-			cout<<"g"<<i<<endl;
-			printNetwork(groups.at(i));
-		}*/
-		/*if(groups.at(0).size()<groups.at(1).size()){
-			cout<<"g0"<<endl;
-			printNetwork(groups.at(0));
-		}else{
-			cout<<"g1"<<endl;
-			printNetwork(groups.at(1));
-		}*/
 	}
 	
 	cout<<"Do you Wanna view each Group too ?! (Y/N)"<<endl;

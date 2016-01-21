@@ -80,6 +80,8 @@ void showMenu(Network & n){
 		if(q == "y" || q == "Y"){
 			cout << "Return Soon :D" << endl;
 			break;
+		}else{
+			cout<<"0.o kidding me!!,\nOK lets see the menu\n";
 		}
 	}
 }
