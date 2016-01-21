@@ -153,8 +153,13 @@ void Network::searchPerson(){
 		}
 		int n;
 		cin >> n ;
-		n = (n<=0)?1:n;
-		person.at(temp.at(n-1).second)->printDetails();
+		n = (n<=0)?1:n;// if entered 0 or less than it >> return 1st element
+		if(n > temp.size()){// if entered a number grated than the size of vector 
+			//then haza2o xD
+			cout<<"hey!! Watch out! , there nothing in the list as u typed!"<<endl;
+		}else{
+			person.at(temp.at(n-1).second)->printDetails();
+		}
 	}
 }
 
