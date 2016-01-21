@@ -74,7 +74,7 @@ vector<pair<string, int> > Network::QueryNameNotExactMatch(string name){
 					vNameMatch.clear();// empty the vector
 					vNameMatch.push_back(make_pair(person.at(i)->name, i));
 				}
-				maxRankTemp++;
+				maxRankTemp=check;
 			}
 		}
 		//int rank = nameMatchRank(n1,n2);
@@ -153,8 +153,13 @@ void Network::searchPerson(){
 		}
 		int n;
 		cin >> n ;
-		n = (n<=0)?1:n;
-		person.at(temp.at(n-1).second)->printDetails();
+		n = (n<=0)?1:n;// if entered 0 or less than it >> return 1st element
+		if(n > temp.size()){// if entered a number grated than the size of vector 
+			//then haza2o xD
+			cout<<"hey!! Watch out! , there nothing in the list as u typed!"<<endl;
+		}else{
+			person.at(temp.at(n-1).second)->printDetails();
+		}
 	}
 }
 
@@ -406,20 +411,30 @@ void Network::KargerMinCut(){
 				Mingroups = groups;
 			}
 		}
-		
-		/*for(int i = 0 ; i<groups.size();i++){
-			cout<<"g"<<i<<endl;
-			printNetwork(groups.at(i));
-		}*/
-		/*if(groups.at(0).size()<groups.at(1).size()){
-			cout<<"g0"<<endl;
-			printNetwork(groups.at(0));
-		}else{
-			cout<<"g1"<<endl;
-			printNetwork(groups.at(1));
-		}*/
 	}
-	cout<<"MinCut = "<<MinCut<<endl;
+	
+	cout<<"Do you Wanna view each Group too ?! (Y/N)"<<endl;
+	string in ;
+	getline(cin, in);
+	if(in == "Y" || in == "y"){ // print groups with the Min Cut
+		cout<<"MinCut = "<<MinCut<<endl;	// min cut 
+
+		cout<<"#@#@#@# Group 1 #@#@#@#\n"; // print g1
+		printNetwork(Mingroups.at(0));
+		cout<<"#@#@#@# Group 2 #@#@#@#\n"; // print g2
+		printNetwork(Mingroups.at(1));
+
+	}else if(in == "N" || in == "n"){// print min cut only 
+		cout<<"MinCut = "<<MinCut<<endl;
+
+	}else{
+		cout<<"Do you Think we are Playing !!\nWrong Choice honie!!\n";
+
+	}
+
+
+	
+
 		
 
 }
