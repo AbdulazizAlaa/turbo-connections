@@ -49,7 +49,7 @@ bool Network::find(vector<Person *> & person, string name){
 
 vector<pair<string, int> > Network::QueryNameNotExactMatch(string name){
 	// if we want to find a person with name near to what we written
-	// it wil return a vector of persons somehow exact name
+	// it will return a vector of persons somehow exact name
 
 	vector<pair<string, int> > vNameMatch ; // the vector where found names are stored
 	vector<pair<string, int> > NamewithRanks; // this vector holds the names of highest ranks
@@ -123,21 +123,14 @@ int Network::nameMatchRank(string src , string dst ){
 	return rank;
 }
 
-
-/*
- * prints the graph
- * every person details and his/her connections
- */
 void Network::printNetwork(){
 	for(int i=0; i<person.size() ; i++){
 		cout << "person " << i << endl;
 		person.at(i)->printDetails();
 	}
 }
-/*
- * prints the graph
- * every person details and his/her connections
- */
+
+
 void Network::printNetwork(vector<Person* > &person){
 	for(int i=0; i<person.size() ; i++){
 		cout << "person " << i << endl;
@@ -169,14 +162,16 @@ std::pair<int, int> Network::check(string name){
 	int ok ;
 	int i=0;
 
-	Person * temp = find(name, false);
-	if(temp == NULL){
+	vector< pair<string, int> > temp = QueryNameNotExactMatch(name);
+	if(temp.size() == 0){
 		ok = 0;
-	}else{
+	}
+	else{
 		ok = 1;
 		for ( i=0 ; i<person.size() ; i++){
-			if(person.at(i)->name == temp->name){
+			if(person.at(i)->name == temp.at(0).first){
 				ok = 1;
+				
 				break;
 			}
 		}
@@ -242,7 +237,6 @@ int Network::numMutual()
 	cout <<"Enter first full name"<<endl;
 	cin.ignore();
 	getline(cin,first);
-
 	cout <<"Enter second full name"<<endl;
 	getline(cin,second);
 
@@ -289,7 +283,10 @@ int Network::suggestedFriends()
 
 int Network::getSuggestedFriends(string name)
 {
-	Person * p = person.at(getExactName(name));
+	int index = getExactName(name);
+	if(index == -1)
+		return -1;
+	Person * p = person.at(index);
 	vector<Person *> suggests;
 	recurseFriends(suggests, p, p->name, p->company, 0, 5);
 
@@ -305,7 +302,7 @@ int Network::getSuggestedFriends(string name)
 
 void Network::recurseFriends(vector<Person *> & suggests, Person * p, string preConn, string company, int count, int limit)
 {
-	if(count > limit || p->isMarked)
+	if(count > limit || p->isMarked || p == NULL)
 		return;
 	p->isMarked = true;
 	if(p->company == company && p->name != preConn)
@@ -341,78 +338,7 @@ int Network::getExactName(string name)
 	}
 }
 
-void Network::initializeMarks()
-{
-	for(int i=0 ; i<person.size() ; i++){
-		person.at(i)->isMarked = false;
-	}
-}
 
-void Network::readFile(string filename){
-	string line;
-	ifstream file;
-	file.open(filename.c_str());
-
-	//checking the file exists
-	if(file.is_open()){
-		//getting first line in the file which is a number.
-		//stands for number of persons in the file
-		//so we need to convert it from string to integer
-		if(getline(file, line))
-			personCount = atoi(line.c_str());
-		//reading an empty line and escaping it
-		getline(file, line);
-		//looping to read the names of persons in the network
-		//creating objects to save each person with his/her details
-		for(int i=0; i<personCount ; i++){
-			if(getline(file, line)){
-				//checking the line is not empty and escaping it if empty
-				if(line == ""){
-					i--;
-					continue;
-				}
-				//split the line into words on a delimiter ","
-				vector<string> elems;
-				splits(line, elems, ',');
-				if(elems.size()>0)
-				{
-					//creating the object and pushing it to the vector
-					Person *p = new Person(elems.at(0), elems.at(1), elems.at(2), elems.at(3));
-					person.push_back(p);
-				}
-			}
-		}
-
-		//reading an empty line and escaping it
-		getline(file, line);
-		//looping to read the connections in the network
-		//pushing each connection with its respected connection
-		for(int i=0; i<personCount ; i++){
-			if(getline(file, line)){
-				if(line != ""){
-					//split the line into words
-					vector<string> elems;
-					splits(line, elems, ',');
-					if(elems.size()>0)
-					{
-						for(int j=0; j<elems.size() ; j++){
-							//search for the name in the vector and get its pointer
-							//and then push to the connection vector
-							//person.at(i)->connection.push_back()
-							person.at(i)->connection.push_back(find(elems.at(j),true));
-						}
-					}
-				}
-			}
-		}
-		file.close();
-	}else{
-		cout << "Unable to open file" << endl;
-	}
-}
-/**
-*	this algo is used in Min cut into 2 groups 
-*/
 void Network::KargerMinCut(){
 	// initialization 
 	vector< vector<Person* > > groups; // vector of vectors of persons 
@@ -497,27 +423,6 @@ void Network::KargerMinCut(){
 		
 
 }
-//
-//vector< pair<int,int> > Network::getEdgesForGroups(vector< vector<Person* > >groups){
-//	
-//	int nrOfGroups = groups.size();//nr Of Groups
-//
-//	for(int i =0 ; i <nrOfGroups ; i++){
-//		
-//		int src,dst; // source node and distination node  
-//		int noOfPersons = groups.at(i).size();
-//		vector<Person *> personVec = groups.at(i);
-//		for(int j =0 ; j<noOfPersons ; j++){
-//			Person * p = personVec.at(j);
-//			for(int k=0 ; k<p->connection.size() ; k++){
-//				
-//			}
-//			pair<int,int> temp = make_pair(i, 1);
-//		}
-//		//groups.at(i).at(j).name;
-//
-//	}
-//}
 
 int Network::searchGroups(vector< vector<Person *> > & groups, string name)
 {
@@ -531,7 +436,7 @@ int Network::searchGroups(vector< vector<Person *> > & groups, string name)
 	return -1;
 }
 
-int Network::getNoMinCut(vector< vector<Person *>> &g){
+int Network::getNoMinCut(vector< vector<Person *> > & g){
 	int count = 0 ;
 	// get to each member of group 0 
 	for(int i =0 ; i < g.at(0).size() ;i++){
@@ -548,4 +453,167 @@ int Network::getNoMinCut(vector< vector<Person *>> &g){
 		}
 	}
 	return count;
+}
+
+void Network::initializeMarks()
+{
+	for(int i=0 ; i<person.size() ; i++){
+		person.at(i)->isMarked = false;
+	}
+}
+
+void Network::readFile(string filename){
+	string line;
+	ifstream file;
+	file.open(filename.c_str());
+
+	//checking the file exists
+	if(file.is_open()){
+		//getting first line in the file which is a number.
+		//stands for number of persons in the file
+		//so we need to convert it from string to integer
+		if(getline(file, line))
+			personCount = atoi(line.c_str());
+		//reading an empty line and escaping it
+		getline(file, line);
+		//looping to read the names of persons in the network
+		//creating objects to save each person with his/her details
+		for(int i=0; i<personCount ; i++){
+			if(getline(file, line)){
+				//checking the line is not empty and escaping it if empty
+				if(line == ""){
+					i--;
+					continue;
+				}
+				//split the line into words on a delimiter ","
+				vector<string> elems;
+				splits(line, elems, ',');
+				if(elems.size()>0)
+				{
+					//creating the object and pushing it to the vector
+					Person *p = new Person(elems.at(0), elems.at(1), elems.at(2), elems.at(3));
+					person.push_back(p);
+				}
+			}
+		}
+
+		//reading an empty line and escaping it
+		getline(file, line);
+		//looping to read the connections in the network
+		//pushing each connection with its respected connection
+		for(int i=0; i<personCount ; i++){
+			if(getline(file, line)){
+				if(line != ""){
+					//split the line into words
+					vector<string> elems;
+					splits(line, elems, ',');
+					if(elems.size()>0)
+					{
+						for(int j=0; j<elems.size() ; j++){
+							//search for the name in the vector and get its pointer
+							//and then push to the connection vector
+							//person.at(i)->connection.push_back()
+							person.at(i)->connection.push_back(find(elems.at(j),true));
+						}
+					}
+				}
+			}
+		}
+		file.close();
+	}else{
+		cout << "Unable to open file" << endl;
+	}
+}
+
+int Network::getNumberOfFriends(string n){
+	int count =0;
+		std::pair<int, int> number = check(n);
+		for(int i=0;i< person.at(number.second)->connection.size();i++){
+			count++;
+		}
+		return count;
+
+}
+
+/*
+*
+*Shortest link when searching
+*
+*
+*/
+void Network::getShortestLink(){
+	string src, dst;///source and destination names
+	vector <string> path;
+
+	cout << "Please enter first name:"<<endl;
+	getline(cin,src);
+	std::pair<int, int> connSRC = check(src); ///check that the name is valid, also get its index in the network
+	if (connSRC.first==0){
+		cout <<"Name not found on the network"<<endl;
+		return;
+	}
+	cout << "Please enter second name:"<<endl;
+	getline(cin,dst);
+	std::pair<int, int> connDST = check(dst);///check that the name is valid
+	if (connDST.first==0){
+		cout <<"Name not found on the network"<<endl;
+		return;
+	}
+
+
+	int min=0; ///min link counter
+	initializeMarks();
+
+	string inter;
+	queue <string> q;
+	map <string,string> track; //first element is person, the second is the parent
+
+	
+	q.push(src); ///put first name into queue
+	track.insert(pair<string,string>(src,""));
+
+	////BREADTH FIRST SEARCH
+	while(!q.empty()){
+		inter = q.front();/////return the froont of the queue without removing it
+		std::pair<int, int> temp = check(inter); //get its location in the network aand put it into the temp variable
+		q.pop(); ///remove the front of the queue
+		person.at(temp.second)->isMarked=true; ///Mark as visited so that we don't visit it again
+
+		for(int i=0;i<person.at(temp.second)->connection.size();i++) ///loop through connections of the front of queue
+		{
+			string ok = person.at(temp.second)->connection.at(i)->name; /////leave it for debugging purposes
+			track.insert(pair<string,string>(ok,inter));
+			if(person.at(temp.second)->connection.at(i)->isMarked==false)///check that this person is not visted before
+			{
+				if(person.at(temp.second)->connection.at(i)->name == dst) ////we found the destination name
+				{
+					cout <<"Length of shoretst link "<<min<<endl;
+					cout <<"Nodes between "<<src<<" & "<<dst<<endl;
+					backtrack(track,dst,src); ///call backtrack function once you found the right destination
+
+					return; ////exit
+				}
+				q.push(person.at(temp.second)->connection.at(i)->name); //// else we didn't found the name put it into the queue
+			}
+		}
+	}
+
+	
+}
+/*
+*backtrackingggggggggggggggg
+*/
+void Network::backtrack(std::map<string, string> temp_map,string dst,string src){
+	string parent;
+	vector <string> path;
+	parent = temp_map.find(dst)->second;///get parent of the dst
+	if(src==parent)	return;
+	else{
+		path.push_back(parent); ///add the node to the path
+		for(int i =0;i<path.size();i++){
+			cout <<path.at(i)<<endl;
+		}
+	
+		backtrack(temp_map,parent,src); ///recurse with parent as the new destination (going back)
+	}
 }

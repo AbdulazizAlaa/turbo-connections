@@ -37,15 +37,20 @@ void showMenu(Network & n){
 
 		cout<< endl;
 		cout <<"###########################################################"<<endl;
+		cout << "Press 0: \" Print the whole network\" " <<endl;
 		cout << "Press 1: \" Search for a certain person using their name\" " <<endl;
 		cout << "Press 2: \" Show number of mutual friends between any 2 people\" "<<endl;
-		cout << "Press 3: \" Show suggested friends between two users\" " << endl;
-		cout << "Press 4: \" Apply MinCut\" "<<endl;
-		cout << "Press 5: \" Testing\" "<<endl;
+		cout << "Press 3: \" Show suggested friends for a user\" " << endl;
+		cout << "Press 4: \" Show shortest link betwen two persons\" " << endl;
+		cout << "Press 5: \" Apply MinCut\" "<<endl;
+		cout << "Press 6: \" Testing\" "<<endl;
 
 		getline(cin, choice);
-
-		if(choice == "1"){
+		if(choice == "0"){
+			//print the network
+			n.printNetwork();
+		}
+		else if(choice == "1"){
 			//search for a person
 			n.searchPerson();
 		}else if(choice == "2"){
@@ -54,14 +59,17 @@ void showMenu(Network & n){
 		}else if(choice == "3"){
 			//get suggested friends list
 			n.suggestedFriends();
+		}else if(choice == "4"){
+			
+			n.getShortestLink();
 		}else if(choice == "5"){
+			n.KargerMinCut();
+		}else if(choice == "6"){
 			//testing
 			TestSuit t;
 			t.test_nameMatch(n);
 			t.test_numMutual(n);
 			//t.test_QueryNameNotExactMatch(n);
-		}else if(choice == "4"){
-			n.KargerMinCut();
 		}else{
 			//error
 			cout << "Error: Enter a valid choice." << endl;

@@ -123,7 +123,10 @@ public:
 	* int being the position of this name in the person vector
 	*/
 	vector<pair<string, int> > QueryNameNotExactMatch(string name);
-	void KargerMinCut();// karger algo. for min cut 
+	/**
+	*	this algo is used in Min cut into 2 groups
+	*/
+	void KargerMinCut();
 
 	/*
 	 * get a list of suggested friends using the critria
@@ -162,16 +165,15 @@ public:
 	 * reinitialize traversing marks to false
 	 */
 	void initializeMarks();
-	
-	/*
-	* this function create a vector of src and dist 
-	* as if being edges
-	* @param vector< vector<Person* > >groups
-	* @return a vector of pairs
-	*/
-	vector<pair<int,int>> getEdgesForGroups(vector< vector<Person* > >groups);
 
-	int getNoMinCut(vector< vector<Person *>> &g);
+	int getNoMinCut(vector< vector<Person *> > &g);
+	/*
+	* Ge shortest link between two nodes
+	*/
+	void getShortestLink();
+
+	void backtrack(std::map<string, string> temp_map,string dst,string src);
+	int getNumberOfFriends(string n);
 
 	//variables
 	vector<Person *> person; // array of pointers to vector Person
