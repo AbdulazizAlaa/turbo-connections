@@ -547,8 +547,19 @@ void Network::getShortestLink(){
 
 	cout << "Please enter first name:"<<endl;
 	getline(cin,src);
+	std::pair<int, int> connSRC = check(src); ///check that the name is valid, also get its index in the network
+	if (connSRC.first==0){
+		cout <<"Name not found on the network"<<endl;
+		return;
+	}
 	cout << "Please enter second name:"<<endl;
 	getline(cin,dst);
+	std::pair<int, int> connDST = check(dst);///check that the name is valid
+	if (connDST.first==0){
+		cout <<"Name not found on the network"<<endl;
+		return;
+	}
+
 
 	int min=0; ///min link counter
 	initializeMarks();
@@ -557,8 +568,7 @@ void Network::getShortestLink(){
 	queue <string> q;
 	map <string,string> track; //first element is person, the second is the parent
 
-	std::pair<int, int> connSRC = check(src); ///check that the name is valid, also get its index in the network
-	std::pair<int, int> conndst = check(dst);///check that the name is valid
+	
 	q.push(src); ///put first name into queue
 	track.insert(pair<string,string>(src,""));
 
@@ -586,7 +596,6 @@ void Network::getShortestLink(){
 				q.push(person.at(temp.second)->connection.at(i)->name); //// else we didn't found the name put it into the queue
 			}
 		}
-		min++; ////increment the level of the graph
 	}
 
 	

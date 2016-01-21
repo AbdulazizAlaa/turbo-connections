@@ -363,3 +363,23 @@ void TestSuit::test_nameMatch(Network & n){
 	cout<<"\n\n=====\nTest Result: "<<noOfTrue<<"/"<<noOfFalse+noOfTrue<<" passed \n======\n\n"<<endl;
 
 }
+/*
+*
+*Testing of getShortestLink() method
+*
+*/
+void test_getShortestLink(Network & n){
+	int nFalse = 0;
+	int nTrue = 0;
+
+	string n1 = "Mohamed Abdulaziz";	string n11 = "Nada Dia";
+	string n3 = "Mohamed Abdulaziz ";	string n33 = "Ahmed Hemaly";
+	string n4 = "Yomna Gad";			string n44 = "Ahmed Mohamed";
+	string n5 = "Mostafa Fahmy";		string n55 = "Yomna Gad";
+	string n6 = "Yomna Gad";			string n66 = "Ahmed Dia";
+	string n7 = "Nada Dia";				string n77 = "Moataz Farid";
+	string n8 = "Moataz Farid";			string n88 = "Mostafa Fahmy";
+	string n9 = "Mohamed Abdulaziz";	string n99 = "Mohamed Abdulaziz";
+	cout<<"\n\n\n/////////////////////// UNIT TESTING //////////////////////////////"<<endl;
+	cout<<"//////////////////////////// nameMatch() ///////////////////////"<<endl;
+}

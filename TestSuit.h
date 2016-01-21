@@ -19,6 +19,7 @@ public:
 	static void test_nameMatch(Network & n);
 	static void test_numMutual(Network & n);
 	static void test_QueryNameNotExactMatch(Network & n);
+	static void test_getShortestLink(Network & n);
 
 };
 
