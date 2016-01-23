@@ -343,7 +343,6 @@ int Network::getExactName(string name)
 	}
 }
 
-
 void Network::KargerMinCut(){
 	// initialization 
 	vector< vector<Person* > > groups; // vector of vectors of persons 

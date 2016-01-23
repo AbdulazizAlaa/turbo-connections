@@ -37,7 +37,7 @@ void NetworkWindow::updatePersonsLV(string file)
     personsModel->removeRows( 0, personsModel->rowCount() );
     namesList.clear();
 
-    for(int i=0 ; i<n->person.size() ; i++){
+    for(uint i=0 ; i<n->person.size() ; i++){
         namesList << n->person.at(i)->name.c_str() ;
     }
     personsModel->setStringList(namesList);
@@ -59,9 +59,38 @@ void NetworkWindow::on_personsLV_clicked(const QModelIndex &index)
     connectionsModel->removeRows( 0, connectionsModel->rowCount() );
     connectionsList.clear();
 
-    for(int i=0; i<p->connection.size() ; i++){
+    for(uint i=0; i<p->connection.size() ; i++){
         connectionsList << p->connection.at(i)->name.c_str();
     }
 
     connectionsModel->setStringList(connectionsList);
+}
+
+void NetworkWindow::on_name_searchB_clicked()
+{
+    string name = ui->name_searchLE->text().toStdString();
+
+    vector<pair<string, int> > temp = n->QueryNameNotExactMatch(name);
+    if(temp.size() == 0){
+        personsModel->removeRows( 0, personsModel->rowCount() );
+        namesList.clear();
+    }else{
+
+        personsModel->removeRows( 0, personsModel->rowCount() );
+        namesList.clear();
+
+        for(uint i=0 ; i<temp.size() ; i++){
+            namesList << temp.at(i).first.c_str() ;
+        }
+        personsModel->setStringList(namesList);
+
+        ui->personsLV->setCurrentIndex(personsModel->index(0,0));
+    }
+
+    //n->searc
+}
+
+void NetworkWindow::on_name_searchLE_returnPressed()
+{
+    ui->name_searchB->click();
 }

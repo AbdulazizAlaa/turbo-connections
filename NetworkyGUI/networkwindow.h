@@ -29,6 +29,12 @@ private slots:
 
     void on_personsLV_clicked(const QModelIndex &index);
 
+    void on_name_searchB_clicked();
+
+    void on_name_searchLE_returnPressed();
+
+    void on_personsLV_activated(const QModelIndex &index);
+
 private:
     void updatePersonsLV(string file);
 

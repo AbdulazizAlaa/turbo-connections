@@ -15,6 +15,7 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
@@ -41,6 +42,8 @@ public:
     QLabel *person_title_label;
     QLabel *label_5;
     QListView *connectionsLV;
+    QLineEdit *name_searchLE;
+    QPushButton *name_searchB;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -49,15 +52,15 @@ public:
     {
         if (NetworkWindow->objectName().isEmpty())
             NetworkWindow->setObjectName(QStringLiteral("NetworkWindow"));
-        NetworkWindow->resize(406, 300);
+        NetworkWindow->resize(406, 356);
         centralWidget = new QWidget(NetworkWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         updateB = new QPushButton(centralWidget);
         updateB->setObjectName(QStringLiteral("updateB"));
-        updateB->setGeometry(QRect(20, 210, 121, 23));
+        updateB->setGeometry(QRect(20, 270, 121, 23));
         personsLV = new QListView(centralWidget);
         personsLV->setObjectName(QStringLiteral("personsLV"));
-        personsLV->setGeometry(QRect(10, 10, 151, 192));
+        personsLV->setGeometry(QRect(10, 70, 151, 192));
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(170, 10, 59, 15));
@@ -87,7 +90,13 @@ public:
         label_5->setGeometry(QRect(170, 100, 81, 16));
         connectionsLV = new QListView(centralWidget);
         connectionsLV->setObjectName(QStringLiteral("connectionsLV"));
-        connectionsLV->setGeometry(QRect(250, 100, 141, 111));
+        connectionsLV->setGeometry(QRect(250, 110, 141, 121));
+        name_searchLE = new QLineEdit(centralWidget);
+        name_searchLE->setObjectName(QStringLiteral("name_searchLE"));
+        name_searchLE->setGeometry(QRect(10, 10, 151, 23));
+        name_searchB = new QPushButton(centralWidget);
+        name_searchB->setObjectName(QStringLiteral("name_searchB"));
+        name_searchB->setGeometry(QRect(10, 40, 151, 23));
         NetworkWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(NetworkWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -118,6 +127,7 @@ public:
         person_company_label->setText(QString());
         person_title_label->setText(QString());
         label_5->setText(QApplication::translate("NetworkWindow", "Connections", 0));
+        name_searchB->setText(QApplication::translate("NetworkWindow", "Search", 0));
     } // retranslateUi
 
 };
