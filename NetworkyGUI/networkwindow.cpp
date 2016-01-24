@@ -6,22 +6,25 @@ NetworkWindow::NetworkWindow(QWidget *parent) :
     ui(new Ui::NetworkWindow)
 {
     ui->setupUi(this);
+    //creating instance from the network
     n = new Network(filename);
-
+    //models used to display strings in list views
     connectionsModel = new QStringListModel(this);
     personsModel = new QStringListModel(this);
-
+    //setting list views model
     ui->connectionsLV->setModel(connectionsModel);
     ui->personsLV->setModel(personsModel);
-
+    //displaying names of person in the personsLV
     updatePersonsLV(filename);
 
+    //setting up the name_searchLE completer
     QStringList list;
     for(uint i=0 ; i<n->person.size() ; i++){
         list << n->person.at(i)->name.c_str() ;
     }
     QCompleter *completer = new QCompleter(list, this);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
+    //completer->setCompletionMode(QCompleter::InlineCompletion);
     ui->name_searchLE->setCompleter(completer);
 
 }
@@ -31,30 +34,9 @@ NetworkWindow::~NetworkWindow()
     delete ui;
 }
 
-void NetworkWindow::on_updateB_clicked()
+void NetworkWindow::showPersonDetails(string name)
 {
-    updatePersonsLV(filename);
-}
-
-void NetworkWindow::updatePersonsLV(string file)
-{
-
-    n->person.clear();
-    n->readFile(file);
-
-    personsModel->removeRows( 0, personsModel->rowCount() );
-    namesList.clear();
-
-    for(uint i=0 ; i<n->person.size() ; i++){
-        namesList << n->person.at(i)->name.c_str() ;
-    }
-    personsModel->setStringList(namesList);
-}
-
-void NetworkWindow::on_personsLV_clicked(const QModelIndex &index)
-{
-
-    Person * p = n->find(index.data().toString().toStdString(), true);
+    Person * p = n->find(name, true);
 
     if(p==NULL)
         return;
@@ -74,34 +56,36 @@ void NetworkWindow::on_personsLV_clicked(const QModelIndex &index)
     connectionsModel->setStringList(connectionsList);
 }
 
+void NetworkWindow::updatePersonsLV(string file)
+{
+    n->person.clear();
+    n->readFile(file);
+
+    personsModel->removeRows( 0, personsModel->rowCount() );
+    namesList.clear();
+
+    for(uint i=0 ; i<n->person.size() ; i++){
+        namesList << n->person.at(i)->name.c_str() ;
+    }
+    personsModel->setStringList(namesList);
+}
+
+void NetworkWindow::on_updateB_clicked()
+{
+    updatePersonsLV(filename);
+}
+
+void NetworkWindow::on_personsLV_clicked(const QModelIndex &index)
+{
+    showPersonDetails(index.data().toString().toStdString());
+}
+
 void NetworkWindow::on_name_searchB_clicked()
 {
-    string name = ui->name_searchLE->text().toStdString();
-
-    vector<pair<string, int> > temp = n->QueryNameNotExactMatch(name);
-    if(temp.size() == 0){
-        personsModel->removeRows( 0, personsModel->rowCount() );
-        namesList.clear();
-    }else{
-
-        personsModel->removeRows( 0, personsModel->rowCount() );
-        namesList.clear();
-
-        for(uint i=0 ; i<temp.size() ; i++){
-            namesList << temp.at(i).first.c_str() ;
-        }
-        personsModel->setStringList(namesList);
-
-        ui->personsLV->setCurrentIndex(personsModel->index(0,0));
-    }
+    showPersonDetails(ui->name_searchLE->text().toStdString());
 }
 
 void NetworkWindow::on_name_searchLE_returnPressed()
 {
     ui->name_searchB->click();
-}
-
-void NetworkWindow::on_name_searchLE_textChanged(const QString &text)
-{
-
 }

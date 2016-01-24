@@ -7,6 +7,7 @@
 #include <QAbstractItemView>
 #include <QMessageBox>
 #include <QString>
+#include <QCompleter>
 #include "../Network.h"
 
 namespace Ui {
@@ -37,6 +38,8 @@ private slots:
 
 private:
     void updatePersonsLV(string file);
+
+    void showPersonDetails(string name);
 
     Ui::NetworkWindow *ui;
     QStringListModel *personsModel;
