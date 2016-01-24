@@ -16,6 +16,14 @@ NetworkWindow::NetworkWindow(QWidget *parent) :
 
     updatePersonsLV(filename);
 
+    QStringList list;
+    for(uint i=0 ; i<n->person.size() ; i++){
+        list << n->person.at(i)->name.c_str() ;
+    }
+    QCompleter *completer = new QCompleter(list, this);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    ui->name_searchLE->setCompleter(completer);
+
 }
 
 NetworkWindow::~NetworkWindow()
@@ -86,11 +94,14 @@ void NetworkWindow::on_name_searchB_clicked()
 
         ui->personsLV->setCurrentIndex(personsModel->index(0,0));
     }
-
-    //n->searc
 }
 
 void NetworkWindow::on_name_searchLE_returnPressed()
 {
     ui->name_searchB->click();
+}
+
+void NetworkWindow::on_name_searchLE_textChanged(const QString &text)
+{
+
 }
