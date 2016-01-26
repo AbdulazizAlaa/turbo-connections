@@ -24,7 +24,7 @@ public:
     ~NetworkWindow();
 
     Network * n;
-    string filename = "../data.txt";
+    string filename;
 
 private slots:
     void on_updateB_clicked();

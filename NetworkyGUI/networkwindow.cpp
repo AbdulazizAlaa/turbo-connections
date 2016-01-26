@@ -5,6 +5,7 @@ NetworkWindow::NetworkWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::NetworkWindow)
 {
+    filename = "../data.txt";
     ui->setupUi(this);
     //creating instance from the network
     n = new Network(filename);

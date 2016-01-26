@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,15 +17,15 @@ SOURCES += main.cpp\
     ../Network.cpp \
     ../Person.cpp \
     ../TestSuit.cpp \
-    visualizingwindow.cpp \
-    openglwindow.cpp
+    openglwidget.cpp \
+    visualizingwindow.cpp
 
 HEADERS  += networkwindow.h \
     ../Network.h \
     ../Person.h \
     ../TestSuit.h \
-    visualizingwindow.h \
-    openglwindow.h
+    openglwidget.h \
+    visualizingwindow.h
 
 FORMS    += networkwindow.ui \
     visualizingwindow.ui

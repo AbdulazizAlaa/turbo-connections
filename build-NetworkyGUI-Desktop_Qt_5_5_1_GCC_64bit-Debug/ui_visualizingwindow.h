@@ -17,28 +17,40 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "openglwidget.h"
 
 QT_BEGIN_NAMESPACE
 
 class Ui_VisualizingWindow
 {
 public:
-    QMenuBar *menubar;
     QWidget *centralwidget;
+    QVBoxLayout *verticalLayout;
+    OpenGLWidget *VWidget;
+    QMenuBar *menubar;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *VisualizingWindow)
     {
         if (VisualizingWindow->objectName().isEmpty())
             VisualizingWindow->setObjectName(QStringLiteral("VisualizingWindow"));
-        VisualizingWindow->resize(800, 600);
-        menubar = new QMenuBar(VisualizingWindow);
-        menubar->setObjectName(QStringLiteral("menubar"));
-        VisualizingWindow->setMenuBar(menubar);
+        VisualizingWindow->resize(347, 240);
         centralwidget = new QWidget(VisualizingWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
+        verticalLayout = new QVBoxLayout(centralwidget);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        VWidget = new OpenGLWidget(centralwidget);
+        VWidget->setObjectName(QStringLiteral("VWidget"));
+
+        verticalLayout->addWidget(VWidget);
+
         VisualizingWindow->setCentralWidget(centralwidget);
+        menubar = new QMenuBar(VisualizingWindow);
+        menubar->setObjectName(QStringLiteral("menubar"));
+        menubar->setGeometry(QRect(0, 0, 347, 20));
+        VisualizingWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(VisualizingWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));
         VisualizingWindow->setStatusBar(statusbar);

@@ -200,16 +200,6 @@
      <string>Visualize Network</string>
     </property>
    </widget>
-   <widget class="OpenGLWindow" name="openGLWidget">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>240</y>
-      <width>111</width>
-      <height>71</height>
-     </rect>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -232,13 +222,6 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>OpenGLWindow</class>
-   <extends>QOpenGLWidget</extends>
-   <header>openglwindow.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

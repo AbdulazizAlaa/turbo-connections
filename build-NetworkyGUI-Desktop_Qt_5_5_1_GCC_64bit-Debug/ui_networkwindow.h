@@ -23,7 +23,7 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
-#include "openglwindow.h"
+#include "openglwidget.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -46,7 +46,7 @@ public:
     QLineEdit *name_searchLE;
     QPushButton *name_searchB;
     QPushButton *visualizeNetB;
-    OpenGLWindow *openGLWidget;
+    OpenGLWidget *openGLWidget;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -103,9 +103,9 @@ public:
         visualizeNetB = new QPushButton(centralWidget);
         visualizeNetB->setObjectName(QStringLiteral("visualizeNetB"));
         visualizeNetB->setGeometry(QRect(20, 300, 121, 23));
-        openGLWidget = new OpenGLWindow(centralWidget);
+        openGLWidget = new OpenGLWidget(centralWidget);
         openGLWidget->setObjectName(QStringLiteral("openGLWidget"));
-        openGLWidget->setGeometry(QRect(170, 240, 111, 71));
+        openGLWidget->setGeometry(QRect(180, 260, 151, 61));
         NetworkWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(NetworkWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
