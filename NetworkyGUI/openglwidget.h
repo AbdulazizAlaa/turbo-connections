@@ -2,7 +2,7 @@
 #define OPENGLWIDGET_H
 
 #include <QOpenGLWidget>
-
+#include <QtMath>
 
 class OpenGLWidget : public QOpenGLWidget
 {

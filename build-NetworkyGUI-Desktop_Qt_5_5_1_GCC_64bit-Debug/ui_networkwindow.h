@@ -105,7 +105,7 @@ public:
         visualizeNetB->setGeometry(QRect(20, 300, 121, 23));
         openGLWidget = new OpenGLWidget(centralWidget);
         openGLWidget->setObjectName(QStringLiteral("openGLWidget"));
-        openGLWidget->setGeometry(QRect(180, 260, 151, 61));
+        openGLWidget->setGeometry(QRect(180, 180, 201, 141));
         NetworkWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(NetworkWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
