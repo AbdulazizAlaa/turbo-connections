@@ -31,6 +31,8 @@ NetworkWindow::NetworkWindow(QWidget *parent) :
 
 NetworkWindow::~NetworkWindow()
 {
+    delete personsModel;
+    delete connectionsModel;
     delete ui;
 }
 
@@ -88,4 +90,11 @@ void NetworkWindow::on_name_searchB_clicked()
 void NetworkWindow::on_name_searchLE_returnPressed()
 {
     ui->name_searchB->click();
+}
+
+void NetworkWindow::on_visualizeNetB_clicked()
+{
+    visualizeWindow = new VisualizingWindow();
+
+    visualizeWindow->show();
 }

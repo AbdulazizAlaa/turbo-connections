@@ -23,6 +23,7 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
+#include "openglwindow.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -44,6 +45,8 @@ public:
     QListView *connectionsLV;
     QLineEdit *name_searchLE;
     QPushButton *name_searchB;
+    QPushButton *visualizeNetB;
+    OpenGLWindow *openGLWidget;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -52,7 +55,7 @@ public:
     {
         if (NetworkWindow->objectName().isEmpty())
             NetworkWindow->setObjectName(QStringLiteral("NetworkWindow"));
-        NetworkWindow->resize(406, 356);
+        NetworkWindow->resize(406, 384);
         centralWidget = new QWidget(NetworkWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         updateB = new QPushButton(centralWidget);
@@ -97,6 +100,12 @@ public:
         name_searchB = new QPushButton(centralWidget);
         name_searchB->setObjectName(QStringLiteral("name_searchB"));
         name_searchB->setGeometry(QRect(10, 40, 151, 23));
+        visualizeNetB = new QPushButton(centralWidget);
+        visualizeNetB->setObjectName(QStringLiteral("visualizeNetB"));
+        visualizeNetB->setGeometry(QRect(20, 300, 121, 23));
+        openGLWidget = new OpenGLWindow(centralWidget);
+        openGLWidget->setObjectName(QStringLiteral("openGLWidget"));
+        openGLWidget->setGeometry(QRect(170, 240, 111, 71));
         NetworkWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(NetworkWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -128,6 +137,7 @@ public:
         person_title_label->setText(QString());
         label_5->setText(QApplication::translate("NetworkWindow", "Connections", 0));
         name_searchB->setText(QApplication::translate("NetworkWindow", "Search", 0));
+        visualizeNetB->setText(QApplication::translate("NetworkWindow", "Visualize Network", 0));
     } // retranslateUi
 
 };

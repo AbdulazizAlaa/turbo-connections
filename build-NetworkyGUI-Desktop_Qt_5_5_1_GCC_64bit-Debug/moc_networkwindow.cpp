@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_NetworkWindow_t {
     QByteArrayData data[8];
-    char stringdata0[139];
+    char stringdata0[141];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,14 +36,14 @@ QT_MOC_LITERAL(3, 34, 20), // "on_personsLV_clicked"
 QT_MOC_LITERAL(4, 55, 5), // "index"
 QT_MOC_LITERAL(5, 61, 23), // "on_name_searchB_clicked"
 QT_MOC_LITERAL(6, 85, 30), // "on_name_searchLE_returnPressed"
-QT_MOC_LITERAL(7, 116, 22) // "on_personsLV_activated"
+QT_MOC_LITERAL(7, 116, 24) // "on_visualizeNetB_clicked"
 
     },
     "NetworkWindow\0on_updateB_clicked\0\0"
     "on_personsLV_clicked\0index\0"
     "on_name_searchB_clicked\0"
     "on_name_searchLE_returnPressed\0"
-    "on_personsLV_activated"
+    "on_visualizeNetB_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -65,14 +65,14 @@ static const uint qt_meta_data_NetworkWindow[] = {
        3,    1,   40,    2, 0x08 /* Private */,
        5,    0,   43,    2, 0x08 /* Private */,
        6,    0,   44,    2, 0x08 /* Private */,
-       7,    1,   45,    2, 0x08 /* Private */,
+       7,    0,   45,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void, QMetaType::QModelIndex,    4,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QModelIndex,    4,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -87,6 +87,7 @@ void NetworkWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 1: _t->on_personsLV_clicked((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
         case 2: _t->on_name_searchB_clicked(); break;
         case 3: _t->on_name_searchLE_returnPressed(); break;
+        case 4: _t->on_visualizeNetB_clicked(); break;
         default: ;
         }
     }

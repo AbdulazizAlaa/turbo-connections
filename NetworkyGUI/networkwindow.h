@@ -9,6 +9,7 @@
 #include <QString>
 #include <QCompleter>
 #include "../Network.h"
+#include "visualizingwindow.h"
 
 namespace Ui {
 class NetworkWindow;
@@ -34,7 +35,7 @@ private slots:
 
     void on_name_searchLE_returnPressed();
 
-    void on_personsLV_activated(const QModelIndex &index);
+    void on_visualizeNetB_clicked();
 
 private:
     void updatePersonsLV(string file);
@@ -46,6 +47,7 @@ private:
     QStringList namesList;
     QStringListModel *connectionsModel;
     QStringList connectionsList;
+    VisualizingWindow *visualizeWindow;
 };
 
 #endif // NETWORKWINDOW_H
