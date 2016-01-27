@@ -23,9 +23,6 @@ public:
     explicit NetworkWindow(QWidget *parent = 0);
     ~NetworkWindow();
 
-    Network * n;
-    string filename;
-
 private slots:
     void on_updateB_clicked();
 
@@ -48,6 +45,8 @@ private:
     QStringListModel *connectionsModel;
     QStringList connectionsList;
     VisualizingWindow *visualizeWindow;
+    Network * n;
+    string filename;
 };
 
 #endif // NETWORKWINDOW_H

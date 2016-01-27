@@ -18,14 +18,18 @@ SOURCES += main.cpp\
     ../Person.cpp \
     ../TestSuit.cpp \
     openglwidget.cpp \
-    visualizingwindow.cpp
+    visualizingwindow.cpp \
+    node.cpp \
+    link.cpp
 
 HEADERS  += networkwindow.h \
     ../Network.h \
     ../Person.h \
     ../TestSuit.h \
     openglwidget.h \
-    visualizingwindow.h
+    visualizingwindow.h \
+    node.h \
+    link.h
 
 FORMS    += networkwindow.ui \
     visualizingwindow.ui

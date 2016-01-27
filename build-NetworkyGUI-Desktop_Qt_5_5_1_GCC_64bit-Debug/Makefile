@@ -54,7 +54,9 @@ SOURCES       = ../NetworkyGUI/main.cpp \
 		../Person.cpp \
 		../TestSuit.cpp \
 		../NetworkyGUI/openglwidget.cpp \
-		../NetworkyGUI/visualizingwindow.cpp moc_networkwindow.cpp \
+		../NetworkyGUI/visualizingwindow.cpp \
+		../NetworkyGUI/node.cpp \
+		../NetworkyGUI/link.cpp moc_networkwindow.cpp \
 		moc_openglwidget.cpp \
 		moc_visualizingwindow.cpp
 OBJECTS       = main.o \
@@ -64,6 +66,8 @@ OBJECTS       = main.o \
 		TestSuit.o \
 		openglwidget.o \
 		visualizingwindow.o \
+		node.o \
+		link.o \
 		moc_networkwindow.o \
 		moc_openglwidget.o \
 		moc_visualizingwindow.o
@@ -206,13 +210,17 @@ DIST          = ../../../Qt5.5.1/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		../Person.h \
 		../TestSuit.h \
 		../NetworkyGUI/openglwidget.h \
-		../NetworkyGUI/visualizingwindow.h ../NetworkyGUI/main.cpp \
+		../NetworkyGUI/visualizingwindow.h \
+		../NetworkyGUI/node.h \
+		../NetworkyGUI/link.h ../NetworkyGUI/main.cpp \
 		../NetworkyGUI/networkwindow.cpp \
 		../Network.cpp \
 		../Person.cpp \
 		../TestSuit.cpp \
 		../NetworkyGUI/openglwidget.cpp \
-		../NetworkyGUI/visualizingwindow.cpp
+		../NetworkyGUI/visualizingwindow.cpp \
+		../NetworkyGUI/node.cpp \
+		../NetworkyGUI/link.cpp
 QMAKE_TARGET  = NetworkyGUI
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = NetworkyGUI
@@ -536,8 +544,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../NetworkyGUI/networkwindow.h ../Network.h ../Person.h ../TestSuit.h ../NetworkyGUI/openglwidget.h ../NetworkyGUI/visualizingwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../NetworkyGUI/main.cpp ../NetworkyGUI/networkwindow.cpp ../Network.cpp ../Person.cpp ../TestSuit.cpp ../NetworkyGUI/openglwidget.cpp ../NetworkyGUI/visualizingwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../NetworkyGUI/networkwindow.h ../Network.h ../Person.h ../TestSuit.h ../NetworkyGUI/openglwidget.h ../NetworkyGUI/visualizingwindow.h ../NetworkyGUI/node.h ../NetworkyGUI/link.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../NetworkyGUI/main.cpp ../NetworkyGUI/networkwindow.cpp ../Network.cpp ../Person.cpp ../TestSuit.cpp ../NetworkyGUI/openglwidget.cpp ../NetworkyGUI/visualizingwindow.cpp ../NetworkyGUI/node.cpp ../NetworkyGUI/link.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../NetworkyGUI/networkwindow.ui ../NetworkyGUI/visualizingwindow.ui $(DISTDIR)/
 
 
@@ -810,6 +818,10 @@ moc_openglwidget.cpp: ../../../Qt5.5.1/5.5/gcc_64/include/QtWidgets/QOpenGLWidge
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qt_windows.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopengles2ext.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopenglext.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QtMath \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qmath.h \
+		../Network.h \
+		../Person.h \
 		../NetworkyGUI/openglwidget.h
 	/home/abdulaziz/Qt5.5.1/5.5/gcc_64/bin/moc $(DEFINES) -I/home/abdulaziz/Qt5.5.1/5.5/gcc_64/mkspecs/linux-g++ -I/home/abdulaziz/workspace/networky/NetworkyGUI -I/home/abdulaziz/Qt5.5.1/5.5/gcc_64/include -I/home/abdulaziz/Qt5.5.1/5.5/gcc_64/include/QtOpenGL -I/home/abdulaziz/Qt5.5.1/5.5/gcc_64/include/QtWidgets -I/home/abdulaziz/Qt5.5.1/5.5/gcc_64/include/QtGui -I/home/abdulaziz/Qt5.5.1/5.5/gcc_64/include/QtCore -I. ../NetworkyGUI/openglwidget.h -o moc_openglwidget.cpp
 
@@ -1037,7 +1049,11 @@ ui_networkwindow.h: ../NetworkyGUI/networkwindow.ui \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopengl.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qt_windows.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopengles2ext.h \
-		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopenglext.h
+		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopenglext.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QtMath \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qmath.h \
+		../Network.h \
+		../Person.h
 	/home/abdulaziz/Qt5.5.1/5.5/gcc_64/bin/uic ../NetworkyGUI/networkwindow.ui -o ui_networkwindow.h
 
 ui_visualizingwindow.h: ../NetworkyGUI/visualizingwindow.ui \
@@ -1151,7 +1167,11 @@ ui_visualizingwindow.h: ../NetworkyGUI/visualizingwindow.ui \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopengl.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qt_windows.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopengles2ext.h \
-		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopenglext.h
+		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopenglext.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QtMath \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qmath.h \
+		../Network.h \
+		../Person.h
 	/home/abdulaziz/Qt5.5.1/5.5/gcc_64/bin/uic ../NetworkyGUI/visualizingwindow.ui -o ui_visualizingwindow.h
 
 compiler_yacc_decl_make_all:
@@ -1486,7 +1506,9 @@ networkwindow.o: ../NetworkyGUI/networkwindow.cpp ../NetworkyGUI/networkwindow.h
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopengl.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qt_windows.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopengles2ext.h \
-		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopenglext.h
+		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopenglext.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QtMath \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qmath.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o networkwindow.o ../NetworkyGUI/networkwindow.cpp
 
 Network.o: ../Network.cpp ../Network.h \
@@ -1611,7 +1633,11 @@ openglwidget.o: ../NetworkyGUI/openglwidget.cpp ../NetworkyGUI/openglwidget.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopengl.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qt_windows.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopengles2ext.h \
-		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopenglext.h
+		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopenglext.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QtMath \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qmath.h \
+		../Network.h \
+		../Person.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o openglwidget.o ../NetworkyGUI/openglwidget.cpp
 
 visualizingwindow.o: ../NetworkyGUI/visualizingwindow.cpp ../NetworkyGUI/visualizingwindow.h \
@@ -1756,8 +1782,105 @@ visualizingwindow.o: ../NetworkyGUI/visualizingwindow.cpp ../NetworkyGUI/visuali
 		../../../Qt5.5.1/5.5/gcc_64/include/QtWidgets/qmenu.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtWidgets/QStatusBar \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtWidgets/qstatusbar.h \
-		../../../Qt5.5.1/5.5/gcc_64/include/QtWidgets/QWidget
+		../../../Qt5.5.1/5.5/gcc_64/include/QtWidgets/QVBoxLayout \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtWidgets/qlayout.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtWidgets/QWidget \
+		../NetworkyGUI/openglwidget.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtWidgets/QOpenGLWidget \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtWidgets/qopenglwidget.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/QSurfaceFormat \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qsurfaceformat.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopengl.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qt_windows.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopengles2ext.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopenglext.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QtMath \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qmath.h \
+		../Network.h \
+		../Person.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o visualizingwindow.o ../NetworkyGUI/visualizingwindow.cpp
+
+node.o: ../NetworkyGUI/node.cpp ../NetworkyGUI/node.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QString \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qstring.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qchar.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qglobal.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qconfig.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qfeatures.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qlogging.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qflags.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qmutex.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qnumeric.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qbytearray.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qrefcount.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qnamespace.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qarraydata.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qstringbuilder.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o node.o ../NetworkyGUI/node.cpp
+
+link.o: ../NetworkyGUI/link.cpp ../NetworkyGUI/link.h \
+		../NetworkyGUI/node.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QString \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qstring.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qchar.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qglobal.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qconfig.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qfeatures.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qlogging.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qflags.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qmutex.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qnumeric.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qbytearray.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qrefcount.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qnamespace.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qarraydata.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qstringbuilder.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o link.o ../NetworkyGUI/link.cpp
 
 moc_networkwindow.o: moc_networkwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_networkwindow.o moc_networkwindow.cpp

@@ -6,9 +6,14 @@ NetworkWindow::NetworkWindow(QWidget *parent) :
     ui(new Ui::NetworkWindow)
 {
     filename = "../data.txt";
+
     ui->setupUi(this);
+
     //creating instance from the network
     n = new Network(filename);
+
+    ui->openGLWidget->setNetwork(n);
+
     //models used to display strings in list views
     connectionsModel = new QStringListModel(this);
     personsModel = new QStringListModel(this);
@@ -27,11 +32,12 @@ NetworkWindow::NetworkWindow(QWidget *parent) :
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     //completer->setCompletionMode(QCompleter::InlineCompletion);
     ui->name_searchLE->setCompleter(completer);
-
 }
 
 NetworkWindow::~NetworkWindow()
 {
+    delete visualizeWindow;
+    delete n;
     delete personsModel;
     delete connectionsModel;
     delete ui;
@@ -96,6 +102,5 @@ void NetworkWindow::on_name_searchLE_returnPressed()
 void NetworkWindow::on_visualizeNetB_clicked()
 {
     visualizeWindow = new VisualizingWindow();
-
     visualizeWindow->show();
 }
