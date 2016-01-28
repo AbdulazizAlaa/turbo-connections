@@ -37,5 +37,7 @@ ehthumbs.db
 Thumbs.db
 
 //
+build-NetworkyGUI-Desktop_Qt_5_5_1_GCC_64bit-Release/*
+build-NetworkyGUI-Desktop_Qt_5_5_1_GCC_64bit-Debug/*
 Debug/*
 Default/*

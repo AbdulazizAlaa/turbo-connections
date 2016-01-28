@@ -50,24 +50,22 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../NetworkyGUI/main.cpp \
 		../NetworkyGUI/networkwindow.cpp \
-		../Network.cpp \
-		../Person.cpp \
-		../TestSuit.cpp \
 		../NetworkyGUI/openglwidget.cpp \
 		../NetworkyGUI/visualizingwindow.cpp \
 		../NetworkyGUI/node.cpp \
-		../NetworkyGUI/link.cpp moc_networkwindow.cpp \
+		../NetworkyGUI/link.cpp \
+		../NetworkyGUI/network.cpp \
+		../NetworkyGUI/person.cpp moc_networkwindow.cpp \
 		moc_openglwidget.cpp \
 		moc_visualizingwindow.cpp
 OBJECTS       = main.o \
 		networkwindow.o \
-		Network.o \
-		Person.o \
-		TestSuit.o \
 		openglwidget.o \
 		visualizingwindow.o \
 		node.o \
 		link.o \
+		network.o \
+		person.o \
 		moc_networkwindow.o \
 		moc_openglwidget.o \
 		moc_visualizingwindow.o
@@ -206,21 +204,19 @@ DIST          = ../../../Qt5.5.1/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../Qt5.5.1/5.5/gcc_64/mkspecs/features/yacc.prf \
 		../../../Qt5.5.1/5.5/gcc_64/mkspecs/features/lex.prf \
 		../NetworkyGUI/NetworkyGUI.pro ../NetworkyGUI/networkwindow.h \
-		../Network.h \
-		../Person.h \
-		../TestSuit.h \
 		../NetworkyGUI/openglwidget.h \
 		../NetworkyGUI/visualizingwindow.h \
 		../NetworkyGUI/node.h \
-		../NetworkyGUI/link.h ../NetworkyGUI/main.cpp \
+		../NetworkyGUI/link.h \
+		../NetworkyGUI/network.h \
+		../NetworkyGUI/person.h ../NetworkyGUI/main.cpp \
 		../NetworkyGUI/networkwindow.cpp \
-		../Network.cpp \
-		../Person.cpp \
-		../TestSuit.cpp \
 		../NetworkyGUI/openglwidget.cpp \
 		../NetworkyGUI/visualizingwindow.cpp \
 		../NetworkyGUI/node.cpp \
-		../NetworkyGUI/link.cpp
+		../NetworkyGUI/link.cpp \
+		../NetworkyGUI/network.cpp \
+		../NetworkyGUI/person.cpp
 QMAKE_TARGET  = NetworkyGUI
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = NetworkyGUI
@@ -544,8 +540,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../NetworkyGUI/networkwindow.h ../Network.h ../Person.h ../TestSuit.h ../NetworkyGUI/openglwidget.h ../NetworkyGUI/visualizingwindow.h ../NetworkyGUI/node.h ../NetworkyGUI/link.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../NetworkyGUI/main.cpp ../NetworkyGUI/networkwindow.cpp ../Network.cpp ../Person.cpp ../TestSuit.cpp ../NetworkyGUI/openglwidget.cpp ../NetworkyGUI/visualizingwindow.cpp ../NetworkyGUI/node.cpp ../NetworkyGUI/link.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../NetworkyGUI/networkwindow.h ../NetworkyGUI/openglwidget.h ../NetworkyGUI/visualizingwindow.h ../NetworkyGUI/node.h ../NetworkyGUI/link.h ../NetworkyGUI/network.h ../NetworkyGUI/person.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../NetworkyGUI/main.cpp ../NetworkyGUI/networkwindow.cpp ../NetworkyGUI/openglwidget.cpp ../NetworkyGUI/visualizingwindow.cpp ../NetworkyGUI/node.cpp ../NetworkyGUI/link.cpp ../NetworkyGUI/network.cpp ../NetworkyGUI/person.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../NetworkyGUI/networkwindow.ui ../NetworkyGUI/visualizingwindow.ui $(DISTDIR)/
 
 
@@ -820,6 +816,11 @@ moc_openglwidget.cpp: ../../../Qt5.5.1/5.5/gcc_64/include/QtWidgets/QOpenGLWidge
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopenglext.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QtMath \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qmath.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QVector \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QDebug \
+		../NetworkyGUI/node.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QString \
+		../NetworkyGUI/link.h \
 		../Network.h \
 		../Person.h \
 		../NetworkyGUI/openglwidget.h
@@ -1052,6 +1053,11 @@ ui_networkwindow.h: ../NetworkyGUI/networkwindow.ui \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopenglext.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QtMath \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qmath.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QVector \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QDebug \
+		../NetworkyGUI/node.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QString \
+		../NetworkyGUI/link.h \
 		../Network.h \
 		../Person.h
 	/home/abdulaziz/Qt5.5.1/5.5/gcc_64/bin/uic ../NetworkyGUI/networkwindow.ui -o ui_networkwindow.h
@@ -1170,6 +1176,11 @@ ui_visualizingwindow.h: ../NetworkyGUI/visualizingwindow.ui \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopenglext.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QtMath \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qmath.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QVector \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QDebug \
+		../NetworkyGUI/node.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QString \
+		../NetworkyGUI/link.h \
 		../Network.h \
 		../Person.h
 	/home/abdulaziz/Qt5.5.1/5.5/gcc_64/bin/uic ../NetworkyGUI/visualizingwindow.ui -o ui_visualizingwindow.h
@@ -1508,20 +1519,12 @@ networkwindow.o: ../NetworkyGUI/networkwindow.cpp ../NetworkyGUI/networkwindow.h
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopengles2ext.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopenglext.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QtMath \
-		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qmath.h
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qmath.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QVector \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QDebug \
+		../NetworkyGUI/node.h \
+		../NetworkyGUI/link.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o networkwindow.o ../NetworkyGUI/networkwindow.cpp
-
-Network.o: ../Network.cpp ../Network.h \
-		../Person.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Network.o ../Network.cpp
-
-Person.o: ../Person.cpp ../Person.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Person.o ../Person.cpp
-
-TestSuit.o: ../TestSuit.cpp ../TestSuit.h \
-		../Network.h \
-		../Person.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TestSuit.o ../TestSuit.cpp
 
 openglwidget.o: ../NetworkyGUI/openglwidget.cpp ../NetworkyGUI/openglwidget.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtWidgets/QOpenGLWidget \
@@ -1636,6 +1639,11 @@ openglwidget.o: ../NetworkyGUI/openglwidget.cpp ../NetworkyGUI/openglwidget.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopenglext.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QtMath \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qmath.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QVector \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QDebug \
+		../NetworkyGUI/node.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QString \
+		../NetworkyGUI/link.h \
 		../Network.h \
 		../Person.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o openglwidget.o ../NetworkyGUI/openglwidget.cpp
@@ -1799,6 +1807,11 @@ visualizingwindow.o: ../NetworkyGUI/visualizingwindow.cpp ../NetworkyGUI/visuali
 		../../../Qt5.5.1/5.5/gcc_64/include/QtGui/qopenglext.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QtMath \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qmath.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QVector \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QDebug \
+		../NetworkyGUI/node.h \
+		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/QString \
+		../NetworkyGUI/link.h \
 		../Network.h \
 		../Person.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o visualizingwindow.o ../NetworkyGUI/visualizingwindow.cpp
@@ -1881,6 +1894,13 @@ link.o: ../NetworkyGUI/link.cpp ../NetworkyGUI/link.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qarraydata.h \
 		../../../Qt5.5.1/5.5/gcc_64/include/QtCore/qstringbuilder.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o link.o ../NetworkyGUI/link.cpp
+
+network.o: ../NetworkyGUI/network.cpp ../NetworkyGUI/network.h \
+		../NetworkyGUI/person.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o network.o ../NetworkyGUI/network.cpp
+
+person.o: ../NetworkyGUI/person.cpp ../NetworkyGUI/person.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o person.o ../NetworkyGUI/person.cpp
 
 moc_networkwindow.o: moc_networkwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_networkwindow.o moc_networkwindow.cpp

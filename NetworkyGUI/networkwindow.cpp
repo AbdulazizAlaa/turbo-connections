@@ -26,7 +26,7 @@ NetworkWindow::NetworkWindow(QWidget *parent) :
     //setting up the name_searchLE completer
     QStringList list;
     for(uint i=0 ; i<n->person.size() ; i++){
-        list << n->person.at(i)->name.c_str() ;
+        list << n->person.at(i)->name ;
     }
     QCompleter *completer = new QCompleter(list, this);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
@@ -43,23 +43,23 @@ NetworkWindow::~NetworkWindow()
     delete ui;
 }
 
-void NetworkWindow::showPersonDetails(string name)
+void NetworkWindow::showPersonDetails(QString name)
 {
-    Person * p = n->find(name, true);
+    Person * p = n->find(name);
 
     if(p==NULL)
         return;
 
-    ui->person_name_label->setText(QString::fromStdString(p->name));
-    ui->person_title_label->setText(QString::fromStdString(p->title));
-    ui->person_company_label->setText(QString::fromStdString(p->company));
-    ui->person_address_label->setText(QString::fromStdString(p->address));
+    ui->person_name_label->setText(p->name);
+    ui->person_title_label->setText(p->title);
+    ui->person_company_label->setText(p->company);
+    ui->person_address_label->setText(p->address);
 
     connectionsModel->removeRows( 0, connectionsModel->rowCount() );
     connectionsList.clear();
 
     for(uint i=0; i<p->connection.size() ; i++){
-        connectionsList << p->connection.at(i)->name.c_str();
+        connectionsList.append(p->connection.at(i)->name);
     }
 
     connectionsModel->setStringList(connectionsList);
@@ -74,7 +74,7 @@ void NetworkWindow::updatePersonsLV(string file)
     namesList.clear();
 
     for(uint i=0 ; i<n->person.size() ; i++){
-        namesList << n->person.at(i)->name.c_str() ;
+        namesList << n->person.at(i)->name;
     }
     personsModel->setStringList(namesList);
 }
@@ -86,12 +86,12 @@ void NetworkWindow::on_updateB_clicked()
 
 void NetworkWindow::on_personsLV_clicked(const QModelIndex &index)
 {
-    showPersonDetails(index.data().toString().toStdString());
+    showPersonDetails(index.data().toString());
 }
 
 void NetworkWindow::on_name_searchB_clicked()
 {
-    showPersonDetails(ui->name_searchLE->text().toStdString());
+    showPersonDetails(ui->name_searchLE->text());
 }
 
 void NetworkWindow::on_name_searchLE_returnPressed()

@@ -14,22 +14,20 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         networkwindow.cpp \
-    ../Network.cpp \
-    ../Person.cpp \
-    ../TestSuit.cpp \
     openglwidget.cpp \
     visualizingwindow.cpp \
     node.cpp \
-    link.cpp
+    link.cpp \
+    network.cpp \
+    person.cpp
 
 HEADERS  += networkwindow.h \
-    ../Network.h \
-    ../Person.h \
-    ../TestSuit.h \
     openglwidget.h \
     visualizingwindow.h \
     node.h \
-    link.h
+    link.h \
+    network.h \
+    person.h
 
 FORMS    += networkwindow.ui \
     visualizingwindow.ui

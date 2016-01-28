@@ -7,7 +7,7 @@
 #include <QDebug>
 #include "node.h"
 #include "link.h"
-#include "../Network.h"
+#include "network.h"
 
 class OpenGLWidget : public QOpenGLWidget
 {

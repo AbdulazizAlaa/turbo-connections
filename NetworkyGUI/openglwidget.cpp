@@ -19,7 +19,7 @@ void OpenGLWidget::setNetwork(Network * n)
     float x,y, r = .8;
     float angle = 0;
     for(uint i=0; i<personListSize ; i++){
-        QString name = QString::fromStdString(n->person.at(i)->name);
+        QString name = n->person.at(i)->name;
         x = r * qCos(angle);
         y = r * qSin(angle);
         nodes.append(new Node(name,x,y));
@@ -67,7 +67,7 @@ void OpenGLWidget::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     DrawLine(1,2);
-    for(uint i=0 ; i<nodes.size() ; i++)
+    for(int i=0 ; i<nodes.size() ; i++)
         DrawCircle(.1, nodes.at(i)->x, nodes.at(i)->y);
 }
 
