@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include <QString>
 #include <QCompleter>
+#include <QDebug>
 #include "network.h"
 #include "visualizingwindow.h"
 

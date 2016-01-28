@@ -59,7 +59,7 @@ void NetworkWindow::showPersonDetails(QString name)
     connectionsList.clear();
 
     for(uint i=0; i<p->connection.size() ; i++){
-        connectionsList.append(p->connection.at(i)->name);
+        connectionsList << p->connection.at(i)->name;
     }
 
     connectionsModel->setStringList(connectionsList);

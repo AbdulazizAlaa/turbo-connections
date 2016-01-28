@@ -1,4 +1,5 @@
 #include "network.h"
+#include <QDebug>
 
 Network::Network(string filename) {
     // TODO Auto-generated constructor stub
@@ -225,7 +226,7 @@ void Network::readFile(string filename){
                     if(elems.size()>0)
                     {
                         for(int j=0; j<elems.size() ; j++){
-                            person.at(i)->connection.push_back(find(elems.at(j)));
+                            person.at(i)->connection.push_back(find(elems.at(j).trimmed()));
                         }
                     }
                 }
