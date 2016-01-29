@@ -22,6 +22,7 @@ public:
     virtual void initializeGL();
 
     void setNetwork(Network * n);
+    void DrawCircle(int i);
 
 private:
     Network * n;
